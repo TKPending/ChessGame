@@ -5,3 +5,10 @@ export const pieceToTileData = (tile, piece) => {
 
     console.log(`Tile Position: ${tile.position} has been updated`);
 }
+
+export const resetTileData = (tile) => {
+    tile.pieceOnTile = null;
+    tile.tileOwnership = null;
+
+    console.log(`Resetted ${tile.position}`)
+}

@@ -23,7 +23,6 @@ class Tile {
     get spaceOccupation() {
         if (this._space.length === 0) {
             this._availability = true;
-            return "No pieces are in this space";
         } else {
             this._availability = false;
             return this._space;
@@ -80,7 +79,7 @@ class Tile {
     }
 }
 
-// Board Design
+// Board Design - 2D Array of tiles
 export const createBoard = () => {
     const x = ['1', '2', '3', '4', '5', '6', '7', '8'];
     const y = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
@@ -103,11 +102,25 @@ export const createBoard = () => {
     return board;
 };
 
-// board.js
-
-// ...
+// Check if tile has piece
+const tileHasPiece = (tile, tileElement) => {
+    // Check if the tile has a piece
+    if (tile.spaceOccupation) {
+        const piece = tile._space; 
+        const pieceElement = document.createElement('img');
+        pieceElement.src = piece.renderPiece(); 
+        pieceElement.alt = piece.name;
+        tileElement.appendChild(pieceElement);
+    }
+}
 
 export const renderChessboard = (chessBoard) => {
+    // Remove existing chessboard element
+    const existingChessboard = document.querySelector('.chess-board');
+    if (existingChessboard) {
+        existingChessboard.remove();
+    }
+
     // Create the chess board element
     const chessBoardElement = document.createElement('div');
     chessBoardElement.classList.add('chess-board');
@@ -118,14 +131,7 @@ export const renderChessboard = (chessBoard) => {
             const tileElement = document.createElement('div');
             tileElement.classList.add('chess-tile', tile._tileColour);
 
-            // Check if the tile has a piece
-            if (tile.spaceOccupation.length > 0) {
-                const piece = tile._space; // Assuming only one piece per tile for simplicity
-                const pieceElement = document.createElement('img');
-                pieceElement.src = piece.renderPiece(); // Use the renderPiece function to get the image source
-                pieceElement.alt = piece.name; // Set alt text for accessibility
-                tileElement.appendChild(pieceElement);
-            }
+            tileHasPiece(tile, tileElement);
 
             chessBoardElement.appendChild(tileElement);
         });

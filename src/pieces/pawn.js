@@ -7,30 +7,19 @@ export class Pawn extends Piece {
         super("Pawn", team, startingPosition);
         this.forwardDirection = team.toLowerCase() === "white" ? 1 : -1;
         this._moveCount = 0;
+        this.lastPosition = this._lastPosition;
     }
 
-    // Validate pawn movement
-    checkPawnMovement(move) {
-        const newPosition = chosenMove(move);
-        if (newPosition) {
-            // Set to new position
-            this.setCurrentPosition(newPosition)
-            // Update UI
-        } else {
-            console.log(`Check ${fileSource} line 15`);
-        }
-    }
-
-    // Move user has decided to do
+    // Move user has decided to do - Returns new 2D Array Position
     chosenMove(move) {
         switch (move) {
             case "one-move":
                 return this.moveForwardOnce();
             case "two-move":
                 return this.moveForwardTwice();
-            case "take-right":
+            case "capture-right":
                 return this.captureRight();
-            case "take-left":
+            case "capture-left":
                 return this.captureLeft();
             default:
                 console.log("ERROR: Invalid Move")
@@ -38,27 +27,46 @@ export class Pawn extends Piece {
         }
     }
 
+    // Validate pawn movement
+    checkPawnMovement(move) {
+        const newPosition = this.chosenMove(move);
+        if (newPosition) {
+            console.log(`New Position: ${newPosition}`);
+            // Set to new position
+            this.setCurrentPosition = newPosition
+            // Update UI
+        } else {
+            console.log(`Check ${fileSource} line 15`);
+        }
+    }
+
     // Standard pawn move
     moveForwardOnce() {
         const [row, col] = this._currentPosition;
+        this._lastPosition = [row, col];
         return this.createNewPosition([row + this.forwardDirection, col]);
     }
 
     // Beginning move
     moveForwardTwice() {
         const [row, col] = this._currentPosition;
+        this._lastPosition = [row, col];
         return this.createNewPosition([row + 2 * this.forwardDirection, col]);
     }
 
     // Capture to diagonal right
     captureRight() {
         const [row, col] = this._currentPosition;
+        this._lastPosition = [row, col];
+
+        console.log(`Last position: ${this._lastPosition}`)
         return this.createNewPosition([row + this.forwardDirection, col + 1]);
     }
 
     // Capture to diagonal left
     captureLeft() {
         const [row, col] = this._currentPosition;
+        this._lastPosition = [row, col];
         return this.createNewPosition([row + this.forwardDirection, col - 1]);
     }
 

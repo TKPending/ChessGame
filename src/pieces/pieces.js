@@ -6,6 +6,7 @@ export class Piece {
         this._currentPosition = startingPosition.slice(); 
         this.potentialFuturePositions = [];
         this.capturedState = false;
+        this._lastPosition = [];
     }
 
     // Return current position
@@ -16,6 +17,23 @@ export class Piece {
     // Return starting position
     get getStartingPosition() {
         return this.startingPosition;
+    }
+
+    // Return last position
+    get getLastPosition() {
+        return this._lastPosition
+    }
+
+    /**
+     * @param {any[]} tileLocation
+     */
+    set updateLastPosition(tileLocation) {
+        if (tileLocation) {
+            this._lastPosition = tileLocation;
+        } else {
+            console.log("ERROR: Can't find last position. DEFAULTED to STARTING POSITION")
+            this._lastPosition = this.startingPosition;
+        }
     }
 
     /**

@@ -7,14 +7,16 @@ class Tile {
     constructor(position, colour) {
         this._position = position;
         this._space = [] // Space in board
+        this._pieceName = "";
         this._availability = true;
-        this._colour = colour;
+        this._tileColour = colour;
         this._ownedBy = null;
     }
 
     // Return location on board
     get position() {
-        return `Board Location: ${this._position} & Coloured: ${this._colour}`;
+        console.log(`Board Location: ${this._position}`);
+        return this._position;
     }
 
     // Return whether space is occupied
@@ -28,14 +30,58 @@ class Tile {
         }
     }
 
+    /**
+     * @param {any} piece
+     */
+    set pieceInSpace(piece) {
+        if (piece) {
+            this._space = piece;
+        } else {
+            this._space = [];
+        }
+    }
+    
+    /**
+     * @param {any} piece
+     */
+    set tileAvailability(piece) {
+        if (piece) {
+            this._availability = true;
+        } else {
+            this._availability = false;
+        }
+    }
+
+    /**
+     * @param {{ team: string; }} piece
+     */
+    set tileOwnership(piece) {
+        if (piece) {
+            this._ownedBy = piece.team == "white" ? "white" : "black" 
+        } else {
+            this._ownedBy = null;
+        }
+    }
+
+    /**
+     * @param {{ name: string; }} piece
+     */
+    set pieceOnTile(piece) {
+        if (piece) {
+            this._pieceName = piece.name;
+        } else {
+            this._pieceName = "";
+        }
+    }
+
     // Return board tile
     boardTile() {
-        return `<div id={this._position}></div>`
+        return `<div id=${this._position}></div>`
     }
 }
 
 // Board Design
-const createBoard = () => {
+export const createBoard = () => {
     const x = ['1', '2', '3', '4', '5', '6', '7', '8'];
     const y = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 
@@ -57,23 +103,34 @@ const createBoard = () => {
     return board;
 };
 
-// Initialise Object
-export const chessBoard = createBoard();
+// board.js
 
+// ...
 
-// Create the chess board element
-const chessBoardElement = document.createElement('div');
-chessBoardElement.classList.add('chess-board');
+export const renderChessboard = (chessBoard) => {
+    // Create the chess board element
+    const chessBoardElement = document.createElement('div');
+    chessBoardElement.classList.add('chess-board');
 
-// Append tiles to the chess board element
-chessBoard.forEach(row => {
-    row.forEach(tile => {
-        const tileElement = document.createElement('div');
-        tileElement.classList.add('chess-tile', tile._colour);
-        tileElement.innerHTML = tile.boardTile();
-        chessBoardElement.appendChild(tileElement);
+    // Append tiles to the chess board element
+    chessBoard.forEach(row => {
+        row.forEach(tile => {
+            const tileElement = document.createElement('div');
+            tileElement.classList.add('chess-tile', tile._tileColour);
+
+            // Check if the tile has a piece
+            if (tile.spaceOccupation.length > 0) {
+                const piece = tile._space; // Assuming only one piece per tile for simplicity
+                const pieceElement = document.createElement('img');
+                pieceElement.src = piece.renderPiece(); // Use the renderPiece function to get the image source
+                pieceElement.alt = piece.name; // Set alt text for accessibility
+                tileElement.appendChild(pieceElement);
+            }
+
+            chessBoardElement.appendChild(tileElement);
+        });
     });
-});
 
-// Append the chess board element to the body of the document
-document.body.appendChild(chessBoardElement);
+    // Append the chess board element to the body of the document
+    document.body.appendChild(chessBoardElement);
+}

@@ -18,13 +18,22 @@ export class Piece {
         return this.startingPosition;
     }
 
-    // Set current position with validation
+    /**
+     * @param {number[]} newPosition
+     */
     set setCurrentPosition(newPosition) {
+        this._currentPosition = newPosition;
+    }
+
+    // Return [x,x] co-ord of new position - Checks validity before return valid result
+    createNewPosition(newPosition) {
         if (this.validatePosition(newPosition)) {
             console.log(`${this.team} ${this.name} moved to ${newPosition}`);
-            this._currentPosition = newPosition.slice(); 
+            this._currentPosition = newPosition.slice();
+            return this._currentPosition;
         } else {
-            console.log("Invalid position");
+            console.log("Invalid position. This will move piece off board");
+            return null;
         }
     }
 

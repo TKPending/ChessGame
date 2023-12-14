@@ -35,3 +35,9 @@ body {
 .bg-black {
     background-color: #b58863;
 }
+
+/* Add this to your CSS stylesheet */
+.chess-tile.highlighted {
+    background-color: yellow; /* Change this to the highlight color you want */
+    transition: background-color 0.3s ease; /* Optional: Add a transition effect */
+}

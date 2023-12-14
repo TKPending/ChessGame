@@ -15,7 +15,7 @@ class Tile {
 
     // Return location on board
     get position() {
-        console.log(`Board Location: ${this._position}`);
+        // console.log(`Board Location: ${this._position}`);
         return this._position;
     }
 
@@ -75,7 +75,8 @@ class Tile {
 
     // Return board tile
     boardTile() {
-        return `<div id=${this._position}></div>`
+        const tileId = `${this._position}`;
+        return `<div id="${tileId}"></div>`;
     }
 }
 
@@ -103,23 +104,32 @@ export const createBoard = () => {
 };
 
 // Check if tile has piece
-const tileHasPiece = (tile, tileElement) => {
-    // Check if the tile has a piece
-    if (tile.spaceOccupation) {
-        const piece = tile._space; 
-        const pieceElement = document.createElement('img');
-        pieceElement.src = piece.renderPiece(); 
-        pieceElement.alt = piece.name;
-        tileElement.appendChild(pieceElement);
-    }
-}
+    const tileHasPiece = (tile, tileElement) => {
+        // Check if the tile has a piece
+        if (tile.spaceOccupation) {
+            const piece = tile._space;
+            const imgId = `${tile.position}`;
 
-export const renderChessboard = (chessBoard) => {
+            const pieceElement = document.createElement('img');
+            pieceElement.src = piece.renderPiece();
+            pieceElement.alt = piece.name;
+            pieceElement.id = imgId;
+
+           tileElement.appendChild(pieceElement);
+        }
+};
+
+
+const resetChessboard = () => {
     // Remove existing chessboard element
     const existingChessboard = document.querySelector('.chess-board');
     if (existingChessboard) {
         existingChessboard.remove();
     }
+}
+
+export const renderChessboard = (chessBoard) => {
+    resetChessboard()
 
     // Create the chess board element
     const chessBoardElement = document.createElement('div');
@@ -130,6 +140,9 @@ export const renderChessboard = (chessBoard) => {
         row.forEach(tile => {
             const tileElement = document.createElement('div');
             tileElement.classList.add('chess-tile', tile._tileColour);
+
+            const tileId = `${tile.position}`;
+            tileElement.id = tileId;
 
             tileHasPiece(tile, tileElement);
 

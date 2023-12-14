@@ -1,4 +1,4 @@
-export const movePiece = (chessboard, oldLocation, newLocation, piece) => {
+export const movePieceData = (chessboard, oldLocation, newLocation, piece) => {
     const [oldRow, oldCol] = oldLocation;
     const [newRow, newCol] = newLocation;
     // Empty last tile
@@ -7,4 +7,22 @@ export const movePiece = (chessboard, oldLocation, newLocation, piece) => {
     chessboard[newRow][newCol].pieceInSpace = piece;
 
     console.log(`Tile Position: ${chessboard[newRow][newCol].position} has been updated`)
+}
+
+
+export const movePiece = (board, ) => {
+    const test = chessBoard[1][1];
+    const pawnTest = test.spaceOccupation
+    pawnTest.checkPawnMovement("capture-right");
+    // pieceToTileData(pawnTest.getCurrentPosition)
+
+
+    movePiece(chessBoard, pawnTest.getLastPosition, pawnTest.getCurrentPosition, pawnTest)
+    pieceToTileData(chessBoard[2][2], pawnTest)
+    resetTileData(chessBoard[1][1])
+
+    console.log(chessBoard[2][2])
+    console.log(chessBoard[1][1])
+
+    renderChessboard(chessBoard)
 }

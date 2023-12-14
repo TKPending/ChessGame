@@ -1,23 +1,28 @@
-class Piece {
+export class Piece {
     constructor(name, team, startingPosition) {
         this.name = name;
         this.team = team;
         this.startingPosition = startingPosition;
-        this._currentPosition = [];
+        this._currentPosition = startingPosition.slice(); 
         this.potentialFuturePositions = [];
         this.capturedState = false;
     }
 
     // Return current position
-    get currentPosition() {
+    get getCurrentPosition() {
         return this._currentPosition;
     }
 
+    // Return starting position
+    get getStartingPosition() {
+        return this.startingPosition;
+    }
+
     // Set current position with validation
-    set currentPosition(newPosition) {
+    set setCurrentPosition(newPosition) {
         if (this.validatePosition(newPosition)) {
             console.log(`${this.team} ${this.name} moved to ${newPosition}`);
-            this._currentPosition = newPosition;
+            this._currentPosition = newPosition.slice(); 
         } else {
             console.log("Invalid position");
         }

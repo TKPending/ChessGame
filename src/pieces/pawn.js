@@ -1,31 +1,35 @@
 import { Piece } from "./pieces.js";
+import { highlightTile } from "../util/clickedPiece.js";
 
 const fileSource = '/src/piece/pawn.js';
 
 export class Pawn extends Piece {
     constructor(team, startingPosition) {
         super("Pawn", team, startingPosition);
-        this.forwardDirection = team.toLowerCase() === "white" ? 1 : -1;
+        this.forwardDirection = team.toLowerCase() === "black" ? 1 : -1;
         this._moveCount = 0;
         this.lastPosition = this._lastPosition;
     }
 
     // Move user has decided to do - Returns new 2D Array Position
     chosenMove(move) {
-        switch (move) {
-            case [row + this.forwardDirection, col]:
+        const [row, col] = move; // Destructure the move array
+        switch (true) {
+            case row === this._currentPosition[0] + this.forwardDirection && col === this._currentPosition[1]:
                 return this.moveForwardOnce();
-            case [row + 2 * this.forwardDirection, col]:
+            case row === this._currentPosition[0] + 2 * this.forwardDirection && col === this._currentPosition[1]:
                 return this.moveForwardTwice();
-            case [row + this.forwardDirection, col + 1]:
+            case row === this._currentPosition[0] + this.forwardDirection && col === this._currentPosition[1] + 1:
                 return this.captureRight();
-            case [row + this.forwardDirection, col - 1]:
+            case row === this._currentPosition[0] + this.forwardDirection && col === this._currentPosition[1] - 1:
+                
                 return this.captureLeft();
             default:
-                console.log("ERROR: Invalid Move")
+                console.log("ERROR: Invalid Move");
                 return null;
         }
     }
+    
 
     // Validate pawn movement
     checkPawnMovement(move) {
@@ -33,7 +37,7 @@ export class Pawn extends Piece {
         if (newPosition) {
             console.log(`New Position: ${newPosition}`);
             // Set to new position
-            this.setCurrentPosition = newPosition
+            this.setCurrentPosition(newPosition)
             // Update UI
         } else {
             console.log(`Check ${fileSource} line 15`);
@@ -44,6 +48,7 @@ export class Pawn extends Piece {
     moveForwardOnce() {
         const [row, col] = this._currentPosition;
         this._lastPosition = [row, col];
+        console.log([row + this.forwardDirection, col])
         return this.createNewPosition([row + this.forwardDirection, col]);
     }
 
@@ -59,7 +64,6 @@ export class Pawn extends Piece {
         const [row, col] = this._currentPosition;
         this._lastPosition = [row, col];
 
-        console.log(`Last position: ${this._lastPosition}`)
         return this.createNewPosition([row + this.forwardDirection, col + 1]);
     }
 
@@ -72,8 +76,9 @@ export class Pawn extends Piece {
 
     // Highlight Valid Moves
     generateLegalMoves() {
-        // Implement logic for generating legal moves
+        
     }
+
 
     renderPiece() {
         const pawnTeamIcon = this.team.toLowerCase() === "white" ? "../assets/white-pawn.png" : "../assets/black-pawn.png";

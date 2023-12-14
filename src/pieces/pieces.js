@@ -46,8 +46,7 @@ export class Piece {
     // Return [x,x] co-ord of new position - Checks validity before return valid result
     createNewPosition(newPosition) {
         if (this.validatePosition(newPosition)) {
-            console.log(`${this.team} ${this.name} moved to ${newPosition}`);
-            this._currentPosition = newPosition.slice();
+            this._currentPosition = newPosition;
             return this._currentPosition;
         } else {
             console.log("Invalid position. This will move piece off board");
@@ -61,7 +60,7 @@ export class Piece {
 
         const validRow = row >= 0 && row < 8;
         const validCol = col >= 0 && col < 8;
-
+   
         return validRow && validCol;
     }
 

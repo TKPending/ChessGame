@@ -13,13 +13,13 @@ export class Pawn extends Piece {
     // Move user has decided to do - Returns new 2D Array Position
     chosenMove(move) {
         switch (move) {
-            case "one-move":
+            case [row + this.forwardDirection, col]:
                 return this.moveForwardOnce();
-            case "two-move":
+            case [row + 2 * this.forwardDirection, col]:
                 return this.moveForwardTwice();
-            case "capture-right":
+            case [row + this.forwardDirection, col + 1]:
                 return this.captureRight();
-            case "capture-left":
+            case [row + this.forwardDirection, col - 1]:
                 return this.captureLeft();
             default:
                 console.log("ERROR: Invalid Move")

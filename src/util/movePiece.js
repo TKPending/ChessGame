@@ -1,3 +1,5 @@
+import { pieceToTileData, resetTileData } from "./pieceToTile";
+
 export const movePieceData = (chessboard, oldLocation, newLocation, piece) => {
     const [oldRow, oldCol] = oldLocation;
     const [newRow, newCol] = newLocation;
@@ -10,7 +12,7 @@ export const movePieceData = (chessboard, oldLocation, newLocation, piece) => {
 }
 
 
-export const movePiece = (board, ) => {
+export const movePiece = (board, currentLocation, piece, movement, ) => {
     const test = chessBoard[1][1];
     const pawnTest = test.spaceOccupation
     pawnTest.checkPawnMovement("capture-right");
@@ -26,3 +28,25 @@ export const movePiece = (board, ) => {
 
     renderChessboard(chessBoard)
 }
+
+// Function to move a piece on the chessboard
+export const movePiece = (board, currentLocation, destination, piece) => {
+    const [currentRow, currentCol] = currentLocation;
+    const [destRow, destCol] = destination;
+
+    // Check move is on board
+    const isValidMove = piece.validatePosition(destination);
+
+    piece.checkPawnMovement(destination);
+
+    if (isValidMove) {
+        movePieceData(board, currentLocation, destination, piece);
+        pieceToTileData(destination, piece);
+        resetTileData(currentLocation)
+
+        // Render the updated chessboard
+        renderChessboard(board);
+    } else {
+        console.log('Invalid move!');
+    }
+};

@@ -21,6 +21,7 @@ const pressedElement = (clickedElement) => {
     }
 }
 
+// Return piece or tile
 export const pressedTile = (event, chessBoard) => {
     const clickedElement = event.target;
     const tilePosition = pressedElement(clickedElement);
@@ -28,9 +29,11 @@ export const pressedTile = (event, chessBoard) => {
 
     // Check if the tile exists and has a piece
     if (clickedTile && clickedTile.spaceOccupation) {
-        const pieceInClickedTile = clickedTile.spaceOccupation;
-        console.log(`Piece in clicked tile (${tilePosition}) :`, pieceInClickedTile);
+        console.log(`Piece in clicked tile (${tilePosition}) :`, clickedTile.spaceOccupation);
+        return clickedTile.spaceOccupation;
     } else {
         console.log(`No piece in clicked tile or invalid tile. (${tilePosition})`);
+        console.log(clickedTile)
+        return clickedTile;
     }
 }

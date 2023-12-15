@@ -55,6 +55,7 @@ export const pressedTile = (event, chessBoard) => {
     if (clickedTile && clickedTile.spaceOccupation) {
         console.log(`Piece in clicked tile (${tilePosition}) :`, clickedTile.spaceOccupation);
         highlightTile(tilePosition);
+        clickedTile.spaceOccupation.generateLegalMoves();
         return clickedTile.spaceOccupation;
     } else {
         console.log(`No piece in clicked tile or invalid tile. (${tilePosition})`);

@@ -45,7 +45,7 @@ export class Piece {
 
     // Return [x,x] co-ord of new position - Checks validity before return valid result
     createNewPosition(newPosition) {
-        if (this.validatePosition(newPosition)) {
+        if (this.isInBounds(newPosition)) {
             this._currentPosition = newPosition;
             return this._currentPosition;
         } else {
@@ -54,14 +54,16 @@ export class Piece {
         }
     }
 
-    // Check if position exists
-    validatePosition(newPosition) {
-        const [row, col] = newPosition;
+    isInBounds(row, col) {
+        return row >= 0 && row < 8 && col >= 0 && col < 8;
+    }
 
-        const validRow = row >= 0 && row < 8;
-        const validCol = col >= 0 && col < 8;
-   
-        return validRow && validCol;
+    pieceBoundCheck(newRow, newCol) {
+        if (this.isInBounds(newRow, newCol)) {
+            return [newRow, newCol]
+        } else {
+            return null;
+        }
     }
 
     // Piece has been captured

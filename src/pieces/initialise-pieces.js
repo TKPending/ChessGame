@@ -4,120 +4,89 @@ import { King } from "./king.js";
 import { Queen } from "./queen.js";
 import { Bishop } from "./bishop.js";
 import { Rook } from "./rookie.js";
-import { pieceToTileData, resetTileData } from "../util/pieceToTile.js";
+import { pieceToTileData } from "../util/pieceToTile.js";
 
-// Initialise Pawns
+const initialPositions = {
+    "knights": {
+        "row": {
+            "w": [[7, 1], [7, 6]],
+            "b": [[0, 1], [0, 6]]
+        }
+    },
+    "kings": {
+        "row": {
+            "w": [[7, 4]],
+            "b": [[0, 4]]
+        }
+    },
+    "queens": {
+        "row": {
+            "w": [[7, 3]],
+            "b": [[0, 3]]
+        }
+    },
+    "bishops": {
+        "row": {
+            "w": [[7, 2], [7, 5]],
+            "b": [[0, 2], [0, 5]]
+        }
+    },
+    "rooks": {
+        "row": {
+            "w": [[7, 0], [7, 7]],
+            "b": [[0, 0], [0, 7]]
+        }
+    }
+};
+
+// Generic function to initialize pieces on the board
+const initializePieceOnBoard = (chessBoard, PieceType, team, row, col) => {
+    const tileLocation = chessBoard[row][col];
+    const piece = new PieceType(team, [row, col]);
+
+    tileLocation.pieceInSpace = piece;
+    pieceToTileData(tileLocation, piece);
+};
+
+// Function to initialize pawns on the board
 export const initializeBoardWithPawns = (chessBoard) => {
     // Place black pawns on the second row
     for (let col = 0; col < 8; col++) {
-        const tileLocation = chessBoard[1][col];
-        const blackPawns = new Pawn("black", [1, col]);
-
-        tileLocation.pieceInSpace = blackPawns;
-        pieceToTileData(tileLocation, blackPawns);
+        initializePieceOnBoard(chessBoard, Pawn, "black", 1, col);
     }
 
-    // Place white pawns on seventh row
+    // Place white pawns on the seventh row
     for (let col = 0; col < 8; col++) {
-        const tileLocation = chessBoard[6][col];
-        const whitePawns = new Pawn("white", [6, col]);
-
-        tileLocation.pieceInSpace = whitePawns;
-        pieceToTileData(tileLocation, whitePawns)
+        initializePieceOnBoard(chessBoard, Pawn, "white", 6, col);
     }
 };
 
 // Initialise Knights
 export const initializeBoardWithKnights = (chessBoard) => {
-    placeKnight("black", 0, 1, chessBoard);
-    placeKnight("black", 0, 6, chessBoard);
-
-    // Place white knights on the eighth row
-    placeKnight("white", 7, 1, chessBoard);
-    placeKnight("white", 7, 6, chessBoard);
+    initialPositions.knights.row.w.forEach(pos => initializePieceOnBoard(chessBoard, Knight, "white", ...pos));
+    initialPositions.knights.row.b.forEach(pos => initializePieceOnBoard(chessBoard, Knight, "black", ...pos));
 };
 
-// Function to place a knight on the board
-const placeKnight = (team, row, col, chessBoard) => {
-    const tileLocation = chessBoard[row][col];
-    const knight = new Knight(team, [row, col]);
-
-    tileLocation.pieceInSpace = knight;
-    pieceToTileData(tileLocation, knight);
-};
-
-
-// Initialise King
-export const initializeBoardWithKing = (chessBoard) => {
-    // Place black king on the first row
-    placeKing("black", 0, 4, chessBoard);
-
-    // Place white king on the eighth row
-    placeKing("white", 7, 4, chessBoard);
-};
-
-// Function to place a king on the board
-const placeKing = (team, row, col, chessBoard) => {
-    const tileLocation = chessBoard[row][col];
-    const king = new King(team, [row, col]);
-
-    tileLocation.pieceInSpace = king;
-    pieceToTileData(tileLocation, king);
+// Initialise Kings
+export const initializeBoardWithKings = (chessBoard) => {
+    initialPositions.kings.row.w.forEach(pos => initializePieceOnBoard(chessBoard, King, "white", ...pos));
+    initialPositions.kings.row.b.forEach(pos => initializePieceOnBoard(chessBoard, King, "black", ...pos));
 };
 
 // Initialise Queens
 export const initializeBoardWithQueens = (chessBoard) => {
-    // Place black queen on the first row
-    placeQueen("black", 0, 3, chessBoard);
-
-    // Place white queen on the eighth row
-    placeQueen("white", 7, 3, chessBoard);
+    initialPositions.queens.row.w.forEach(pos => initializePieceOnBoard(chessBoard, Queen, "white", ...pos));
+    initialPositions.queens.row.b.forEach(pos => initializePieceOnBoard(chessBoard, Queen, "black", ...pos));
 };
 
-// Function to place a queen on the board
-const placeQueen = (team, row, col, chessBoard) => {
-    const tileLocation = chessBoard[row][col];
-    const queen = new Queen(team, [row, col]);
-
-    tileLocation.pieceInSpace = queen;
-    pieceToTileData(tileLocation, queen);
-};
-
-// Initialize Bishops
+// Initialise Bishops
 export const initializeBoardWithBishops = (chessBoard) => {
-    placeBishop("black", 0, 2, chessBoard);
-    placeBishop("black", 0, 5, chessBoard);
-
-    // Place white bishops on the eighth row
-    placeBishop("white", 7, 2, chessBoard);
-    placeBishop("white", 7, 5, chessBoard);
+    initialPositions.bishops.row.w.forEach(pos => initializePieceOnBoard(chessBoard, Bishop, "white", ...pos));
+    initialPositions.bishops.row.b.forEach(pos => initializePieceOnBoard(chessBoard, Bishop, "black", ...pos));
 };
 
-// Initialize Rooks
+// Initialise Rooks
 export const initializeBoardWithRooks = (chessBoard) => {
-    placeRook("black", 0, 0, chessBoard);
-    placeRook("black", 0, 7, chessBoard);
-
-    // Place white rooks on the eighth row
-    placeRook("white", 7, 0, chessBoard);
-    placeRook("white", 7, 7, chessBoard);
+    initialPositions.rooks.row.w.forEach(pos => initializePieceOnBoard(chessBoard, Rook, "white", ...pos));
+    initialPositions.rooks.row.b.forEach(pos => initializePieceOnBoard(chessBoard, Rook, "black", ...pos));
 };
-
-// Function to place a bishop on the board
-const placeBishop = (team, row, col, chessBoard) => {
-    const tileLocation = chessBoard[row][col];
-    const bishop = new Bishop(team, [row, col]);
-
-    tileLocation.pieceInSpace = bishop;
-    pieceToTileData(tileLocation, bishop);
-};
-
-// Function to place a rook on the board
-const placeRook = (team, row, col, chessBoard) => {
-    const tileLocation = chessBoard[row][col];
-    const rook = new Rook(team, [row, col]);
-
-    tileLocation.pieceInSpace = rook;
-    pieceToTileData(tileLocation, rook);
-};
-

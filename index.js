@@ -3,7 +3,7 @@ import { createBoard, renderChessboard } from "./src/board/board.js";
 import { 
     initializeBoardWithPawns, 
     initializeBoardWithKnights, 
-    initializeBoardWithKing,
+    initializeBoardWithKings,
     initializeBoardWithQueens,
     initializeBoardWithBishops,
     initializeBoardWithRooks
@@ -15,7 +15,7 @@ const chessBoard = createBoard();
 // Initialise initial pieces
 initializeBoardWithPawns(chessBoard);
 initializeBoardWithKnights(chessBoard);
-initializeBoardWithKing(chessBoard);
+initializeBoardWithKings(chessBoard);
 initializeBoardWithQueens(chessBoard);
 initializeBoardWithBishops(chessBoard);
 initializeBoardWithRooks(chessBoard)
@@ -33,3 +33,4 @@ chessBoardElement.addEventListener('click', (event) => {
     pressedTile(event, chessBoard)
 });
 
+git

@@ -1,5 +1,4 @@
 import { Piece } from "./pieces.js";
-import { highlightTile } from "../util/clickedPiece.js";
 
 const fileSource = '/src/piece/pawn.js';
 
@@ -8,7 +7,6 @@ export class Pawn extends Piece {
         super("Pawn", team, startingPosition);
         this.forwardDirection = team.toLowerCase() === "black" ? 1 : -1;
         this._moveCount = 0;
-        this.lastPosition = this._lastPosition;
     }
 
     // Move user has decided to do - Returns new 2D Array Position

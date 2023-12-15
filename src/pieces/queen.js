@@ -1,6 +1,6 @@
 import { Piece } from "./pieces.js";
 import { highlightTile } from "../util/clickedPiece.js";
-import { indexToLocation } from "../util/indexToLocation.js";
+import { indexToLocationQueen } from "../util/indexToLocation.js";
 
 export class Queen extends Piece {
     constructor(team, startingPosition) {
@@ -109,7 +109,7 @@ export class Queen extends Piece {
 
         // Highlight the valid moves on the UI
         for (const move of filteredMoves) {
-            const chessMove = indexToLocation(move, this.team);
+            const chessMove = indexToLocationQueen(move, this.team);
             highlightTile(chessMove);
         }
 

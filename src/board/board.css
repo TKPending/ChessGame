@@ -38,6 +38,6 @@ body {
 
 /* Add this to your CSS stylesheet */
 .chess-tile.highlighted {
-    background-color: yellow; /* Change this to the highlight color you want */
+    background-color: rgba(10, 70, 18, 0.371); /* Change this to the highlight color you want */
     transition: background-color 0.3s ease; /* Optional: Add a transition effect */
 }

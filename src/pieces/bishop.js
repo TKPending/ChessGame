@@ -1,6 +1,6 @@
 import { Piece } from "./pieces.js";
 import { highlightTile } from "../util/clickedPiece.js";
-import { indexToLocation } from "../util/indexToLocation.js";
+import { indexToLocationBishop } from "../util/indexToLocation.js";
 
 export class Bishop extends Piece {
     constructor(team, startingPosition) {
@@ -49,26 +49,38 @@ export class Bishop extends Piece {
         return this.pieceBoundCheck(newRow, newCol);
     }
 
-    // Generate all legal moves for the bishop
+    maxMove(legalMoves, rowDelta, colDelta) {
+        let newRow = this._currentPosition[0] + rowDelta * this.direction;
+        let newCol = this._currentPosition[1] + colDelta * this.direction;
+    
+        while (this.pieceBoundCheck(newRow, newCol)) {
+            legalMoves.push([newRow, newCol]);
+            newRow += rowDelta * this.direction;
+            newCol += colDelta * this.direction;
+        }
+    }
+    
     generateLegalMoves() {
-        const legalMoves = [
-            this.moveDiagonalUpRight(),
-            this.moveDiagonalUpLeft(),
-            this.moveDiagonalDownRight(),
-            this.moveDiagonalDownLeft(),
-        ];
-
+        const legalMoves = [];
+    
+        // Check diagonal moves
+        this.maxMove(legalMoves, -1, 1); // Diagonal Up-Right
+        this.maxMove(legalMoves, -1, -1); // Diagonal Up-Left
+        this.maxMove(legalMoves, 1, 1); // Diagonal Down-Right
+        this.maxMove(legalMoves, 1, -1); // Diagonal Down-Left
+    
         // Filter out null moves (moves outside the chessboard)
         const filteredMoves = legalMoves.filter(move => move !== null);
-
+    
         // Highlight the valid moves on the UI
         for (const move of filteredMoves) {
-            const chessMove = indexToLocation(move, this.team);
+            const chessMove = indexToLocationBishop(move, this.team);
             highlightTile(chessMove);
         }
-
+    
         return filteredMoves;
     }
+    
 
     renderPiece() {
         const bishopTeamIcon = this.team.toLowerCase() === "white" ? "../assets/white-bishop.png" : "../assets/black-bishop.png";

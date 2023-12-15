@@ -5,7 +5,7 @@ import { indexToLocation } from "../util/indexToLocation.js";
 export class Knight extends Piece {
     constructor(team, startingPosition) {
         super("Knight", team, startingPosition);
-        this.direction = team.toLowerCase() === "white" ? 1 : -1; 
+        this.direction = team.toLowerCase() === "black" ? 1 : -1; 
     }
 
     // Knight's L-shaped Moves
@@ -62,8 +62,8 @@ export class Knight extends Piece {
 
         // Highlight the valid moves on the UI
         for (const move of filteredMoves) {
-            console.log(`Move: ${move}`)
             const chessMove = indexToLocation(move);
+            console.log(`Potential Move: ${chessMove}`)
             highlightTile(chessMove);
         }
 

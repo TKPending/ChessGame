@@ -104,20 +104,21 @@ export const createBoard = () => {
 };
 
 // Check if tile has piece
-    const tileHasPiece = (tile, tileElement) => {
-        // Check if the tile has a piece
-        if (tile.spaceOccupation) {
-            const piece = tile._space;
-            const imgId = `${tile.position}`;
+const tileHasPiece = (tile, tileElement) => {
+    // Check if the tile has a piece
+    if (tile.spaceOccupation) {
+        const piece = tile._space;
+        const imgId = `${tile.position}`;
 
-            const pieceElement = document.createElement('img');
-            pieceElement.src = piece.renderPiece();
-            pieceElement.alt = piece.name;
-            pieceElement.id = imgId;
+        const pieceElement = document.createElement('img');
+        pieceElement.src = piece.renderPiece();
+        pieceElement.alt = piece.name;
+        pieceElement.id = imgId;
 
-           tileElement.appendChild(pieceElement);
-        }
+        tileElement.appendChild(pieceElement);
+    }
 };
+
 
 
 const resetChessboard = () => {

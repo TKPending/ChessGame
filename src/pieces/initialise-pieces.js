@@ -39,7 +39,6 @@ const initialPositions = {
     }
 };
 
-// Generic function to initialize pieces on the board
 const initializePieceOnBoard = (chessBoard, PieceType, team, row, col) => {
     const tileLocation = chessBoard[row][col];
     const piece = new PieceType(team, [row, col]);
@@ -48,50 +47,41 @@ const initializePieceOnBoard = (chessBoard, PieceType, team, row, col) => {
     pieceToTileData(tileLocation, piece);
 };
 
-// Function to initialize pawns on the board
 const initializeBoardWithPawns = (chessBoard) => {
-    // Place black pawns on the second row
     for (let col = 0; col < 8; col++) {
         initializePieceOnBoard(chessBoard, Pawn, "black", 1, col);
     }
 
-    // Place white pawns on the seventh row
     for (let col = 0; col < 8; col++) {
         initializePieceOnBoard(chessBoard, Pawn, "white", 6, col);
     }
 };
 
-// Initialise Knights
 const initializeBoardWithKnights = (chessBoard) => {
     initialPositions.knights.row.w.forEach(pos => initializePieceOnBoard(chessBoard, Knight, "white", ...pos));
     initialPositions.knights.row.b.forEach(pos => initializePieceOnBoard(chessBoard, Knight, "black", ...pos));
 };
 
-// Initialise Kings
 const initializeBoardWithKings = (chessBoard) => {
     initialPositions.kings.row.w.forEach(pos => initializePieceOnBoard(chessBoard, King, "white", ...pos));
     initialPositions.kings.row.b.forEach(pos => initializePieceOnBoard(chessBoard, King, "black", ...pos));
 };
 
-// Initialise Queens
 const initializeBoardWithQueens = (chessBoard) => {
     initialPositions.queens.row.w.forEach(pos => initializePieceOnBoard(chessBoard, Queen, "white", ...pos));
     initialPositions.queens.row.b.forEach(pos => initializePieceOnBoard(chessBoard, Queen, "black", ...pos));
 };
 
-// Initialise Bishops
 const initializeBoardWithBishops = (chessBoard) => {
     initialPositions.bishops.row.w.forEach(pos => initializePieceOnBoard(chessBoard, Bishop, "white", ...pos));
     initialPositions.bishops.row.b.forEach(pos => initializePieceOnBoard(chessBoard, Bishop, "black", ...pos));
 };
 
-// Initialise Rooks
 const initializeBoardWithRooks = (chessBoard) => {
     initialPositions.rooks.row.w.forEach(pos => initializePieceOnBoard(chessBoard, Rook, "white", ...pos));
     initialPositions.rooks.row.b.forEach(pos => initializePieceOnBoard(chessBoard, Rook, "black", ...pos));
 };
 
-// Starting Positions
 export const initializeBoardWithPieces = (chessBoard) => {
     initializeBoardWithPawns(chessBoard);
     initializeBoardWithKnights(chessBoard);

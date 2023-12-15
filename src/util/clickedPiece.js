@@ -48,7 +48,6 @@ export const pressedTile = async (event, chessBoard) => {
     const tilePosition = pressedElement(clickedElement);
     const clickedTile = findTileByPosition(chessBoard, tilePosition);
 
-    // Remove highlight class from all tiles
     removeAllHighlightClasses(chessBoard);
 
     // Check if the tile exists and has a piece
@@ -56,7 +55,6 @@ export const pressedTile = async (event, chessBoard) => {
         highlightTile(tilePosition);
         const pieceInClickedTile = clickedTile.spaceOccupation;
 
-        // Use async/await to wait for the asynchronous operation to complete
         const generatedMoves = await pieceInClickedTile.generateLegalMoves();
         pieceInClickedTile.validFutureMoves = generatedMoves
 

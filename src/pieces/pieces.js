@@ -4,7 +4,7 @@ export class Piece {
         this.team = team;
         this.startingPosition = startingPosition;
         this._currentPosition = startingPosition.slice(); 
-        this.potentialFuturePositions = [];
+        this.validMoves = [];
         this.capturedState = false;
         this._lastPosition = [];
     }
@@ -22,6 +22,20 @@ export class Piece {
     // Return last position
     get getLastPosition() {
         return this._lastPosition
+    }
+
+    // Get Valid Moves
+    get getValidMoves() {
+        return this.validMoves;
+    }
+
+    /**
+     * @param {any[]} legalMoves
+     */
+    set validFutureMoves(legalMoves) {
+        if (legalMoves) {
+            this.validMoves = legalMoves;
+        }
     }
 
     /**

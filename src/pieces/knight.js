@@ -62,10 +62,8 @@ export class Knight extends Piece {
 
         // Highlight the valid moves on the UI
         for (const move of filteredMoves) {
-
-            console.log(`Potential Moves: ${move}`)
-
             const chessMove = indexToLocation(move, this.team);
+            console.log(`\n${this.name}: Potential Moves: ${move} (${chessMove})\n`)
             highlightTile(chessMove);
         }
 

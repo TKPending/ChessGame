@@ -1,5 +1,5 @@
 // Function to find a tile by its position on the chessboard
-function findTileByPosition(chessBoard, position) {
+export function findTileByPosition(chessBoard, position) {
     for (const row of chessBoard) {
         for (const tile of row) {
             if (tile.position === position) {
@@ -11,7 +11,7 @@ function findTileByPosition(chessBoard, position) {
 }
 
 // Presss on the whole div
-const pressedElement = (clickedElement) => {
+export const pressedElement = (clickedElement) => {
     const isChessTile = clickedElement.classList.contains('chess-tile');
     const isPieceImage = clickedElement.tagName === 'IMG';
 
@@ -23,8 +23,6 @@ const pressedElement = (clickedElement) => {
 
 // Helper function to highlight a tile
 export const highlightTile = (tilePosition) => {
-    console.log(`Tile Position: ${tilePosition}`)
-
     const tileElement = document.getElementById(tilePosition);
     if (tileElement) {
         tileElement.classList.add('highlighted');
@@ -33,7 +31,7 @@ export const highlightTile = (tilePosition) => {
 
 
 // Helper function to remove highlight class from all tiles
-const removeAllHighlightClasses = (chessBoard) => {
+export const removeAllHighlightClasses = (chessBoard) => {
     chessBoard.forEach(row => {
         row.forEach(tile => {
             const tileElement = document.getElementById(tile.position);
@@ -45,7 +43,7 @@ const removeAllHighlightClasses = (chessBoard) => {
 };
 
 // Return piece or tile
-export const pressedTile = (event, chessBoard) => {
+export const pressedTile = async (event, chessBoard) => {
     const clickedElement = event.target;
     const tilePosition = pressedElement(clickedElement);
     const clickedTile = findTileByPosition(chessBoard, tilePosition);
@@ -55,17 +53,19 @@ export const pressedTile = (event, chessBoard) => {
 
     // Check if the tile exists and has a piece
     if (clickedTile && clickedTile.spaceOccupation) {
-        console.log(`Piece in clicked tile (${tilePosition}) :`, clickedTile.spaceOccupation);
         highlightTile(tilePosition);
-        clickedTile.spaceOccupation.generateLegalMoves();
+        const pieceInClickedTile = clickedTile.spaceOccupation;
+
+        // Use async/await to wait for the asynchronous operation to complete
+        const generatedMoves = await pieceInClickedTile.generateLegalMoves();
+        pieceInClickedTile.validFutureMoves = generatedMoves
 
         return clickedTile.spaceOccupation;
     } else {
-        console.log(`No piece in clicked tile or invalid tile. (${tilePosition})`);
-        console.log(clickedTile)
         highlightTile(tilePosition); 
         
         return clickedTile;
     }
 }
+
 

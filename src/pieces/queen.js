@@ -113,6 +113,7 @@ export class Queen extends Piece {
         // Highlight the valid moves on the UI
         for (const move of filteredMoves) {
             const chessMove = indexToLocation(move, this.team);
+            console.log(`\n${this.name}: Potential Moves: ${move} (${chessMove})\n`)
             highlightTile(chessMove);
         }
 

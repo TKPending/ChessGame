@@ -9,7 +9,6 @@ export class Queen extends Piece {
     }
 
     // TODO: Change queen logic
-
     // Queen's Moves
     moveUp() {
         const [row, col] = this._currentPosition;

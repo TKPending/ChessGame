@@ -10,8 +10,6 @@ const checkValidMove = (tileLocation, validMoves) => {
     return validMoves.some(move => move[0] === tileLocation[0] && move[1] === tileLocation[1]);
 };
 
-
-
 export const positionToIndex = (position) => {
     const file = position.charAt(0).toLowerCase(); 
     const rank = parseInt(position.charAt(1), 10); 

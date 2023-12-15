@@ -43,12 +43,9 @@ export class Rook extends Piece {
         this.maxMove(legalMoves, 0, 1); // Right
         this.maxMove(legalMoves, 0, -1); // Left
 
-        // Filter out null moves (moves outside the chessboard)
         const filteredMoves = legalMoves.filter(move => move !== null);
 
-        // Highlight the valid moves on the UI
         for (const move of filteredMoves) {
-
             const chessMove = indexToLocation(move, this.team);
             console.log(`\n${this.name}: Potential Moves: ${move} (${chessMove})\n`)
 

@@ -57,7 +57,6 @@ export class Piece {
         this._currentPosition = newPosition;
     }
 
-    // Return [x,x] co-ord of new position - Checks validity before return valid result
     createNewPosition(newPosition) {
         if (this.isInBounds(newPosition)) {
             this._currentPosition = newPosition;

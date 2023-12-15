@@ -2,6 +2,7 @@
 import { createBoard, renderChessboard } from "./src/board/board.js";
 import { initializeBoardWithPieces } from "./src/pieces/initialise-pieces.js";
 import { pressedTile, findTileByPosition, removeAllHighlightClasses, pressedElement} from "./src/util/clickedPiece.js";
+import { movePiece } from "./src/util/movePiece.js";
 
 const chessBoard = createBoard();
 
@@ -23,13 +24,21 @@ bodyElement.addEventListener('click', (event) => {
     }
 });
 
-
 chessBoardElement.addEventListener('click', async (event) => {
-    selectedPiece = await pressedTile(event, chessBoard);
-    console.log(selectedPiece)
-    const validPieceMovies = selectedPiece.getValidMoves;
+    const clickedTile = await pressedTile(event, chessBoard);
 
-    // Add another listener?
-    // logic to move piece?
-    
+    if (!selectedPiece) {
+        if (clickedTile && clickedTile.spaceOccupation) {
+            selectedPiece = clickedTile.spaceOccupation;
+            console.log("Piece selected:", selectedPiece.name);
+            removeAllHighlightClasses(chessBoard);
+            const generatedMoves = await selectedPiece.generateLegalMoves();
+            selectedPiece.validFutureMoves = generatedMoves;
+            selectedPiece.highlightValidMoves();
+        }
+    } else {
+        await movePiece(selectedPiece, event, chessBoard);
+        selectedPiece = null;
+    }
 });
+

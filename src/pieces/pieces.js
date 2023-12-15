@@ -66,6 +66,17 @@ export class Piece {
         }
     }
 
+    maxMove(legalMoves, rowDelta, colDelta) {
+        let newRow = this._currentPosition[0] + rowDelta * this.direction;
+        let newCol = this._currentPosition[1] + colDelta * this.direction;
+    
+        while (this.pieceBoundCheck(newRow, newCol)) {
+            legalMoves.push([newRow, newCol]);
+            newRow += rowDelta * this.direction;
+            newCol += colDelta * this.direction;
+        }
+    }
+
     // Piece has been captured
     pieceCaptured() {
         this.capturedState = true;

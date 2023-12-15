@@ -8,18 +8,6 @@ export class Rook extends Piece {
         this.direction = team.toLowerCase() === "black" ? 1 : -1;
     }
 
-    // Helper function for max moves in a given direction
-    maxMove(legalMoves, rowDelta, colDelta) {
-        let newRow = this._currentPosition[0] + rowDelta * this.direction;
-        let newCol = this._currentPosition[1] + colDelta * this.direction;
-
-        while (this.pieceBoundCheck(newRow, newCol)) {
-            legalMoves.push([newRow, newCol]);
-            newRow += rowDelta * this.direction;
-            newCol += colDelta * this.direction;
-        }
-    }
-
     // Rook's Vertical and Horizontal Moves
     moveUp() {
         const [row, col] = this._currentPosition;

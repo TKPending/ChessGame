@@ -91,18 +91,6 @@ export class Queen extends Piece {
         return this.pieceBoundCheck(newRow, newCol);
     }
 
-    // Helper function for max moves in a given direction
-    maxMove(legalMoves, rowDelta, colDelta) {
-        let newRow = this._currentPosition[0] + rowDelta * this.direction;
-        let newCol = this._currentPosition[1] + colDelta * this.direction;
-
-        while (this.pieceBoundCheck(newRow, newCol)) {
-            legalMoves.push([newRow, newCol]);
-            newRow += rowDelta * this.direction;
-            newCol += colDelta * this.direction;
-        }
-    }
-
     // Generate all legal moves for the queen
     generateLegalMoves() {
         const legalMoves = [];

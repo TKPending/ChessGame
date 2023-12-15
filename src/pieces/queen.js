@@ -91,18 +91,33 @@ export class Queen extends Piece {
         return this.pieceBoundCheck(newRow, newCol);
     }
 
+    // Helper function for max moves in a given direction
+    maxMove(legalMoves, rowDelta, colDelta) {
+        let newRow = this._currentPosition[0] + rowDelta * this.direction;
+        let newCol = this._currentPosition[1] + colDelta * this.direction;
+
+        while (this.pieceBoundCheck(newRow, newCol)) {
+            legalMoves.push([newRow, newCol]);
+            newRow += rowDelta * this.direction;
+            newCol += colDelta * this.direction;
+        }
+    }
+
     // Generate all legal moves for the queen
     generateLegalMoves() {
-        const legalMoves = [
-            this.moveUp(),
-            this.moveDown(),
-            this.moveRight(),
-            this.moveLeft(),
-            this.moveDiagonalUpRight(),
-            this.moveDiagonalUpLeft(),
-            this.moveDiagonalDownRight(),
-            this.moveDiagonalDownLeft(),
-        ];
+        const legalMoves = [];
+
+        // Horizontal and Vertical Moves
+        this.maxMove(legalMoves, -1, 0); // Up
+        this.maxMove(legalMoves, 1, 0); // Down
+        this.maxMove(legalMoves, 0, 1); // Right
+        this.maxMove(legalMoves, 0, -1); // Left
+
+        // Diagonal Moves
+        this.maxMove(legalMoves, -1, 1); // Diagonal Up-Right
+        this.maxMove(legalMoves, -1, -1); // Diagonal Up-Left
+        this.maxMove(legalMoves, 1, 1); // Diagonal Down-Right
+        this.maxMove(legalMoves, 1, -1); // Diagonal Down-Left
 
         // Filter out null moves (moves outside the chessboard)
         const filteredMoves = legalMoves.filter(move => move !== null);

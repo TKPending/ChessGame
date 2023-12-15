@@ -1,6 +1,6 @@
 import { Piece } from "./pieces.js";
 import { highlightTile } from "../util/clickedPiece.js";
-import { indexToLocationKnight } from "../util/indexToLocation.js";
+import { indexToLocation } from "../util/indexToLocation.js";
 
 export class Knight extends Piece {
     constructor(team, startingPosition) {
@@ -65,7 +65,7 @@ export class Knight extends Piece {
 
             console.log(`Potential Moves: ${move}`)
 
-            const chessMove = indexToLocationKnight(move, this.team);
+            const chessMove = indexToLocation(move, this.team);
             highlightTile(chessMove);
         }
 

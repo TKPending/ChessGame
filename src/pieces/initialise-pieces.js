@@ -49,7 +49,7 @@ const initializePieceOnBoard = (chessBoard, PieceType, team, row, col) => {
 };
 
 // Function to initialize pawns on the board
-export const initializeBoardWithPawns = (chessBoard) => {
+const initializeBoardWithPawns = (chessBoard) => {
     // Place black pawns on the second row
     for (let col = 0; col < 8; col++) {
         initializePieceOnBoard(chessBoard, Pawn, "black", 1, col);
@@ -62,31 +62,41 @@ export const initializeBoardWithPawns = (chessBoard) => {
 };
 
 // Initialise Knights
-export const initializeBoardWithKnights = (chessBoard) => {
+const initializeBoardWithKnights = (chessBoard) => {
     initialPositions.knights.row.w.forEach(pos => initializePieceOnBoard(chessBoard, Knight, "white", ...pos));
     initialPositions.knights.row.b.forEach(pos => initializePieceOnBoard(chessBoard, Knight, "black", ...pos));
 };
 
 // Initialise Kings
-export const initializeBoardWithKings = (chessBoard) => {
+const initializeBoardWithKings = (chessBoard) => {
     initialPositions.kings.row.w.forEach(pos => initializePieceOnBoard(chessBoard, King, "white", ...pos));
     initialPositions.kings.row.b.forEach(pos => initializePieceOnBoard(chessBoard, King, "black", ...pos));
 };
 
 // Initialise Queens
-export const initializeBoardWithQueens = (chessBoard) => {
+const initializeBoardWithQueens = (chessBoard) => {
     initialPositions.queens.row.w.forEach(pos => initializePieceOnBoard(chessBoard, Queen, "white", ...pos));
     initialPositions.queens.row.b.forEach(pos => initializePieceOnBoard(chessBoard, Queen, "black", ...pos));
 };
 
 // Initialise Bishops
-export const initializeBoardWithBishops = (chessBoard) => {
+const initializeBoardWithBishops = (chessBoard) => {
     initialPositions.bishops.row.w.forEach(pos => initializePieceOnBoard(chessBoard, Bishop, "white", ...pos));
     initialPositions.bishops.row.b.forEach(pos => initializePieceOnBoard(chessBoard, Bishop, "black", ...pos));
 };
 
 // Initialise Rooks
-export const initializeBoardWithRooks = (chessBoard) => {
+const initializeBoardWithRooks = (chessBoard) => {
     initialPositions.rooks.row.w.forEach(pos => initializePieceOnBoard(chessBoard, Rook, "white", ...pos));
     initialPositions.rooks.row.b.forEach(pos => initializePieceOnBoard(chessBoard, Rook, "black", ...pos));
 };
+
+// Starting Positions
+export const initializeBoardWithPieces = (chessBoard) => {
+    initializeBoardWithPawns(chessBoard);
+    initializeBoardWithKnights(chessBoard);
+    initializeBoardWithKings(chessBoard);
+    initializeBoardWithQueens(chessBoard);
+    initializeBoardWithBishops(chessBoard);
+    initializeBoardWithRooks(chessBoard)
+}

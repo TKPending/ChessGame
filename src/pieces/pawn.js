@@ -1,7 +1,7 @@
 // pawn.js
 import { Piece } from "./pieces.js";
 import { highlightTile } from "../util/clickedPiece.js";
-import { indexToLocation } from "../util/indexToLocation.js";
+import { indexToLocationPawn } from "../util/indexToLocation.js";
 
 const fileSource = '/src/piece/pawn.js';
 
@@ -12,15 +12,6 @@ export class Pawn extends Piece {
         this._moveCount = 0;
     }
 
-    chosenMove(move) {
-        // Implementation based on your game logic
-    }
-
-    // Validate pawn movement
-    checkPawnMovement(move) {
-
-    }
-
     // Standard pawn move
     moveForwardOnce() {
         const [row, col] = this._currentPosition;
@@ -28,6 +19,8 @@ export class Pawn extends Piece {
 
         const newRow = row + 1 * this.direction;
         const newCol = col;
+
+        console.log(`Original Position: ${this._lastPosition}\nNew Position: ${newRow},${newCol}`)
 
         return this.pieceBoundCheck(newRow, newCol);
     }
@@ -80,7 +73,7 @@ export class Pawn extends Piece {
 
         // Highlight the valid moves on the UI
         for (const move of filteredMoves) {
-            const chessMove = indexToLocation(move);
+            const chessMove = indexToLocationPawn(move, this.team);
             highlightTile(chessMove);
         }
 

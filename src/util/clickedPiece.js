@@ -23,6 +23,8 @@ const pressedElement = (clickedElement) => {
 
 // Helper function to highlight a tile
 export const highlightTile = (tilePosition) => {
+    console.log(`Tile Position: ${tilePosition}`)
+
     const tileElement = document.getElementById(tilePosition);
     if (tileElement) {
         tileElement.classList.add('highlighted');
@@ -56,11 +58,13 @@ export const pressedTile = (event, chessBoard) => {
         console.log(`Piece in clicked tile (${tilePosition}) :`, clickedTile.spaceOccupation);
         highlightTile(tilePosition);
         clickedTile.spaceOccupation.generateLegalMoves();
+
         return clickedTile.spaceOccupation;
     } else {
         console.log(`No piece in clicked tile or invalid tile. (${tilePosition})`);
         console.log(clickedTile)
         highlightTile(tilePosition); 
+        
         return clickedTile;
     }
 }

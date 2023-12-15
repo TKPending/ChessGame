@@ -1,6 +1,7 @@
 import { Piece } from "./pieces.js";
 import { highlightTile } from "../util/clickedPiece.js";
 import { indexToLocation } from "../util/indexToLocation.js";
+import { spaceOccupiedCheck } from "../util/spaceOccupiedCheck.js";
 
 export class Bishop extends Piece {
     constructor(team, startingPosition) {
@@ -49,7 +50,7 @@ export class Bishop extends Piece {
         return this.pieceBoundCheck(newRow, newCol);
     }
     
-    generateLegalMoves() {
+    generateLegalMoves(chessBoard) {
         const legalMoves = [];
     
         this.maxMove(legalMoves, -1, 1); // Diagonal Up-Right

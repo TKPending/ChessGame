@@ -7,7 +7,7 @@ export const indexToLocationPawn = (index, team) => {
 };
 
 // Index to chess positions for King
-export const indexToLocation= (index, team) => {
+export const indexToLocation = (index, team) => {
     const file = String.fromCharCode(97 + index[1]);
     const rank = team.toLowerCase() === 'black' ? index[0] + 1 : index[0] + 1;
 

@@ -3,7 +3,7 @@ import { Knight } from "./knight.js";
 import { King } from "./king.js";
 import { Queen } from "./queen.js";
 import { Bishop } from "./bishop.js";
-import { Rook } from "./rookie.js";
+import { Rook } from "./rook.js";
 import { pieceToTileData } from "../util/pieceToTile.js";
 
 const initialPositions = {

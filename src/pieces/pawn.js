@@ -3,8 +3,6 @@ import { Piece } from "./pieces.js";
 import { highlightTile } from "../util/clickedPiece.js";
 import { indexToLocationPawn } from "../util/indexToLocation.js";
 
-const fileSource = '/src/piece/pawn.js';
-
 export class Pawn extends Piece {
     constructor(team, startingPosition) {
         super("Pawn", team, startingPosition);

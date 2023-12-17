@@ -1,7 +1,7 @@
 // king.js
 import { Piece } from "./pieces.js";
 import { highlightTile } from "../util/clickedPiece.js";
-import { indexToLocation } from "../util/indexToLocation.js";
+import { indexToLocation } from "../util/findLocation.js";
 
 export class King extends Piece {
     constructor(team, startingPosition) {

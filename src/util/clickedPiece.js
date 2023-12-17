@@ -66,4 +66,9 @@ export const pressedTile = async (event, chessBoard) => {
     }
 }
 
+export const highlightTileOnly = (event, chessBoard) => {
+    removeAllHighlightClasses(chessBoard);
 
+    const selectedTile = pressedElement(event.target);
+    highlightTile(selectedTile);
+}

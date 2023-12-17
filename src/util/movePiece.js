@@ -1,43 +1,29 @@
-import { removeAllHighlightClasses, pressedElement, findTileByPosition, pressedTile } from "./clickedPiece.js"
+import { positionToIndex } from "./findLocation.js";
 
-const getDestination = async (event, chessBoard) => {
-    const destinationTile = await pressedTile(event, chessBoard);
+const tileAlgebraicLocation = (selectedTile) => {
+    const selectedElement = selectedTile.target;
 
-    return destinationTile
+    const isChessTile = selectedElement.classList.contains('chess-tile');
+    const isChessPiece = selectedElement.tagName === 'IMG';
+
+    if (isChessTile || isChessPiece) {
+        return isChessTile ? selectedElement.id : selectedElement.parentElement.id;
+    }
 }
 
-const checkValidMove = (tileLocation, validMoves) => {
-    return validMoves.some(move => move[0] === tileLocation[0] && move[1] === tileLocation[1]);
-};
+const tileFullLocation = (selectedTile) => {
+    const algebraicLocation = tileAlgebraicLocation(selectedTile);
+    const indexLocation = positionToIndex(algebraicLocation);
+    
+    return [algebraicLocation, indexLocation];
+}
 
-export const positionToIndex = (position) => {
-    const file = position.charAt(0).toLowerCase(); 
-    const rank = parseInt(position.charAt(1), 10); 
+export const pieceOrTile = (selectedTile) => {
+    const tile = selectedTile.target.classList.contains('chess-tile');
 
-    const colIndex = file.charCodeAt(0) - 'a'.charCodeAt(0);
-    const rowIndex = 8 - rank;
-
-    return [rowIndex, colIndex];
-};
+    return tile ? true : false;
+}
 
 
-export const movePiece = async (selectedPiece, event, chessBoard) => {
-    const validPieceMoves = selectedPiece.getValidMoves;
-    const destinationTile = await getDestination(event, chessBoard);
-    const destinationLocation = destinationTile.position;
-
-    // convert destination location to indexes
-    const destinationIndex = positionToIndex(destinationLocation);
-
-    const validMove = checkValidMove(destinationIndex, validPieceMoves);
-    console.log('validMove:', validMove); // Add this line
-
-    if (validMove) {
-        const newTile = findTileByPosition(chessBoard, destinationLocation);
-        console.log(newTile);
-    }
-
-    // MOVE TO NEW TILE
-
-    // EMPTY PREVIOUS TILE
+export const movePiece = (selectedTile) => {
 };

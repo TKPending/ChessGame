@@ -1,7 +1,7 @@
 // pawn.js
 import { Piece } from "./pieces.js";
 import { highlightTile } from "../util/clickedPiece.js";
-import { indexToLocationPawn } from "../util/indexToLocation.js";
+import { indexToLocationPawn } from "../util/findLocation.js";
 
 export class Pawn extends Piece {
     constructor(team, startingPosition) {

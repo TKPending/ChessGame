@@ -1,7 +1,7 @@
 import { createBoard, renderChessboard } from "./src/board/board.js";
 import { initializeBoardWithPieces } from "./src/pieces/initialise-pieces.js";
 import { removeAllHighlightClasses, highlightTileOnly, pressedTile } from "./src/util/clickedPiece.js";
-import { movePiece, pieceOrTile } from "./src/util/movePiece.js";
+import { movePiece, pieceOrTile, tileFullLocation } from "./src/util/movePiece.js";
 
 const chessBoard = createBoard();
 
@@ -12,7 +12,8 @@ renderChessboard(chessBoard);
 const bodyElement = document.getElementById('body');
 const chessBoardElement = document.querySelector('.chess-board');
 
-let selectedPiece;
+let initialSelectedPiece;
+let initialSelectedPieceLocation;
 
 // Remove all highlights when user clicks off board
 bodyElement.addEventListener('click', (event) => {
@@ -20,22 +21,28 @@ bodyElement.addEventListener('click', (event) => {
 
     if (!isClickedOnChessboard) {
         removeAllHighlightClasses(chessBoard); 
-        selectedPiece = null;
+        initialSelectedPiece = null;
     }
 });
 
-// Logic for moving pieces
+// Logic for moving pieces - IN PROGRESS
 chessBoardElement.addEventListener('click', async (event) => {
     const tileCheck = pieceOrTile(event);
 
-    if (tileCheck && !selectedPiece) {
+    if (tileCheck && !initialSelectedPiece) {
         console.log("Only a tile been pressed");
+
         highlightTileOnly(event, chessBoard);
-    } else if (!tileCheck && !selectedPiece) {
-        console.log("First time pressing on a piece")
-        selectedPiece = await pressedTile(event, chessBoard);
+    } else if (!tileCheck && !initialSelectedPiece) {
+        console.log("First time pressing on a piece");
+
+        initialSelectedPieceLocation = tileFullLocation(event);
+        initialSelectedPiece = await pressedTile(event, chessBoard);
     } else {
         console.log("A piece was previously clicked. So back to square one")
-        selectedPiece = null;
+
+        // Want to re-check validity of next press
+        movePiece(initialSelectedPiece, initialSelectedPieceLocation, event, chessBoard)
+        initialSelectedPiece = null;
     }
 });

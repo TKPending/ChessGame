@@ -1,3 +1,5 @@
+import { positionToIndex } from "./findLocation.js";
+
 // Function to find a tile by its position on the chessboard
 export function findTileByPosition(chessBoard, position) {
     for (const row of chessBoard) {

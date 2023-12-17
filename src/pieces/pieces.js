@@ -57,16 +57,6 @@ export class Piece {
         this._currentPosition = newPosition;
     }
 
-    createNewPosition(newPosition) {
-        if (this.isInBounds(newPosition)) {
-            this._currentPosition = newPosition;
-            return this._currentPosition;
-        } else {
-            console.log("Invalid position. This will move piece off board");
-            return null;
-        }
-    }
-
     isInBounds(row, col) {
         return row >= 0 && row < 8 && col >= 0 && col < 8;
     }

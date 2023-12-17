@@ -6,7 +6,6 @@ import { indexToLocation } from "../util/findLocation.js";
 export class King extends Piece {
     constructor(team, startingPosition) {
         super("King", team, startingPosition);
-        this.direction = team.toLowerCase() === "black" ? 1 : -1; 
     }
 
     // King's Moves

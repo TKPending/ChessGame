@@ -5,7 +5,6 @@ import { indexToLocation } from "../util/findLocation.js";
 export class Queen extends Piece {
     constructor(team, startingPosition) {
         super("Queen", team, startingPosition);
-        this.direction = team.toLowerCase() === "black" ? 1 : -1; 
     }
 
     // TODO: Change queen logic

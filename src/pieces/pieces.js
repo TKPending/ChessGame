@@ -7,6 +7,7 @@ export class Piece {
         this.validMoves = [];
         this.capturedState = false;
         this._lastPosition = [];
+        this.direction = team.toLowerCase() === "white" ? -1 : 1;
     }
 
     // Return current position

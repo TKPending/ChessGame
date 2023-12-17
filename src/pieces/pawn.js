@@ -6,7 +6,6 @@ import { indexToLocationPawn } from "../util/findLocation.js";
 export class Pawn extends Piece {
     constructor(team, startingPosition) {
         super("Pawn", team, startingPosition);
-        this.direction = team.toLowerCase() === "white" ? 1 : -1;
         this._moveCount = 0;
     }
 

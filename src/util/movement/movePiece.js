@@ -1,5 +1,6 @@
-import { pressedTile } from "./clickedPiece.js";
-import { positionToIndex } from "./findLocation.js";
+import { pressedTile } from "../clickedPiece.js";
+import { positionToIndex } from "../findLocation.js";
+import { checkTile } from "./teamCheck.js";
 
 const tileAlgebraicLocation = (selectedTile) => {
     const selectedElement = selectedTile.target;
@@ -39,8 +40,7 @@ const checkLocations = (selectedDestination, validMoves) => {
 }
 
 
-const validateDestination = (initialSelectedPiece, initialTile, destinationTile) => {
-    const [initialAlgebraicLocation, initialIndexLocation] = initialTile;
+const validateDestination = (initialSelectedPiece, destinationTile) => {
     const [destinationAlgebraicLocation, destinationIndexLocation] = destinationTile;
 
     const initialValidMoves = initialSelectedPiece.getValidMoves;
@@ -55,7 +55,11 @@ export const movePiece = async (initialSelectedPiece, initialSelectedPieceLocati
     const destinationTile = await pressedTile(moveToTile, chessBoard);
     const destinationLocation = tileFullLocation(moveToTile);
 
-    validateDestination(initialSelectedPiece, initialSelectedPieceLocation, destinationLocation)
+    console.log(initialSelectedPiece)
+
+    // checkTile(initialSelectedPieceLocation, initialSelectedPiece, destinationTile, chessBoard);
+
+    // validateDestination(initialSelectedPiece, initialSelectedPieceLocation, destinationLocation)
 };
 
 

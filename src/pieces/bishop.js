@@ -5,7 +5,6 @@ import { indexToLocation } from "../util/findLocation.js";
 export class Bishop extends Piece {
     constructor(team, startingPosition) {
         super("Bishop", team, startingPosition);
-        this.direction = team.toLowerCase() === "black" ? 1 : -1;
     }
 
     // Bishop's Diagonal Moves

@@ -5,7 +5,6 @@ import { indexToLocation } from "../util/findLocation.js";
 export class Knight extends Piece {
     constructor(team, startingPosition) {
         super("Knight", team, startingPosition);
-        this.direction = team.toLowerCase() === "black" ? 1 : -1; 
     }
 
     // Knight's L-shaped Moves

@@ -51,6 +51,10 @@ class Tile {
         }
     }
 
+    get ownsTile() {
+        return this._ownedBy.toLowerCase();
+    }
+
     /**
      * @param {{ team: string; }} piece
      */
@@ -82,7 +86,7 @@ class Tile {
 
 // Board Design - 2D Array of tiles
 export const createBoard = () => {
-    const x = ['1', '2', '3', '4', '5', '6', '7', '8'];
+    const x = ['1', '2', '3', '4', '5', '6', '7', '8'].reverse();
     const y = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 
     const board = [];

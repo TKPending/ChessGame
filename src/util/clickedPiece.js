@@ -55,10 +55,8 @@ export const pressedTile = async (event, chessBoard) => {
     // Check if the tile exists and has a piece
     if (clickedTile && clickedTile.spaceOccupation) {
         highlightTile(tilePosition);
+        
         const pieceInClickedTile = clickedTile.spaceOccupation;
-
-        console.log(pieceInClickedTile);
-
         const generatedMoves = await pieceInClickedTile.generateLegalMoves();
         pieceInClickedTile.validFutureMoves = generatedMoves
 

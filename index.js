@@ -7,7 +7,7 @@ const chessBoard = createBoard();
 
 initializeBoardWithPieces(chessBoard)
 
-renderChessboard(chessBoard);
+await renderChessboard(chessBoard);
 
 const bodyElement = document.getElementById('body');
 const chessBoardElement = document.querySelector('.chess-board');
@@ -39,10 +39,12 @@ chessBoardElement.addEventListener('click', async (event) => {
         initialSelectedPieceLocation = tileFullLocation(event);
         initialSelectedPiece = await pressedTile(event, chessBoard);
     } else {
-        console.log("A piece was previously clicked. So back to square one")
+        console.log("A piece was previously clicked. Piece should move. So back to square one")
 
         // Want to re-check validity of next press
-        movePiece(initialSelectedPiece, initialSelectedPieceLocation, event, chessBoard)
+        await movePiece(initialSelectedPiece, initialSelectedPieceLocation, event, chessBoard);
+        await renderChessboard(chessBoard);
+        
         initialSelectedPiece = null;
     }
 });

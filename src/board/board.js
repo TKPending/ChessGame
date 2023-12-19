@@ -70,7 +70,7 @@ class Tile {
      */
     set pieceOnTile(piece) {
         if (piece) {
-            this._pieceName = piece.name;
+            this._pieceName = piece;
         } else {
             this._pieceName = "";
         }

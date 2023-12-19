@@ -49,15 +49,22 @@ const validateDestination = (initialSelectedPiece, destinationTile) => {
     // console.log(checkLocations(destinationIndexLocation, initialValidMoves));
 }
 
+const pressedSameTile = (destinationTile, initialPiece) => {
+    return destinationTile.getCurrentPosition == initialPiece.getCurrentPosition ? true : false;
+}
+
 
 export const movePiece = async (initialSelectedPiece, initialSelectedPieceLocation, moveToTile, chessBoard) => {
     // Object - Tile or a Pawn
     const destinationTile = await pressedTile(moveToTile, chessBoard);
-    const destinationLocation = tileFullLocation(moveToTile);
+    // const destinationLocation = tileFullLocation(moveToTile);
 
-    console.log(initialSelectedPiece)
+    if (pressedSameTile(destinationTile, initialSelectedPiece)) {
+        console.log("Pressed on the same tile");
+        return;
+    }
 
-    // checkTile(initialSelectedPieceLocation, initialSelectedPiece, destinationTile, destinationTileLocation, chessBoard);
+   checkTile(initialSelectedPieceLocation, initialSelectedPiece, destinationTile, chessBoard);
 
     // validateDestination(initialSelectedPiece, initialSelectedPieceLocation, destinationLocation)
 };

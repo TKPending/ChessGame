@@ -57,7 +57,7 @@ export const movePiece = async (initialSelectedPiece, initialSelectedPieceLocati
 
     console.log(initialSelectedPiece)
 
-    // checkTile(initialSelectedPieceLocation, initialSelectedPiece, destinationTile, chessBoard);
+    // checkTile(initialSelectedPieceLocation, initialSelectedPiece, destinationTile, destinationTileLocation, chessBoard);
 
     // validateDestination(initialSelectedPiece, initialSelectedPieceLocation, destinationLocation)
 };

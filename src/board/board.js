@@ -15,7 +15,6 @@ class Tile {
 
     // Return location on board
     get position() {
-        // console.log(`Board Location: ${this._position}`);
         return this._position;
     }
 

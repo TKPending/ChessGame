@@ -1,4 +1,5 @@
 import { findTileByPosition } from "../clickedPiece.js";
+import { positionToIndex } from "../findLocation.js";
 
 const FRIENDLY = 1;
 const ENEMY = 2;
@@ -29,9 +30,9 @@ const extractDestinationTileInformation = (destinationTile) => {
 }
 
 // Update the location of the initial piece - UPDATE PIECE OBJ
-const updateInitialPiece = (tileLocation, initialPiece) => {
-    initialPiece.updateLastPosition = tileLocation;
-    initialPiece.updateCurrentPosition = tileLocation;
+const updateInitialPiece = (destinationTile, initialTile, initialPiece) => {
+    initialPiece.updateLastPosition = initialTile.position;
+    initialPiece.updateCurrentPosition = positionToIndex(destinationTile.position);
 }
 
 // Piece has moved out, update the initial tile to be empty again - UPDATE TILE OBJ (Initial)
@@ -70,7 +71,7 @@ const removeEnemy = (destinationTile) => {
 
 // Enemy piece is in tile. Take over tile
 const captureTile = (initialPiece, initialTile, destinationTile) => {
-    updateInitialPiece(initialPiece);
+    updateInitialPiece(destinationTile, initialTile, initialPiece);
     updateInitialTile(initialTile);
 
     if (destinationTile.spaceOccupation) {
@@ -85,7 +86,7 @@ const locateInitialTile = (initialTileLocation, chessBoard) => {
     return findTileByPosition(chessBoard, initialTileLocation);
 }
 
-export const checkTile = (initialSelectedPieceLocation,initialPiece, destinationTile, chessBoard) => {
+export const checkTile = (initialSelectedPieceLocation, initialPiece, destinationTile, destinationTileLocation, chessBoard) => {
     const initialTile = locateInitialTile(initialSelectedPieceLocation, initialPiece, chessBoard);
     const friendlyFireCheck = friendlyFire(destinationTile, initialTile);
 

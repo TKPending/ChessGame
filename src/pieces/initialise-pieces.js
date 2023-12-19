@@ -44,6 +44,8 @@ const initializePieceOnBoard = (chessBoard, PieceType, team, row, col) => {
     const piece = new PieceType(team, [row, col]);
 
     tileLocation.pieceInSpace = piece;
+    tileLocation.tileOwnership = piece;
+    
     pieceToTileData(tileLocation, piece);
 };
 

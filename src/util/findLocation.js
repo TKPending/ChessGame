@@ -25,3 +25,7 @@ export const positionToIndex = (position) => {
     return [rowIndex, colIndex];
 };
 
+export const indexToTile = (chessBoard, indexLocation) => {
+    return chessBoard[indexLocation[0]][indexLocation[1]]
+}
+

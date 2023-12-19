@@ -5,12 +5,17 @@ const WHITE = 'bg-white';
 
 class Tile {
     constructor(position, colour) {
+        this._object = "Tile";
         this._position = position;
         this._space = [] // Space in board
         this._pieceName = "";
         this._availability = true;
         this._tileColour = colour;
         this._ownedBy = null;
+    }
+
+    get getTileName() {
+        return this._object;
     }
 
     // Return location on board
@@ -51,7 +56,7 @@ class Tile {
     }
 
     get ownsTile() {
-        return this._ownedBy.toLowerCase();
+        return this._ownedBy;
     }
 
     /**
@@ -132,7 +137,7 @@ const resetChessboard = () => {
     }
 }
 
-export const renderChessboard = (chessBoard) => {
+export const renderChessboard = async (chessBoard) => {
     resetChessboard()
 
     // Create the chess board element

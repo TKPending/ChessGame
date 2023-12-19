@@ -59,6 +59,8 @@ export const movePiece = async (initialSelectedPiece, initialSelectedPieceLocati
     const destinationTile = await pressedTile(moveToTile, chessBoard);
     // const destinationLocation = tileFullLocation(moveToTile);
 
+    // console.log(destinationLocation)
+
     if (pressedSameTile(destinationTile, initialSelectedPiece)) {
         console.log("Pressed on the same tile");
         return;

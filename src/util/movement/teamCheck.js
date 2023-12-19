@@ -1,5 +1,5 @@
 import { findTileByPosition } from "../clickedPiece.js";
-import { positionToIndex } from "../findLocation.js";
+import { indexToLocationPawn, positionToIndex, indexToTile } from "../findLocation.js";
 
 const FRIENDLY = 1;
 const ENEMY = 2;
@@ -9,29 +9,30 @@ const EMPTY = 3;
 const friendlyFire = (destinationTile, initialTile) => {
     const extractedDestination = extractDestinationTileInformation(destinationTile);
     const initialTeam = initialTile.ownsTile;
-    const extractedTeam = extractedDestination ? extractedDestination["team"] : null;
+    const extractedTeam = extractedDestination ? extractedDestination["team"] : extractedDestination;
 
     return initialTeam === extractedTeam ? FRIENDLY : extractedTeam == null ? EMPTY : ENEMY;
 }
 
 // Enemy piece or not
 const extractDestinationTileInformation = (destinationTile) => {
-    const insideTile = destinationTile.spaceOccupation;
-
-    if (insideTile) {
-        return {
-            "piece-name": insideTile.name, // Future use for kings?
-            "team": insideTile.team,
-        }
+    if (destinationTile.getTileName) {
+        return destinationTile.ownsTile;
     } 
 
-    return null;
+    const destinationPiece = destinationTile;
+
+    return {
+        "piece-name": destinationPiece.name, // Future reference king?
+        "team": destinationPiece.team
+    }
 }
 
 // Update the location of the initial piece - UPDATE PIECE OBJ
-const updateInitialPiece = (destinationTile, initialTile, initialPiece) => {
+const updateInitialPiece = (destinationTile, initialTile, initialPiece, space) => {
+    console.log(space);
     initialPiece.updateLastPosition = positionToIndex(initialTile.position);
-    initialPiece.updateCurrentPosition = positionToIndex(destinationTile.position);
+    initialPiece.updateCurrentPosition = space == 3 ? positionToIndex(destinationTile.position) : destinationTile.getCurrentPosition;
 }
 
 // Piece has moved out, update the initial tile to be empty again - UPDATE TILE OBJ (Initial)
@@ -50,18 +51,26 @@ const updateEmptyTile = (destinationTile, initialPiece) => {
     destinationTile.tileOwnership = initialPiece;
 }
 
+const findEnemyTile = (destinationPiece, chessBoard) => {
+    const tileLocation = destinationPiece.getCurrentPosition;
+    const tile = indexToTile(chessBoard, tileLocation);
+
+    return tile;
+}
+
 // Piece has moved in, update destination tile to have a piece
-const updateEnemyTile = (destinationTile, initialPiece) => {
+const updateEnemyTile = (destinationTile, initialPiece, chessBoard) => {
+    const enemyTile = findEnemyTile(destinationTile, chessBoard);
     removeEnemy(destinationTile);
-    updateEmptyTile(destinationTile, initialPiece);
+    updateEmptyTile(enemyTile, initialPiece);
 }
 
 // Remove piece from tile if captured
 const removeEnemy = (destinationTile) => {
-    const enemyPiece = destinationTile.spaceOccupation;
+    const enemyPiece = destinationTile;
 
     if (enemyPiece) {
-        enemyPiece.pieceCapture();
+        enemyPiece.pieceCaptured();
         enemyPiece.updateLastPosition = enemyPiece.getCurrentPosition;
         enemyPiece.updateCurrentPosition = "Captured";
     }
@@ -69,14 +78,14 @@ const removeEnemy = (destinationTile) => {
 
 
 // Enemy piece is in tile. Take over tile
-const captureTile = (initialPiece, initialTile, destinationTile) => {
-    updateInitialPiece(destinationTile, initialTile, initialPiece);
+const captureTile = (initialPiece, initialTile, destinationTile, space, chessBoard) => {
+    updateInitialPiece(destinationTile, initialTile, initialPiece, space);
     updateInitialTile(initialTile);
 
-    if (!destinationTile.spaceOccupation) {
+    if (space == 3) {
         updateEmptyTile(destinationTile, initialPiece)
     } else {
-        updateEnemyTile(destinationTile, initialPiece);
+        updateEnemyTile(destinationTile, initialPiece, chessBoard);
     }
 }
 
@@ -92,7 +101,8 @@ export const checkTile = (initialSelectedPieceLocation, initialPiece, destinatio
     const friendlyFireCheck = friendlyFire(destinationTile, initialTile);
 
     if (friendlyFireCheck != FRIENDLY) {
-        captureTile(initialPiece, initialTile, destinationTile);
+        captureTile(initialPiece, initialTile, destinationTile, friendlyFireCheck, chessBoard);
+        console.log(destinationTile);
         return;
     }
 

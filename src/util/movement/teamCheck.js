@@ -8,7 +8,7 @@ const EMPTY = 3;
 const friendlyFire = (destinationTile, initialTile) => {
     const extractedDestination = extractDestinationTileInformation(destinationTile);
     const initialTeam = initialTile.ownsTile;
-    const extractedTeam = extractedDestination["team"];
+    const extractedTeam = extractedDestination ? extractedDestination["team"] : null;
 
 
     return initialTeam === extractedTeam ? FRIENDLY : extractedTeam == null ? EMPTY : ENEMY;
@@ -18,27 +18,36 @@ const friendlyFire = (destinationTile, initialTile) => {
 const extractDestinationTileInformation = (destinationTile) => {
     const insideTile = destinationTile.spaceOccupation;
 
-    if (!insideTile) {
+    if (insideTile) {
         return {
             "piece-name": insideTile.name, // Future use for kings?
-            "team": insideTile.ownsTile,
+            "team": insideTile.team,
         }
-    }
+    } 
+
+    return null;
 }
 
 // Update the location of the initial piece - UPDATE PIECE OBJ
-const updateInitialPiece = (initialPiece) => {
-
+const updateInitialPiece = (tileLocation, initialPiece) => {
+    initialPiece.updateLastPosition = tileLocation;
+    initialPiece.updateCurrentPosition = tileLocation;
 }
 
 // Piece has moved out, update the initial tile to be empty again - UPDATE TILE OBJ (Initial)
 const updateInitialTile = (initialTile) => {
-
+    initialTile.pieceInSpace = null;
+    initialTile.tileAvailability = null;
+    initialTile.tileOwnership = null;
+    initialTile.pieceOnTile = null;
 }
 
 // Update Tile with new piece information - UPDATE TILE OBJ (Destination)
-const updateEmptyTile = (initialTile, destinationTile) => {
-
+const updateEmptyTile = (destinationTile, initialPiece) => {
+    destinationTile.pieceInSpace = initialPiece;
+    destinationTile.pieceName = initialPiece.name;
+    destinationTile.tileAvailability = initialPiece;
+    destinationTile.tileOwnership = initialPiece;
 }
 
 // Piece has moved in, update destination tile to have a piece
@@ -48,9 +57,16 @@ const updateEnemyTile = (initialTile, destinationTile) => {
 }
 
 // Remove piece from tile if captured
-const removeEnemy = () => {
+const removeEnemy = (destinationTile) => {
+    const enemyPiece = destinationTile.spaceOccupation;
 
+    if (enemyPiece) {
+        enemyPiece.pieceCapture();
+        enemyPiece.updateLastPosition = occupiedPiece.getCurrentPosition;
+        enemyPiece.updateCurrentPosition = "Captured";
+    }
 }
+
 
 // Enemy piece is in tile. Take over tile
 const captureTile = (initialPiece, initialTile, destinationTile) => {

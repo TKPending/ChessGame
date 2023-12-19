@@ -54,7 +54,7 @@ export class Piece {
     /**
      * @param {number[]} newPosition
      */
-    set setCurrentPosition(newPosition) {
+    set updateCurrentPosition(newPosition) {
         this._currentPosition = newPosition;
     }
 

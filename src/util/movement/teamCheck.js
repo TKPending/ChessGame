@@ -78,7 +78,7 @@ const removeEnemy = (destinationTile) => {
 
 
 // Enemy piece is in tile. Take over tile
-const captureTile = (initialPiece, initialTile, destinationTile, space, chessBoard) => {
+const captureTile = async (initialPiece, initialTile, destinationTile, space, chessBoard) => {
     updateInitialPiece(destinationTile, initialTile, initialPiece, space);
     updateInitialTile(initialTile);
 
@@ -96,13 +96,12 @@ const locateInitialTile = (initialTileLocation, chessBoard) => {
     return findTileByPosition(chessBoard, algebraicValue);
 }
 
-export const checkTile = (initialSelectedPieceLocation, initialPiece, destinationTile, chessBoard) => {
+export const checkTile = async (initialSelectedPieceLocation, initialPiece, destinationTile, chessBoard) => {
     const initialTile = locateInitialTile(initialSelectedPieceLocation, chessBoard);
     const friendlyFireCheck = friendlyFire(destinationTile, initialTile);
 
     if (friendlyFireCheck != FRIENDLY) {
         captureTile(initialPiece, initialTile, destinationTile, friendlyFireCheck, chessBoard);
-        console.log(destinationTile);
         return;
     }
 

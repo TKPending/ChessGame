@@ -66,7 +66,7 @@ export const movePiece = async (initialSelectedPiece, initialSelectedPieceLocati
         return;
     }
 
-   checkTile(initialSelectedPieceLocation, initialSelectedPiece, destinationTile, chessBoard);
+   await checkTile(initialSelectedPieceLocation, initialSelectedPiece, destinationTile, chessBoard);
 
     // validateDestination(initialSelectedPiece, initialSelectedPieceLocation, destinationLocation)
 };

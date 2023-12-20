@@ -137,7 +137,7 @@ const resetChessboard = () => {
     }
 }
 
-export const renderChessboard = async (chessBoard) => {
+export const renderChessboard = (chessBoard) => {
     resetChessboard()
 
     // Create the chess board element

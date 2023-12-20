@@ -7,7 +7,7 @@ const chessBoard = createBoard();
 
 initializeBoardWithPieces(chessBoard)
 
-await renderChessboard(chessBoard);
+renderChessboard(chessBoard);
 
 const bodyElement = document.getElementById('body');
 const chessBoardElement = document.querySelector('.chess-board');
@@ -43,7 +43,7 @@ chessBoardElement.addEventListener('click', async (event) => {
 
         // Want to re-check validity of next press
         await movePiece(initialSelectedPiece, initialSelectedPieceLocation, event, chessBoard);
-        await renderChessboard(chessBoard);
+        renderChessboard(chessBoard);
         
         initialSelectedPiece = null;
     }

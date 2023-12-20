@@ -2,7 +2,7 @@ import { createBoard, renderChessboard } from "./src/board/board.js";
 import { initializeBoardWithPieces } from "./src/pieces/initialise-pieces.js";
 import { removeAllHighlightClasses, highlightTileOnly, pressedTile } from "./src/util/clickedPiece.js";
 import { movePiece, pieceOrTile, tileFullLocation } from "./src/util/movement/movePiece.js";
-
+ 
 const chessBoard = createBoard();
 
 initializeBoardWithPieces(chessBoard)
@@ -25,10 +25,7 @@ bodyElement.addEventListener('click', (event) => {
     }
 });
 
-// Logic for moving pieces - IN PROGRESS
-chessBoardElement.addEventListener('click', async (event) => {
-    const tileCheck = pieceOrTile(event);
-
+const tilePressed = async (tileCheck, event) => {
     if (tileCheck && !initialSelectedPiece) {
         console.log("Only a tile been pressed");
 
@@ -47,4 +44,11 @@ chessBoardElement.addEventListener('click', async (event) => {
         
         initialSelectedPiece = null;
     }
+}
+
+// Logic for moving pieces - IN PROGRESS
+chessBoardElement.addEventListener('click', async (event) => {
+    const tileCheck = pieceOrTile(event);
+
+    await tilePressed(tileCheck, event);
 });

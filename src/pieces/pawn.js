@@ -1,4 +1,3 @@
-// pawn.js
 import { Piece } from "./pieces.js";
 import { highlightTile } from "../util/clickedPiece.js";
 import { indexToLocationPawn } from "../util/findLocation.js";

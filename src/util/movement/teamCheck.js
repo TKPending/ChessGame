@@ -1,5 +1,6 @@
 import { findTileByPosition } from "../clickedPiece.js";
 import { indexToLocationPawn, positionToIndex, indexToTile } from "../findLocation.js";
+import { legalMoveCheck } from "./validMovements.js";
 
 const FRIENDLY = 1;
 const ENEMY = 2;
@@ -99,8 +100,11 @@ const locateInitialTile = (initialTileLocation, chessBoard) => {
 export const checkTile = async (initialSelectedPieceLocation, initialPiece, destinationTile, chessBoard) => {
     const initialTile = locateInitialTile(initialSelectedPieceLocation, chessBoard);
     const friendlyFireCheck = friendlyFire(destinationTile, initialTile);
+    let legalMove = legalMoveCheck(initialPiece, destinationTile);
 
-    if (friendlyFireCheck != FRIENDLY) {
+
+    if (friendlyFireCheck != FRIENDLY && legalMove) {
+
         captureTile(initialPiece, initialTile, destinationTile, friendlyFireCheck, chessBoard);
         return;
     }

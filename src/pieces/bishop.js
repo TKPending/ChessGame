@@ -51,17 +51,16 @@ export class Bishop extends Piece {
     generateLegalMoves(chessBoard) {
         const legalMoves = [];
     
-        this.maxMove(legalMoves, -1, 1); // Diagonal Up-Right
-        this.maxMove(legalMoves, -1, -1); // Diagonal Up-Left
-        this.maxMove(legalMoves, 1, 1); // Diagonal Down-Right
-        this.maxMove(legalMoves, 1, -1); // Diagonal Down-Left
+        this.maxMove(legalMoves, -1, 1, chessBoard); // Diagonal Up-Right
+        this.maxMove(legalMoves, -1, -1, chessBoard); // Diagonal Up-Left
+        this.maxMove(legalMoves, 1, 1, chessBoard); // Diagonal Down-Right
+        this.maxMove(legalMoves, 1, -1, chessBoard); // Diagonal Down-Left
     
         const filteredMoves = legalMoves.filter(move => move !== null);
     
         // Highlight the valid moves on the UI
         for (const move of filteredMoves) {
             const chessMove = indexToLocation(move, this.team);
-            console.log(`\n${this.name}: Potential Moves: ${move} (${chessMove})\n`)
             highlightTile(chessMove);
         }
     

@@ -90,20 +90,20 @@ export class Queen extends Piece {
     }
 
     // Generate all legal moves for the queen
-    generateLegalMoves() {
+    generateLegalMoves(chessBoard) {
         const legalMoves = [];
 
         // Horizontal and Vertical Moves
-        this.maxMove(legalMoves, -1, 0); // Up
-        this.maxMove(legalMoves, 1, 0); // Down
-        this.maxMove(legalMoves, 0, 1); // Right
-        this.maxMove(legalMoves, 0, -1); // Left
+        this.maxMove(legalMoves, -1, 0, chessBoard); // Up
+        this.maxMove(legalMoves, 1, 0, chessBoard); // Down
+        this.maxMove(legalMoves, 0, 1, chessBoard); // Right
+        this.maxMove(legalMoves, 0, -1, chessBoard); // Left
 
         // Diagonal Moves
-        this.maxMove(legalMoves, -1, 1); // Diagonal Up-Right
-        this.maxMove(legalMoves, -1, -1); // Diagonal Up-Left
-        this.maxMove(legalMoves, 1, 1); // Diagonal Down-Right
-        this.maxMove(legalMoves, 1, -1); // Diagonal Down-Left
+        this.maxMove(legalMoves, -1, 1, chessBoard); // Diagonal Up-Right
+        this.maxMove(legalMoves, -1, -1, chessBoard); // Diagonal Up-Left
+        this.maxMove(legalMoves, 1, 1, chessBoard); // Diagonal Down-Right
+        this.maxMove(legalMoves, 1, -1, chessBoard); // Diagonal Down-Left
 
         // Filter out null moves (moves outside the chessboard)
         const filteredMoves = legalMoves.filter(move => move !== null);
@@ -111,7 +111,6 @@ export class Queen extends Piece {
         // Highlight the valid moves on the UI
         for (const move of filteredMoves) {
             const chessMove = indexToLocation(move, this.team);
-            console.log(`\n${this.name}: Potential Moves: ${move} (${chessMove})\n`)
             highlightTile(chessMove);
         }
 

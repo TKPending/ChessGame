@@ -129,17 +129,33 @@ const tileHasPiece = (tile, tileElement) => {
 
 
 
-const resetChessboard = () => {
-    // Remove existing chessboard element
-    const existingChessboard = document.querySelector('.chess-board');
-    if (existingChessboard) {
-        existingChessboard.remove();
+export const reRenderChessboard = (chessBoard) => {
+    // Get the existing chessboard element
+    const chessBoardElement = document.querySelector('.chess-board');
+
+    // Remove all existing children
+    while (chessBoardElement.firstChild) {
+        chessBoardElement.removeChild(chessBoardElement.firstChild);
     }
+
+    // Append tiles to the chess board element
+    chessBoard.forEach(row => {
+        row.forEach(tile => {
+            const tileElement = document.createElement('div');
+            tileElement.classList.add('chess-tile', tile._tileColour);
+
+            const tileId = `${tile.position}`;
+            tileElement.id = tileId;
+
+            tileHasPiece(tile, tileElement);
+
+            chessBoardElement.appendChild(tileElement);
+        });
+    });
 }
 
-export const renderChessboard = (chessBoard) => {
-    resetChessboard()
 
+export const renderChessboard = (chessBoard) => {
     // Create the chess board element
     const chessBoardElement = document.createElement('div');
     chessBoardElement.classList.add('chess-board');

@@ -1,4 +1,4 @@
-import { createBoard, renderChessboard } from "./src/board/board.js";
+import { createBoard, renderChessboard, reRenderChessboard } from "./src/board/board.js";
 import { initializeBoardWithPieces } from "./src/pieces/initialise-pieces.js";
 import { removeAllHighlightClasses, highlightTileOnly, pressedTile } from "./src/util/clickedPiece.js";
 import { movePiece, pieceOrTile, tileFullLocation } from "./src/util/movement/movePiece.js";
@@ -40,8 +40,8 @@ const tilePressed = async (tileCheck, event) => {
 
         // Want to re-check validity of next press
         await movePiece(initialSelectedPiece, initialSelectedPieceLocation, event, chessBoard);
-        renderChessboard(chessBoard);
-        
+        reRenderChessboard(chessBoard);
+
         initialSelectedPiece = null;
     }
 }

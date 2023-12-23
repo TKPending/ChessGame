@@ -7,15 +7,24 @@ export class Pawn extends Piece {
         super("Pawn", team, startingPosition);
     }
 
+    // Check if piece is infront of pawn
+    moveForwardLimit(newRow, newCol, chessBoard) {
+        const tileCheck = chessBoard[newRow][newCol].spaceOccupation;
+       
+        return tileCheck ? false : true;
+    }
+
     // Standard pawn move
-    moveForwardOnce() {
+    moveForwardOnce(chessBoard) {
         const [row, col] = this._currentPosition;
         this._lastPosition = [row, col];
 
         const newRow = row + 1 * this.direction;
         const newCol = col;
 
-        return this.pieceBoundCheck(newRow, newCol);
+        const invalidCheck = this.moveForwardLimit(newRow, newCol, chessBoard);
+
+        return invalidCheck ? this.pieceBoundCheck(newRow, newCol) : null;
     }
 
     // Beginning move
@@ -67,7 +76,7 @@ export class Pawn extends Piece {
 
     generateLegalMoves(chessBoard) {
         const legalMoves = [
-            this.moveForwardOnce(),
+            this.moveForwardOnce(chessBoard),
             this.moveForwardTwice(),
             this.captureRight(chessBoard),
             this.captureLeft(chessBoard),

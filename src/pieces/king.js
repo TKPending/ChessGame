@@ -6,14 +6,14 @@ import { indexToLocation } from "../util/findLocation.js";
 export class King extends Piece {
     constructor(team, startingPosition) {
         super("King", team, startingPosition);
-    }
+    }  
 
     // King's Moves
     moveUp() {
         const [row, col] = this._currentPosition;
         this._lastPosition = [row, col];
 
-        const newRow = row - 1 * this.direction;
+        const newRow = row + 1 * this.direction;
         const newCol = col;
 
         return this.pieceBoundCheck(newRow, newCol);
@@ -23,7 +23,7 @@ export class King extends Piece {
         const [row, col] = this._currentPosition;
         this._lastPosition = [row, col];
 
-        const newRow = row + 1 * this.direction;
+        const newRow = row - 1 * this.direction;
         const newCol = col;
 
         return this.pieceBoundCheck(newRow, newCol);

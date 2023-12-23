@@ -63,6 +63,14 @@ export class Piece {
         this._currentPosition = newPosition;
     }
 
+    checkCapturePossible(newRow, newCol, chessBoard) {
+        const tileCheck = chessBoard[newRow][newCol].spaceOccupation;
+
+        if (tileCheck) {
+            return tileCheck.pieceTeam != this.team ? true : false;
+        }
+    }
+
     isInBounds(row, col) {
         return row >= 0 && row < 8 && col >= 0 && col < 8;
     }

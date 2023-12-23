@@ -42,14 +42,6 @@ export class Pawn extends Piece {
         return this.pieceBoundCheck(newRow, newCol);
     }
 
-    checkCapturePossible(newRow, newCol, chessBoard) {
-        const tileCheck = chessBoard[newRow][newCol].spaceOccupation;
-
-        if (tileCheck) {
-            return tileCheck.pieceTeam != this.team ? true : false;
-        }
-    }
-
     // Capture to diagonal right
     captureRight(chessBoard) {
         const [row, col] = this._currentPosition;

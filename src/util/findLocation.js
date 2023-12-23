@@ -1,18 +1,23 @@
-// Index to chess positions for Pawn
-export const indexToLocationPawn = (index, team) => {
-    const file = String.fromCharCode(97 + index[1]);
-    const rank = team.toLowerCase() === 'black' ? index[0] + 3 : index[0] - 1;
-
-    return file + rank;
-};
-
-// Index to chess positions for all other pieces
+// indexToLocation for all other pieces
 export const indexToLocation = (index, team) => {
     const file = String.fromCharCode(97 + index[1]);
-    const rank = team.toLowerCase() === 'black' ? index[0] + 1 : index[0] + 1;
+    const rank = team.toLowerCase() === 'black' ? 8 - index[0] : index[0] + 1;
 
-    return file + rank;
+    return team.toLowerCase() === 'white' ? file + (9 - rank) : file + rank;
 };
+
+// indexToLocation for Pawn
+export const indexToLocationPawn = (index, team) => {
+    const file = String.fromCharCode(97 + index[1]);
+    const rank = team.toLowerCase() === 'black' ? 8 - index[0] : index[0] + 1;
+
+    // Invert the rank for the white team
+    return team.toLowerCase() === 'white' ? file + (9 - rank) : file + rank;
+};
+
+export const highlightTileLocations = (index, team) => {
+    
+}
 
 // Position to index
 export const positionToIndex = (position) => {

@@ -30,36 +30,44 @@ export class Pawn extends Piece {
         return this.pieceBoundCheck(newRow, newCol);
     }
 
+    checkCapturePossible(newRow, newCol, chessBoard) {
+        const tileCheck = chessBoard[newRow][newCol].spaceOccupation;
+
+        if (tileCheck) {
+            return tileCheck.pieceTeam != this.team ? true : false;
+        }
+    }
+
     // Capture to diagonal right
-    captureRight() {
+    captureRight(chessBoard) {
         const [row, col] = this._currentPosition;
         this._lastPosition = [row, col];
 
         const newRow = row + this.direction;
         const newCol = col + 1;
 
-        return this.pieceBoundCheck(newRow, newCol);
+        const canCapture = this.checkCapturePossible(newRow, newCol, chessBoard);
+        return canCapture ? this.pieceBoundCheck(newRow, newCol) : null;
     }
 
     // Capture to diagonal left
-    captureLeft() {
+    captureLeft(chessBoard) {
         const [row, col] = this._currentPosition;
         this._lastPosition = [row, col];
 
         const newRow = row + this.direction;
         const newCol = col - 1;
 
-        return this.pieceBoundCheck(newRow, newCol);
+        const canCapture = this.checkCapturePossible(newRow, newCol, chessBoard);
+        return canCapture ? this.pieceBoundCheck(newRow, newCol) : null;
     }
 
-    // Highlight Valid Moves
-    // TODO: Keep in mind spaces which have pieces
-    generateLegalMoves() {
+    generateLegalMoves(chessBoard) {
         const legalMoves = [
             this.moveForwardOnce(),
             this.moveForwardTwice(),
-            this.captureRight(),
-            this.captureLeft(),
+            this.captureRight(chessBoard),
+            this.captureLeft(chessBoard),
         ];
 
         // Filter out null moves (moves outside the chessboard)
@@ -68,7 +76,6 @@ export class Pawn extends Piece {
         // Highlight the valid moves on the UI
         for (const move of filteredMoves) {
             const chessMove = indexToLocationPawn(move, this.team);
-            // console.log(`\n${this.name}: Potential Moves: ${move} (${chessMove})\n`)
             highlightTile(chessMove);
         }
 

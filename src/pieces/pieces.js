@@ -25,6 +25,11 @@ export class Piece {
         return this._lastPosition
     }
 
+    // Return Team
+    get pieceTeam() {
+        return this.team;
+    }
+
     // Get Valid Moves
     get getValidMoves() {
         return this.validMoves;

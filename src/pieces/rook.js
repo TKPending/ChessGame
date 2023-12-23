@@ -34,20 +34,20 @@ export class Rook extends Piece {
     }
 
     // Generate all legal moves for the rook
-    generateLegalMoves() {
+    generateLegalMoves(chessBoard) {
         const legalMoves = [];
 
         // Horizontal and Vertical Moves
-        this.maxMove(legalMoves, -1, 0); // Up
-        this.maxMove(legalMoves, 1, 0); // Down
-        this.maxMove(legalMoves, 0, 1); // Right
-        this.maxMove(legalMoves, 0, -1); // Left
+        this.maxMove(legalMoves, -1, 0, chessBoard); // Up
+        this.maxMove(legalMoves, 1, 0, chessBoard); // Down
+        this.maxMove(legalMoves, 0, 1, chessBoard); // Right
+        this.maxMove(legalMoves, 0, -1, chessBoard); // Left
 
         const filteredMoves = legalMoves.filter(move => move !== null);
 
         for (const move of filteredMoves) {
             const chessMove = indexToLocation(move, this.team);
-            console.log(`\n${this.name}: Potential Moves: ${move} (${chessMove})\n`)
+            // console.log(`\n${this.name}: Potential Moves: ${move} (${chessMove})\n`)
 
             highlightTile(chessMove);
         }

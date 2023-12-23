@@ -101,7 +101,7 @@ const locateInitialTile = (initialTileLocation, chessBoard) => {
 export const checkTile = async (initialSelectedPieceLocation, initialPiece, destinationTilePiece, chessBoard) => {
     const initialTile = locateInitialTile(initialSelectedPieceLocation, chessBoard);
     const friendlyFireCheck = friendlyFire(destinationTilePiece, initialTile);
-    let legalMove = legalMoveCheck(initialPiece, destinationTilePiece);
+    let legalMove = legalMoveCheck(initialPiece, destinationTilePiece, chessBoard);
 
 
     if (friendlyFireCheck != FRIENDLY && legalMove) {

@@ -14,13 +14,24 @@ class Tile {
         this._ownedBy = null;
     }
 
+    // Tile and Piece Check
     get getTileName() {
         return this._object;
+    }
+
+    // Piece on tile
+    get pieceOnTile() {
+        return this._pieceName;
     }
 
     // Return location on board
     get position() {
         return this._position;
+    }
+
+    // Return if tile is available
+    get pieceInWayCheck() {
+        return this._availability;
     }
 
     // Return whether space is occupied

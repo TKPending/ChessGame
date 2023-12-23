@@ -62,6 +62,11 @@ export class Piece {
         return row >= 0 && row < 8 && col >= 0 && col < 8;
     }
 
+    isTileOccupied(row, col, chessBoard) {
+        const tile = chessBoard[row][col];
+        return tile.pieceInWayCheck == true ? true : false;
+    }
+
     pieceBoundCheck(newRow, newCol) {
         if (this.isInBounds(newRow, newCol)) {
             return [newRow, newCol]
@@ -70,14 +75,23 @@ export class Piece {
         }
     }
 
-    maxMove(legalMoves, rowDelta, colDelta) {
+    maxMove(legalMoves, rowDelta, colDelta, chessBoard) {
         let newRow = this._currentPosition[0] + rowDelta * this.direction;
         let newCol = this._currentPosition[1] + colDelta * this.direction;
     
         while (this.pieceBoundCheck(newRow, newCol)) {
-            legalMoves.push([newRow, newCol]);
-            newRow += rowDelta * this.direction;
-            newCol += colDelta * this.direction;
+            const tileCheck = this.isTileOccupied(newRow, newCol, chessBoard);
+
+            if (tileCheck) {
+                legalMoves.push([newRow, newCol]);
+                newRow += rowDelta * this.direction;
+                newCol += colDelta * this.direction;
+            } else {
+                if (chessBoard[newRow][newCol].ownsTile !== chessBoard[this._currentPosition[0]][this._currentPosition[1]].ownsTile) {
+                    legalMoves.push([newRow, newCol])
+                }
+                break;
+            }
         }
     }
 

@@ -17,12 +17,14 @@ const friendlyFire = (destinationTile, initialTile) => {
 
 // Enemy piece or not
 const extractDestinationTileInformation = (destinationTile) => {
+    // Tile
     if (destinationTile.getTileName) {
         return destinationTile.ownsTile;
     } 
 
+    // Piece
     const destinationPiece = destinationTile;
-
+    
     return {
         "piece-name": destinationPiece.name, // Future reference king?
         "team": destinationPiece.team
@@ -31,7 +33,6 @@ const extractDestinationTileInformation = (destinationTile) => {
 
 // Update the location of the initial piece - UPDATE PIECE OBJ
 const updateInitialPiece = (destinationTile, initialTile, initialPiece, space) => {
-    console.log(space);
     initialPiece.updateLastPosition = positionToIndex(initialTile.position);
     initialPiece.updateCurrentPosition = space == 3 ? positionToIndex(destinationTile.position) : destinationTile.getCurrentPosition;
 }
@@ -97,15 +98,18 @@ const locateInitialTile = (initialTileLocation, chessBoard) => {
     return findTileByPosition(chessBoard, algebraicValue);
 }
 
-export const checkTile = async (initialSelectedPieceLocation, initialPiece, destinationTile, chessBoard) => {
+export const checkTile = async (initialSelectedPieceLocation, initialPiece, destinationTilePiece, chessBoard) => {
     const initialTile = locateInitialTile(initialSelectedPieceLocation, chessBoard);
-    const friendlyFireCheck = friendlyFire(destinationTile, initialTile);
-    let legalMove = legalMoveCheck(initialPiece, destinationTile);
+    const friendlyFireCheck = friendlyFire(destinationTilePiece, initialTile);
+    let legalMove = legalMoveCheck(initialPiece, destinationTilePiece);
 
 
     if (friendlyFireCheck != FRIENDLY && legalMove) {
 
-        captureTile(initialPiece, initialTile, destinationTile, friendlyFireCheck, chessBoard);
+        captureTile(initialPiece, initialTile, destinationTilePiece, friendlyFireCheck, chessBoard);
+        return;
+    } else if (!legalMove) {
+        console.log("Illegal Move");
         return;
     }
 

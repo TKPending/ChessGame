@@ -1,11 +1,15 @@
 import { positionToIndex } from "../findLocation.js";
+import { pieceOrTile } from "./movePiece.js";
 
 const validMovesArr = (selectedPiece) => {
     return selectedPiece.generateLegalMoves();
 }
 
 export const legalMoveCheck = (selectedPiece, destinationLocation) => {
-    let destinationIndex = positionToIndex(destinationLocation.position);
+    const tile = destinationLocation.getTileName;
+    const tileLocation = tile == "Tile" ? positionToIndex(destinationLocation.position) : destinationLocation.getCurrentPosition;
+
+    let destinationIndex = tileLocation;
     let validMoveLocations = validMovesArr(selectedPiece);
 
     for (const moves of validMoveLocations) {

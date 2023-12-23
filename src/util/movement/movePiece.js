@@ -70,8 +70,3 @@ export const movePiece = async (initialSelectedPiece, initialSelectedPieceLocati
 
     // validateDestination(initialSelectedPiece, initialSelectedPieceLocation, destinationLocation)
 };
-
-
-// Get the current (first) piece object
-// Current (first) location
-// check against selected tile?

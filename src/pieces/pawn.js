@@ -5,7 +5,6 @@ import { indexToLocationPawn } from "../util/findLocation.js";
 export class Pawn extends Piece {
     constructor(team, startingPosition) {
         super("Pawn", team, startingPosition);
-        this._moveCount = 0;
     }
 
     // Standard pawn move
@@ -26,6 +25,10 @@ export class Pawn extends Piece {
 
         const newRow = row + 2 * this.direction;
         const newCol = col;
+
+        if (this.startingPosition[0] != this._currentPosition[0] || this.startingPosition[1] != this._currentPosition[1]) {
+            return null;
+        }
 
         return this.pieceBoundCheck(newRow, newCol);
     }

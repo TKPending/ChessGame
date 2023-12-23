@@ -56,17 +56,13 @@ const pressedSameTile = (destinationTile, initialPiece) => {
 
 export const movePiece = async (initialSelectedPiece, initialSelectedPieceLocation, moveToTile, chessBoard) => {
     // Object - Tile or a Pawn
-    const destinationTile = await pressedTile(moveToTile, chessBoard);
-    // const destinationLocation = tileFullLocation(moveToTile);
+    const destinationTilePiece = await pressedTile(moveToTile, chessBoard);
 
-    // console.log(destinationLocation)
-
-    if (pressedSameTile(destinationTile, initialSelectedPiece)) {
+    if (pressedSameTile(destinationTilePiece, initialSelectedPiece)) {
         console.log("Pressed on the same tile");
         return;
     }
 
-   await checkTile(initialSelectedPieceLocation, initialSelectedPiece, destinationTile, chessBoard);
+   await checkTile(initialSelectedPieceLocation, initialSelectedPiece, destinationTilePiece, chessBoard);
 
-    // validateDestination(initialSelectedPiece, initialSelectedPieceLocation, destinationLocation)
 };

@@ -78,7 +78,6 @@ export class Pawn extends Piece {
 
         // Highlight the valid moves on the UI
         for (const move of filteredMoves) {
-            console.log(`Move: ${move}`)
             const chessMove = indexToLocationPawn(move, this.team);
             highlightTile(chessMove);
         }

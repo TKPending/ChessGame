@@ -88,6 +88,7 @@ export class Piece {
             const tileCheck = this.isTileOccupied(newRow, newCol, chessBoard);
 
             if (tileCheck) {
+                // TODO: It pushes move first. Need to check first before adding
                 legalMoves.push([newRow, newCol]);
                 newRow += rowDelta * this.direction;
                 newCol += colDelta * this.direction;

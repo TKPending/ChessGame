@@ -39,16 +39,6 @@ const checkLocations = (selectedDestination, validMoves) => {
     return false;
 }
 
-
-const validateDestination = (initialSelectedPiece, destinationTile) => {
-    const [destinationAlgebraicLocation, destinationIndexLocation] = destinationTile;
-
-    const initialValidMoves = initialSelectedPiece.getValidMoves;
-
-
-    // console.log(checkLocations(destinationIndexLocation, initialValidMoves));
-}
-
 const pressedSameTile = (destinationTile, initialPiece) => {
     return destinationTile.getCurrentPosition == initialPiece.getCurrentPosition ? true : false;
 }

@@ -27,18 +27,11 @@ bodyElement.addEventListener('click', (event) => {
 
 const tilePressed = async (tileCheck, event) => {
     if (tileCheck && !initialSelectedPiece) {
-        console.log("Only a tile been pressed");
-
         highlightTileOnly(event, chessBoard);
     } else if (!tileCheck && !initialSelectedPiece) {
-        console.log("First time pressing on a piece");
-
         initialSelectedPieceLocation = tileFullLocation(event);
         initialSelectedPiece = await pressedTile(event, chessBoard);
     } else {
-        console.log("A piece was previously clicked. Piece should move. So back to square one")
-
-        // Want to re-check validity of next press
         await movePiece(initialSelectedPiece, initialSelectedPieceLocation, event, chessBoard);
         reRenderChessboard(chessBoard);
 

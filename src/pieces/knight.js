@@ -9,104 +9,120 @@ export class Knight extends Piece {
     }
 
     // Up and Right
-    jumpUpRight() {
+    jumpUpRight(chessBoard) {
         const [row, col] = this._currentPosition;
         this._lastPosition = [row, col];
 
         const newRow = row - 2 * this.direction;
         const newCol = col + 1 * this.direction;
 
-        return this.pieceBoundCheck(newRow, newCol);
+        const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
+
+        return friendlyTile ? null : [newRow, newCol];
     }
 
     // Up and Left
-    jumpUpLeft() {
+    jumpUpLeft(chessBoard) {
         const [row, col] = this._currentPosition;
         this._lastPosition = [row, col];
         
         const newRow = row - 2 * this.direction;
         const newCol = col - 1 * this.direction;
 
-        return this.pieceBoundCheck(newRow, newCol);
+        const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
+
+        return friendlyTile ? null : [newRow, newCol];
     }
 
     // Down and right
-    jumpDownRight() {
+    jumpDownRight(chessBoard) {
         const [row, col] = this._currentPosition;
         this._lastPosition = [row, col];
         
         const newRow = row + 2 * this.direction;
         const newCol = col + 1 * this.direction;
 
-        return this.pieceBoundCheck(newRow, newCol);
+        const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
+
+        return friendlyTile ? null : [newRow, newCol];
     }
 
     // Down and Left
-    jumpDownLeft() {
+    jumpDownLeft(chessBoard) {
         const [row, col] = this._currentPosition;
         this._lastPosition = [row, col];
 
         const newRow = row + 2 * this.direction;
         const newCol = col - 1 * this.direction;
 
-        return this.pieceBoundCheck(newRow, newCol);
+        const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
+
+        return friendlyTile ? null : [newRow, newCol];
     }
 
     // Right and Up
-    jumpRightUp() {
+    jumpRightUp(chessBoard) {
         const [row, col] = this._currentPosition;
         this._lastPosition = [row, col];
 
         const newRow = row - 1 * this.direction;
         const newCol = col + 2 * this.direction;
 
-        return this.pieceBoundCheck(newRow, newCol);
+        const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
+
+        return friendlyTile ? null : [newRow, newCol];
     }
 
     // Right and Down
-    jumpRightDown() {
+    jumpRightDown(chessBoard) {
         const [row, col] = this._currentPosition;
         this._lastPosition = [row, col];
 
         const newRow = row + 1 * this.direction;
         const newCol = col + 2 * this.direction;
 
-        return this.pieceBoundCheck(newRow, newCol);
+        const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
+
+        return friendlyTile ? null : [newRow, newCol];
     }
 
     // Left and Up
-    jumpLeftUp() {
+    jumpLeftUp(chessBoard) {
         const [row, col] = this._currentPosition;
         this._lastPosition = [row, col];
 
         const newRow = row - 1 * this.direction;
         const newCol = col - 2 * this.direction;
 
-        return this.pieceBoundCheck(newRow, newCol);
+        const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
+
+        return friendlyTile ? null : [newRow, newCol];
     }
 
     // Left and Down
-    jumpLeftDown() {
+    jumpLeftDown(chessBoard) {
         const [row, col] = this._currentPosition;
         this._lastPosition = [row, col];
 
         const newRow = row + 1 * this.direction;
         const newCol = col - 2 * this.direction;
 
-        return this.pieceBoundCheck(newRow, newCol);
+        const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
+
+        return friendlyTile ? null : [newRow, newCol];
     }
 
     // Generate all legal moves for the knight
-    generateLegalMoves() {
+    generateLegalMoves(chessBoard) {
         const legalMoves = [
-            this.jumpUpRight(),
-            this.jumpUpLeft(),
-            this.jumpDownRight(),
-            this.jumpDownLeft(),
-            this.jumpRightUp(),
-            this.jumpRightDown(),
-            this.jumpLeftUp(),
-            this.jumpLeftDown(),
+            this.jumpUpRight(chessBoard),
+            this.jumpUpLeft(chessBoard),
+            this.jumpDownRight(chessBoard),
+            this.jumpDownLeft(chessBoard),
+            this.jumpRightUp(chessBoard),
+            this.jumpRightDown(chessBoard),
+            this.jumpLeftUp(chessBoard),
+            this.jumpLeftDown(chessBoard),
         ];
 
         // Filter out null moves (moves outside the chessboard)

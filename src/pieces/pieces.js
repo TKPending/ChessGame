@@ -63,13 +63,16 @@ export class Piece {
         this._currentPosition = newPosition;
     }
 
-    // Check whether tile is friendly or enemy
-    checkCapturePossible(newRow, newCol, chessBoard) {
-        const tileCheck = chessBoard[newRow][newCol].spaceOccupation;
+    // Check for friendlies
+    friendlyTileCheck(newRow, newCol, chessBoard) {
+        if (this.pieceBoundCheck(newRow, newCol)) {
+            const tileOccupation = chessBoard[newRow][newCol].spaceOccupation;
 
-        if (tileCheck) {
-            return tileCheck.pieceTeam != this.team ? true : false;
+            return tileOccupation && tileOccupation.pieceTeam === this.team;
         }
+
+        // Return false if the position is out of bounds
+        return false;
     }
 
     // Edge Detection - Board check
@@ -87,11 +90,7 @@ export class Piece {
 
     // Edge Detection - Initiate Check
     pieceBoundCheck(newRow, newCol) {
-        if (this.isInBounds(newRow, newCol)) {
-            return [newRow, newCol]
-        } else {
-            return null;
-        }
+        return this.isInBounds(newRow, newCol) ? [newRow, newCol] : null;
     }
 
     // Edge Detection Logic

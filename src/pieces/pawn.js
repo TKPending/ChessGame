@@ -9,9 +9,11 @@ export class Pawn extends Piece {
 
     // Check if piece is infront of pawn
     moveForwardLimit(newRow, newCol, chessBoard) {
-        const tileCheck = chessBoard[newRow][newCol].spaceOccupation;
+        if (this.pieceBoundCheck(newRow, newCol)) {
+            const tileCheck = chessBoard[newRow][newCol].spaceOccupation;
        
-        return tileCheck ? false : true;
+            return tileCheck ? false : true;
+        }
     }
 
     // Standard pawn move
@@ -24,7 +26,7 @@ export class Pawn extends Piece {
 
         const invalidCheck = this.moveForwardLimit(newRow, newCol, chessBoard);
 
-        return invalidCheck ? this.pieceBoundCheck(newRow, newCol) : null;
+        return invalidCheck ? [newRow, newCol] : null;
     }
 
     // Beginning move
@@ -42,6 +44,17 @@ export class Pawn extends Piece {
         return this.pieceBoundCheck(newRow, newCol);
     }
 
+    // Check whether tile is friendly or enemy
+    checkCapturePossible(newRow, newCol, chessBoard) {
+        if (this.pieceBoundCheck(newRow, newCol)) {
+            const tileCheck = chessBoard[newRow][newCol].spaceOccupation;
+
+            if (tileCheck) {
+                return tileCheck.pieceTeam != this.team ? true : false;
+            }
+        }
+    }
+
     // Capture to diagonal right
     captureRight(chessBoard) {
         const [row, col] = this._currentPosition;
@@ -51,7 +64,7 @@ export class Pawn extends Piece {
         const newCol = col + 1;
 
         const canCapture = this.checkCapturePossible(newRow, newCol, chessBoard);
-        return canCapture ? this.pieceBoundCheck(newRow, newCol) : null;
+        return canCapture ? [newRow, newCol] : null;
     }
 
     // Capture to diagonal left
@@ -63,7 +76,7 @@ export class Pawn extends Piece {
         const newCol = col - 1;
 
         const canCapture = this.checkCapturePossible(newRow, newCol, chessBoard);
-        return canCapture ? this.pieceBoundCheck(newRow, newCol) : null;
+        return canCapture ? [newRow, newCol] : null;
     }
 
     generateLegalMoves(chessBoard) {

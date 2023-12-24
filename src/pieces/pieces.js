@@ -63,6 +63,7 @@ export class Piece {
         this._currentPosition = newPosition;
     }
 
+    // Check whether tile is friendly or enemy
     checkCapturePossible(newRow, newCol, chessBoard) {
         const tileCheck = chessBoard[newRow][newCol].spaceOccupation;
 
@@ -71,10 +72,12 @@ export class Piece {
         }
     }
 
+    // Edge Detection - Board check
     isInBounds(row, col) {
         return row >= 0 && row < 8 && col >= 0 && col < 8;
     }
 
+    // Prevent jumping over pieces - Friendly or Enemy
     isTileOccupied(row, col, chessBoard) {
         const tile = chessBoard[row][col];
 
@@ -82,6 +85,7 @@ export class Piece {
         return tile.pieceInWayCheck == true ? true : false;
     }
 
+    // Edge Detection - Initiate Check
     pieceBoundCheck(newRow, newCol) {
         if (this.isInBounds(newRow, newCol)) {
             return [newRow, newCol]
@@ -90,6 +94,7 @@ export class Piece {
         }
     }
 
+    // Edge Detection Logic
     maxMove(legalMoves, rowDelta, colDelta, chessBoard) {
         let newRow = this._currentPosition[0] + rowDelta * this.direction;
         let newCol = this._currentPosition[1] + colDelta * this.direction;

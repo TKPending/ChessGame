@@ -63,6 +63,18 @@ export class Piece {
         this._currentPosition = newPosition;
     }
 
+    // Check for friendlies
+    friendlyTileCheck(newRow, newCol, chessBoard) {
+        if (this.pieceBoundCheck(newRow, newCol)) {
+            const tileOccupation = chessBoard[newRow][newCol].spaceOccupation;
+
+            return tileOccupation && tileOccupation.pieceTeam === this.team;
+        }
+
+        // Return false if the position is out of bounds
+        return false;
+    }
+
     // Edge Detection - Board check
     isInBounds(row, col) {
         return row >= 0 && row < 8 && col >= 0 && col < 8;

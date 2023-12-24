@@ -9,98 +9,114 @@ export class King extends Piece {
     }  
 
     // King's Moves
-    moveUp() {
+    moveUp(chessBoard) {
         const [row, col] = this._currentPosition;
         this._lastPosition = [row, col];
 
         const newRow = row + 1 * this.direction;
         const newCol = col;
 
-        return this.pieceBoundCheck(newRow, newCol);
+        const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
+
+        return friendlyTile ? null : [newRow, newCol];
     }
 
-    moveDown() {
+    moveDown(chessBoard) {
         const [row, col] = this._currentPosition;
         this._lastPosition = [row, col];
-
+chessBoard
         const newRow = row - 1 * this.direction;
         const newCol = col;
 
-        return this.pieceBoundCheck(newRow, newCol);
+        const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
+
+        return friendlyTile ? null : [newRow, newCol];
     }
 
-    moveRight() {
+    moveRight(chessBoard) {
         const [row, col] = this._currentPosition;
         this._lastPosition = [row, col];
 
         const newRow = row;
         const newCol = col + 1 * this.direction;
 
-        return this.pieceBoundCheck(newRow, newCol);
+        const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
+
+        return friendlyTile ? null : [newRow, newCol];
     }
 
-    moveLeft() {
+    moveLeft(chessBoard) {
         const [row, col] = this._currentPosition;
         this._lastPosition = [row, col];
 
         const newRow = row;
         const newCol = col - 1 * this.direction;
 
-        return this.pieceBoundCheck(newRow, newCol);
+        const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
+
+        return friendlyTile ? null : [newRow, newCol];
     }
 
     // Diagonal Moves
-    moveUpRight() {
+    moveUpRight(chessBoard) {
         const [row, col] = this._currentPosition;
         this._lastPosition = [row, col];
 
         const newRow = row - 1 * this.direction;
         const newCol = col + 1 * this.direction;
 
-        return this.pieceBoundCheck(newRow, newCol);
+        const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
+
+        return friendlyTile ? null : [newRow, newCol];
     }
 
-    moveUpLeft() {
+    moveUpLeft(chessBoard) {
         const [row, col] = this._currentPosition;
         this._lastPosition = [row, col];
 
         const newRow = row - 1 * this.direction;
         const newCol = col - 1 * this.direction;
 
-        return this.pieceBoundCheck(newRow, newCol);
+        const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
+
+        return friendlyTile ? null : [newRow, newCol];
     }
 
-    moveDownRight() {
+    moveDownRight(chessBoard) {
         const [row, col] = this._currentPosition;
         this._lastPosition = [row, col];
 
         const newRow = row + 1 * this.direction;
         const newCol = col + 1 * this.direction;
 
-        return this.pieceBoundCheck(newRow, newCol);
+        const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
+
+        return friendlyTile ? null : [newRow, newCol];
     }
 
-    moveDownLeft() {
+    moveDownLeft(chessBoard) {
         const [row, col] = this._currentPosition;
         this._lastPosition = [row, col];
 
         const newRow = row + 1 * this.direction;
         const newCol = col - 1 * this.direction;
 
-        return this.pieceBoundCheck(newRow, newCol);
+        const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
+
+        return friendlyTile ? null : [newRow, newCol];
     }
 
     // Generate all legal moves for the king
-    generateLegalMoves() {
+    generateLegalMoves(chessBoard) {
         const legalMoves = [
-            this.moveUp(),
-            this.moveDown(),
-            this.moveRight(),
-            this.moveLeft(),
-            this.moveUpRight(),
-            this.moveUpLeft(),
-            this.moveDownRight(),
-            this.moveDownLeft(),
+            this.moveUp(chessBoard),
+            this.moveDown(chessBoard),
+            this.moveRight(chessBoard),
+            this.moveLeft(chessBoard),
+            this.moveUpRight(chessBoard),
+            this.moveUpLeft(chessBoard),
+            this.moveDownRight(chessBoard),
+            this.moveDownLeft(chessBoard),
         ];
 
         // Filter out null moves (moves outside the chessboard)

@@ -10,6 +10,11 @@ export class Piece {
         this.direction = team.toLowerCase() === "white" ? -1 : 1;
     }
 
+    // Return piece name
+    get getPieceName() {
+        return this.name;
+    }
+
     // Return current position
     get getCurrentPosition() {
         return this._currentPosition;
@@ -33,6 +38,11 @@ export class Piece {
     // Get Valid Moves
     get getValidMoves() {
         return this.validMoves;
+    }
+
+    // Set starting position (Pawn Switch)
+    set transferStartingPosition(originalStartingPosition) {
+        this.startingPosition = originalStartingPosition;
     }
 
     /**

@@ -138,8 +138,6 @@ const tileHasPiece = (tile, tileElement) => {
     }
 };
 
-
-
 export const reRenderChessboard = (chessBoard) => {
     // Get the existing chessboard element
     const chessBoardElement = document.querySelector('.chess-board');

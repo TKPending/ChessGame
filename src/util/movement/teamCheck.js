@@ -1,6 +1,7 @@
 import { findTileByPosition } from "../clickedPiece.js";
 import { indexToLocationPawn, positionToIndex, indexToTile } from "../findLocation.js";
 import { legalMoveCheck } from "./validMovements.js";
+import { pawnConvert } from "../pawnSwitch.js";
 
 const FRIENDLY = 1;
 const ENEMY = 2;
@@ -105,8 +106,11 @@ export const checkTile = async (initialSelectedPieceLocation, initialPiece, dest
 
 
     if (friendlyFireCheck != FRIENDLY && legalMove) {
-
         captureTile(initialPiece, initialTile, destinationTilePiece, friendlyFireCheck, chessBoard);
+        
+        if (initialPiece.getPieceName == "Pawn") {
+            pawnConvert(initialPiece, chessBoard);
+        }
         return;
     } else if (!legalMove) {
         console.log("Illegal Move");

@@ -14,7 +14,6 @@ export const legalMoveCheck = (selectedPiece, destinationLocation, chessBoard) =
 
     for (const moves of validMoveLocations) {
         if (moves[0] == destinationIndex[0] && moves[1] == destinationIndex[1]) {
-            console.log("Valid Moves")
             return true;
         }
     }

@@ -3,8 +3,7 @@ import { Knight } from "./knight.js";
 import { King } from "./king.js";
 import { Queen } from "./queen.js";
 import { Bishop } from "./bishop.js";
-import { Rook } from "./rook.js";
-import { pieceToTileData } from "../util/pieceToTile.js";
+import { Rook } from "./rook.js"; 
 
 const initialPositions = {
     "knights": {
@@ -43,10 +42,9 @@ const initializePieceOnBoard = (chessBoard, PieceType, team, row, col) => {
     const tileLocation = chessBoard[row][col];
     const piece = new PieceType(team, [row, col]);
 
+    tileLocation.tileAvailability = piece;
     tileLocation.pieceInSpace = piece;
     tileLocation.tileOwnership = piece;
-    
-    pieceToTileData(tileLocation, piece);
 };
 
 const initializeBoardWithPawns = (chessBoard) => {

@@ -2,6 +2,7 @@ import { findTileByPosition } from "../clickedPiece.js";
 import { indexToLocationPawn, positionToIndex, indexToTile } from "../findLocation.js";
 import { legalMoveCheck } from "./validMovements.js";
 import { pawnConvert } from "../pawnSwitch.js";
+import { checkCastleMove } from "./castleMovement.js";
 
 const FRIENDLY = 1;
 const ENEMY = 2;
@@ -36,6 +37,7 @@ const extractDestinationTileInformation = (destinationTile) => {
 const updateInitialPiece = (destinationTile, initialTile, initialPiece, space) => {
     initialPiece.updateLastPosition = positionToIndex(initialTile.position);
     initialPiece.updateCurrentPosition = space == 3 ? positionToIndex(destinationTile.position) : destinationTile.getCurrentPosition;
+    initialPiece.hasMoved = true;
 }
 
 // Piece has moved out, update the initial tile to be empty again - UPDATE TILE OBJ (Initial)
@@ -81,7 +83,7 @@ const removeEnemy = (destinationTile) => {
 
 
 // Enemy piece is in tile. Take over tile
-const captureTile = async (initialPiece, initialTile, destinationTile, space, chessBoard) => {
+export const captureTile = async (initialPiece, initialTile, destinationTile, space, chessBoard) => {
     updateInitialPiece(destinationTile, initialTile, initialPiece, space);
     updateInitialTile(initialTile);
 
@@ -106,6 +108,9 @@ export const checkTile = async (initialSelectedPieceLocation, initialPiece, dest
 
 
     if (friendlyFireCheck != FRIENDLY && legalMove) {
+        if (initialPiece.getPieceName == "King") {
+            checkCastleMove(initialPiece, destinationTilePiece, chessBoard);
+        }
         captureTile(initialPiece, initialTile, destinationTilePiece, friendlyFireCheck, chessBoard);
         
         if (initialPiece.getPieceName == "Pawn") {

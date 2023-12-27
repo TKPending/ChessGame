@@ -8,6 +8,7 @@ export class Piece {
         this.capturedState = false;
         this._lastPosition = [];
         this.direction = team.toLowerCase() === "white" ? -1 : 1;
+        this._hasMoved = false;
     }
 
     // Return piece name
@@ -38,6 +39,16 @@ export class Piece {
     // Get Valid Moves
     get getValidMoves() {
         return this.validMoves;
+    }
+
+    // Still in initial starting position
+    get hasMoved() {
+        return this._hasMoved;
+    }
+
+    // Set move status
+    set hasMoved(moved) {
+        this._hasMoved = moved;
     }
 
     // Set starting position (Pawn Switch)

@@ -27,8 +27,6 @@ export const checkCastleMove = (kingPiece, destinationLocation, chessBoard) => {
                     rookNewLocation = chessBoard[moves[0]][kingDestinationIndex[1] - 1]; 
                 }
 
-                console.log("Rook Jump")
-                console.log(rookNewLocation);
                 captureTile(rookPiece, rookTile, rookNewLocation, 3, chessBoard);
             }
         }

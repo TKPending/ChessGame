@@ -39,6 +39,7 @@ const checkLocations = (selectedDestination, validMoves) => {
     return false;
 }
 
+// ERROR: Can't read property of null;
 const pressedSameTile = (destinationTile, initialPiece) => {
     return destinationTile.getCurrentPosition == initialPiece.getCurrentPosition ? true : false;
 }

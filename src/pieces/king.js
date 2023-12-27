@@ -8,7 +8,25 @@ export class King extends Piece {
     constructor(team, startingPosition) {
         super("King", team, startingPosition);
         this._inCheck = false;
+        this._castleRightPos = null;
+        this._castleLeftPos = null;
     }  
+
+    get rightCastle() {
+        return this._castleRightPos;
+    }
+
+    get leftCastle() {
+        return this._castleLeftPos;
+    }
+
+    set rightCastle(newPos) {
+        this._castleRightPos = newPos;
+    }
+    
+    set leftCastle(newPos) {
+        this._castleLeftPos = newPos;
+    }
     
     // Standard Moves
     moveUp(chessBoard) {
@@ -111,12 +129,22 @@ export class King extends Piece {
     // Castling
     castlingRight(chessBoard) {
         const castleRightLocation = kingCastle(this, "right", chessBoard);
-        return castleRightLocation ? castleRightLocation : null;
+        if (castleRightLocation) {
+            this.rightCastle = castleRightLocation;
+            return castleRightLocation;
+        }
+
+        return null;
     }
 
     castlingLeft(chessBoard) {
         const castleLeftLocation = kingCastle(this, "left", chessBoard);
-        return castleLeftLocation ? castleLeftLocation : null;
+        if (castleLeftLocation) {
+            this.leftCastle = castleLeftLocation;
+            return castleLeftLocation;
+        }
+
+        return null;
     }
 
     // Generate all legal moves for the king
@@ -131,7 +159,7 @@ export class King extends Piece {
             this.moveDownRight(chessBoard),
             this.moveDownLeft(chessBoard),
             this.castlingRight(chessBoard),
-            // this.castlingLeft(chessBoard)
+            this.castlingLeft(chessBoard)
         ];
 
 

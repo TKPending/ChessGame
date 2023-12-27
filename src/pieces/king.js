@@ -2,13 +2,15 @@
 import { Piece } from "./pieces.js";
 import { highlightTile } from "../util/clickedPiece.js";
 import { indexToLocation } from "../util/findLocation.js";
+import { kingCastle } from "../util/castling.js";
 
 export class King extends Piece {
     constructor(team, startingPosition) {
         super("King", team, startingPosition);
+        this._inCheck = false;
     }  
-
-    // King's Moves
+    
+    // Standard Moves
     moveUp(chessBoard) {
         const [row, col] = this._currentPosition;
         this._lastPosition = [row, col];
@@ -24,7 +26,7 @@ export class King extends Piece {
     moveDown(chessBoard) {
         const [row, col] = this._currentPosition;
         this._lastPosition = [row, col];
-chessBoard
+
         const newRow = row - 1 * this.direction;
         const newCol = col;
 
@@ -106,6 +108,17 @@ chessBoard
         return friendlyTile ? null : [newRow, newCol];
     }
 
+    // Castling
+    castlingRight(chessBoard) {
+        const castleRightLocation = kingCastle(this, "right", chessBoard);
+        return castleRightLocation ? castleRightLocation : null;
+    }
+
+    castlingLeft(chessBoard) {
+        const castleLeftLocation = kingCastle(this, "left", chessBoard);
+        return castleLeftLocation ? castleLeftLocation : null;
+    }
+
     // Generate all legal moves for the king
     generateLegalMoves(chessBoard) {
         const legalMoves = [
@@ -117,7 +130,10 @@ chessBoard
             this.moveUpLeft(chessBoard),
             this.moveDownRight(chessBoard),
             this.moveDownLeft(chessBoard),
+            this.castlingRight(chessBoard),
+            // this.castlingLeft(chessBoard)
         ];
+
 
         // Filter out null moves (moves outside the chessboard)
         const filteredMoves = legalMoves.filter(move => move !== null);

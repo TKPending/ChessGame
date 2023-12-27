@@ -36,6 +36,7 @@ const extractDestinationTileInformation = (destinationTile) => {
 const updateInitialPiece = (destinationTile, initialTile, initialPiece, space) => {
     initialPiece.updateLastPosition = positionToIndex(initialTile.position);
     initialPiece.updateCurrentPosition = space == 3 ? positionToIndex(destinationTile.position) : destinationTile.getCurrentPosition;
+    initialPiece.hasMoved = true;
 }
 
 // Piece has moved out, update the initial tile to be empty again - UPDATE TILE OBJ (Initial)

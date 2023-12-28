@@ -1,5 +1,5 @@
 import { findTileByPosition } from "../clickedPiece.js";
-import { indexToLocationPawn, positionToIndex, indexToTile } from "../findLocation.js";
+import { positionToIndex, indexToTile } from "../findLocation.js";
 import { legalMoveCheck } from "./validMovements.js";
 import { pawnConvert } from "../pawnSwitch.js";
 import { checkCastleMove } from "./castleMovement.js";

@@ -1,6 +1,6 @@
-import { Piece } from "./pieces.js";
-import { highlightTile } from "../util/clickedPiece.js";
-import { indexToLocation } from "../util/findLocation.js";
+import { Piece } from "../pieces.js";
+import { highlightTile } from "../../util/clickedPiece.js";
+import { indexToLocation } from "../../util/findLocation.js";
 
 export class Rook extends Piece {
     constructor(team, startingPosition) {
@@ -43,15 +43,7 @@ export class Rook extends Piece {
         this.maxMove(legalMoves, 0, 1, chessBoard); // Right
         this.maxMove(legalMoves, 0, -1, chessBoard); // Left
 
-        const filteredMoves = legalMoves.filter(move => move !== null);
-
-        for (const move of filteredMoves) {
-            const chessMove = indexToLocation(move, this.team);
-
-            highlightTile(chessMove);
-        }
-
-        return filteredMoves;
+        return this.filterAndHighlightTiles(legalMoves, this.team);
     }
 
     renderPiece() {

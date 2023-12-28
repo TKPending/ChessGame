@@ -1,6 +1,6 @@
 import { pressedTile } from "../clickedPiece.js";
 import { positionToIndex } from "../findLocation.js";
-import { checkTile } from "./teamCheck.js";
+import { checkTile } from "./movePieceLogic.js";
 
 const tileAlgebraicLocation = (selectedTile) => {
     const selectedElement = selectedTile.target;

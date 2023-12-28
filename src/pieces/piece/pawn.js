@@ -1,6 +1,6 @@
-import { Piece } from "./pieces.js";
-import { highlightTile } from "../util/clickedPiece.js";
-import { indexToLocationPawn } from "../util/findLocation.js";
+import { Piece } from "../pieces.js";
+import { highlightTile } from "../../util/clickedPiece.js";
+import { indexToLocationPawn } from "../../util/findLocation.js";
 
 export class Pawn extends Piece {
     constructor(team, startingPosition) {
@@ -95,6 +95,7 @@ export class Pawn extends Piece {
 
         // Filter out null moves (moves outside the chessboard)
         const filteredMoves = legalMoves.filter(move => move !== null);
+        console.log(filteredMoves);
 
         // Highlight the valid moves on the UI
         for (const move of filteredMoves) {

@@ -48,6 +48,7 @@ const inCheck = (kingLocation, enemyMoves) => {
     return false;  // Not in check
 }
 
+// TODO: Update implementation based on turns
 export const kingInCheck = (kingPieces, chessBoard) => {
     const kingLocations = getKingLocation(kingPieces);
     const blackKingThreats = enemyPotentialMoves("black", chessBoard);
@@ -55,7 +56,4 @@ export const kingInCheck = (kingPieces, chessBoard) => {
 
     const blackCheck = inCheck(kingLocations["black"], blackKingThreats);
     const whiteCheck = inCheck(kingLocations["white"], whiteKingThreats);
-
-    console.log(`Black Check Status: ${blackCheck}`);
-    console.log(`White Check Status: ${whiteCheck}`);
 }

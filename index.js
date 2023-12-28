@@ -18,8 +18,8 @@ let initialSelectedPieceLocation;
 
 // Keep track of kings for check / checkmate
 const king = {
-    "black": chessBoard[7][4].spaceOccupation,
-    "white": chessBoard[0][4].spaceOccupation
+    "white": chessBoard[7][4].spaceOccupation,
+    "black": chessBoard[0][4].spaceOccupation
 }
 
 bodyElement.addEventListener('click', (event) => {
@@ -40,7 +40,7 @@ const tilePressed = async (tileCheck, event) => {
     } else {
         await movePiece(initialSelectedPiece, initialSelectedPieceLocation, event, chessBoard);
         reRenderChessboard(chessBoard);
-        kingInCheck(king, chessBoard);
+        kingInCheck(king, chessBoard); // TODO: Check and Checkmate
 
         initialSelectedPiece = null;
     }

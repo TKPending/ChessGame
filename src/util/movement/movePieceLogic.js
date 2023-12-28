@@ -92,6 +92,8 @@ export const captureTile = async (initialPiece, initialTile, destinationTile, sp
     } else {
         updateEnemyTile(destinationTile, initialPiece, chessBoard);
     }
+
+    initialPiece.generateLegalMoves(chessBoard);
 }
 
 // Get the initial piece location, tile from the chessboard

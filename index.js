@@ -9,6 +9,9 @@ initializeBoardWithPieces(chessBoard)
 
 renderChessboard(chessBoard);
 
+
+console.log(chessBoard);
+
 const bodyElement = document.getElementById('body');
 const chessBoardElement = document.querySelector('.chess-board');
 

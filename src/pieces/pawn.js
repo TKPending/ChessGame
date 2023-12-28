@@ -30,7 +30,7 @@ export class Pawn extends Piece {
     }
 
     // Beginning move
-    moveForwardTwice() {
+    moveForwardTwice(chessBoard) {
         const [row, col] = this._currentPosition;
         this._lastPosition = [row, col];
 
@@ -41,7 +41,13 @@ export class Pawn extends Piece {
             return null;
         }
 
-        return this.pieceBoundCheck(newRow, newCol);
+        if (!this.moveForwardLimit(row + 1 * this.direction, newCol, chessBoard)) {
+            return null;
+        }
+
+        const invalidCheck = this.moveForwardLimit(newRow, newCol, chessBoard);
+
+        return invalidCheck ? [newRow, newCol] : null;
     }
 
     // Check whether tile is friendly or enemy
@@ -82,7 +88,7 @@ export class Pawn extends Piece {
     generateLegalMoves(chessBoard) {
         const legalMoves = [
             this.moveForwardOnce(chessBoard),
-            this.moveForwardTwice(),
+            this.moveForwardTwice(chessBoard),
             this.captureRight(chessBoard),
             this.captureLeft(chessBoard),
         ];

@@ -1,5 +1,5 @@
 import { positionToIndex } from "../findLocation.js"
-import { captureTile } from "./teamCheck.js";
+import { captureTile } from "./movePieceLogic.js";
 
 const getRook = (castleMove) => {
     if (castleMove[1] > 4) {

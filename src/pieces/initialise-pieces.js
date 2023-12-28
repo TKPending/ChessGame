@@ -1,9 +1,9 @@
-import { Pawn } from "./pawn.js";
-import { Knight } from "./knight.js";
-import { King } from "./king.js";
-import { Queen } from "./queen.js";
-import { Bishop } from "./bishop.js";
-import { Rook } from "./rook.js"; 
+import { Pawn } from "./piece/pawn.js";
+import { Knight } from "./piece/knight.js";
+import { King } from "./piece/king.js";
+import { Queen } from "./piece/queen.js";
+import { Bishop } from "./piece/bishop.js";
+import { Rook } from "./piece/rook.js"; 
 
 const initialPositions = {
     "knights": {

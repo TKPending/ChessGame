@@ -1,3 +1,6 @@
+import { highlightTile } from "../util/clickedPiece.js";
+import { indexToLocation } from "../util/findLocation.js";
+
 export class Piece {
     constructor(name, team, startingPosition) {
         this.name = name;
@@ -133,6 +136,20 @@ export class Piece {
                 break;
             }
         }
+    }
+
+    // Legal Moves - Highlight Tiles
+    filterAndHighlightTiles(legalMoves, piece) {
+        const filteredMoves = legalMoves.filter(move => move != null);
+
+        piece.validFutureMoves = filteredMoves;
+
+        for (const move of filteredMoves) {
+            const chessAlgebraicMove = indexToLocation(move, piece.team);
+            highlightTile(chessAlgebraicMove);
+        }
+
+        return filteredMoves;
     }
 
     // Piece has been captured

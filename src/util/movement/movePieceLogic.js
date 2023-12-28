@@ -1,5 +1,5 @@
 import { findTileByPosition } from "../clickedPiece.js";
-import { indexToLocationPawn, positionToIndex, indexToTile } from "../findLocation.js";
+import { positionToIndex, indexToTile } from "../findLocation.js";
 import { legalMoveCheck } from "./validMovements.js";
 import { pawnConvert } from "../pawnSwitch.js";
 import { checkCastleMove } from "./castleMovement.js";
@@ -92,6 +92,8 @@ export const captureTile = async (initialPiece, initialTile, destinationTile, sp
     } else {
         updateEnemyTile(destinationTile, initialPiece, chessBoard);
     }
+
+    initialPiece.generateLegalMoves(chessBoard);
 }
 
 // Get the initial piece location, tile from the chessboard

@@ -1,8 +1,8 @@
 // king.js
-import { Piece } from "./pieces.js";
-import { highlightTile } from "../util/clickedPiece.js";
-import { indexToLocation } from "../util/findLocation.js";
-import { kingCastle } from "../util/castling.js";
+import { Piece } from "../pieces.js";
+import { highlightTile } from "../../util/clickedPiece.js";
+import { indexToLocation } from "../../util/findLocation.js";
+import { kingCastle } from "../../util/castling.js";
 
 export class King extends Piece {
     constructor(team, startingPosition) {
@@ -163,16 +163,7 @@ export class King extends Piece {
         ];
 
 
-        // Filter out null moves (moves outside the chessboard)
-        const filteredMoves = legalMoves.filter(move => move !== null);
-
-        // Highlight the valid moves on the UI
-        for (const move of filteredMoves) {
-            const chessMove = indexToLocation(move, this.team);
-            highlightTile(chessMove);
-        }
-
-        return filteredMoves;
+        return this.filterAndHighlightTiles(legalMoves, this);
     }
 
     renderPiece() {

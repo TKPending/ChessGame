@@ -1,7 +1,7 @@
-import { Knight } from '../pieces/knight.js';
-import { Queen } from '../pieces/queen.js';
-import { Bishop } from '../pieces/bishop.js';
-import { Rook } from '../pieces/rook.js';
+import { Knight } from '../pieces/piece/knight.js';
+import { Queen } from '../pieces/piece/queen.js';
+import { Bishop } from '../pieces/piece/bishop.js';
+import { Rook } from '../pieces/piece/rook.js';
 import { reRenderChessboard } from "../board/board.js";
 
 const endOfBoards = (team) => {

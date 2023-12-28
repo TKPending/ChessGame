@@ -1,6 +1,6 @@
-import { Piece } from "./pieces.js";
-import { highlightTile } from "../util/clickedPiece.js";
-import { indexToLocation } from "../util/findLocation.js";
+import { Piece } from "../pieces.js";
+import { highlightTile } from "../../util/clickedPiece.js";
+import { indexToLocation } from "../../util/findLocation.js";
 
 export class Bishop extends Piece {
     constructor(team, startingPosition) {
@@ -56,16 +56,10 @@ export class Bishop extends Piece {
         this.maxMove(legalMoves, 1, 1, chessBoard); // Diagonal Down-Right
         this.maxMove(legalMoves, 1, -1, chessBoard); // Diagonal Down-Left
     
-        const filteredMoves = legalMoves.filter(move => move !== null);
-    
-        // Highlight the valid moves on the UI
-        for (const move of filteredMoves) {
-            const chessMove = indexToLocation(move, this.team);
-            highlightTile(chessMove);
-        }
-    
-        return filteredMoves;
+        return this.filterAndHighlightTiles(legalMoves, this);
     }
+
+    
     
 
     renderPiece() {

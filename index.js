@@ -1,5 +1,6 @@
 import { createBoard, renderChessboard, reRenderChessboard } from "./src/board/board.js";
 import { initializeBoardWithPieces } from "./src/pieces/initialise-pieces.js";
+import { kingInCheck } from "./src/util/checkmate/kingInCheck.js";
 import { removeAllHighlightClasses, highlightTileOnly, pressedTile } from "./src/util/clickedPiece.js";
 import { movePiece, pieceOrTile, tileFullLocation } from "./src/util/movement/movePiece.js";
  
@@ -15,7 +16,12 @@ const chessBoardElement = document.querySelector('.chess-board');
 let initialSelectedPiece;
 let initialSelectedPieceLocation;
 
-// Remove all highlights when user clicks off board
+// Keep track of kings for check / checkmate
+const king = {
+    "white": chessBoard[7][4].spaceOccupation,
+    "black": chessBoard[0][4].spaceOccupation
+}
+
 bodyElement.addEventListener('click', (event) => {
     const isClickedOnChessboard = chessBoardElement.contains(event.target);
 
@@ -34,12 +40,12 @@ const tilePressed = async (tileCheck, event) => {
     } else {
         await movePiece(initialSelectedPiece, initialSelectedPieceLocation, event, chessBoard);
         reRenderChessboard(chessBoard);
+        kingInCheck(king, chessBoard); // TODO: Check and Checkmate
 
         initialSelectedPiece = null;
     }
 }
 
-// Logic for moving pieces - IN PROGRESS
 chessBoardElement.addEventListener('click', async (event) => {
     const tileCheck = pieceOrTile(event);
 

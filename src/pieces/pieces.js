@@ -142,8 +142,10 @@ export class Piece {
     filterAndHighlightTiles(legalMoves, piece) {
         const filteredMoves = legalMoves.filter(move => move != null);
 
+        piece.validFutureMoves = filteredMoves;
+
         for (const move of filteredMoves) {
-            const chessAlgebraicMove = indexToLocation(move, piece);
+            const chessAlgebraicMove = indexToLocation(move, piece.team);
             highlightTile(chessAlgebraicMove);
         }
 

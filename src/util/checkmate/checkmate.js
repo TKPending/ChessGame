@@ -36,9 +36,6 @@ const kingFutureMoves = (kingPiece, validEnemyMoves) => {
         }
     }
 
-    console.log(checkmateCount)
-    console.log(kingMoveCount)
-
     return checkmateCount >= kingMoveCount ? true : false;
 }
 

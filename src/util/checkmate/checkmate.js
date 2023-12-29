@@ -77,8 +77,6 @@ export const enemyThreats = (originalTeam, kingPiece, chessBoard) => {
         }
     }
 
-    console.log(validEnemyMoves)
-
     const inCheckCheck = kingInCheck(originalKing, validEnemyMoves);
 
     checkmate(originalKing, inCheckCheck, validEnemyMoves);

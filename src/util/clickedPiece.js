@@ -55,7 +55,7 @@ export const pressedTile = async (event, chessBoard) => {
         highlightTile(tilePosition);
         
         const pieceInClickedTile = clickedTile.spaceOccupation;
-        const generatedMoves = await pieceInClickedTile.generateLegalMoves(chessBoard); // TODO
+        const generatedMoves = await pieceInClickedTile.generateLegalMoves(chessBoard);
         pieceInClickedTile.highlightTiles()
         pieceInClickedTile.validFutureMoves = generatedMoves
 

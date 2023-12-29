@@ -17,8 +17,9 @@ export class Knight extends Piece {
         const newCol = col + 1 * this.direction;
 
         const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
+        const validTile = this.pieceBoundCheck(newRow, newCol);
 
-        return friendlyTile ? null : [newRow, newCol];
+        return !friendlyTile && validTile ? [newRow, newCol] : null;
     }
 
     // Up and Left
@@ -30,8 +31,9 @@ export class Knight extends Piece {
         const newCol = col - 1 * this.direction;
 
         const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
+        const validTile = this.pieceBoundCheck(newRow, newCol);
 
-        return friendlyTile ? null : [newRow, newCol];
+        return !friendlyTile && validTile ? [newRow, newCol] : null;
     }
 
     // Down and right
@@ -43,8 +45,9 @@ export class Knight extends Piece {
         const newCol = col + 1 * this.direction;
 
         const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
+        const validTile = this.pieceBoundCheck(newRow, newCol);
 
-        return friendlyTile ? null : [newRow, newCol];
+        return !friendlyTile && validTile ? [newRow, newCol] : null;
     }
 
     // Down and Left
@@ -56,8 +59,9 @@ export class Knight extends Piece {
         const newCol = col - 1 * this.direction;
 
         const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
+        const validTile = this.pieceBoundCheck(newRow, newCol);
 
-        return friendlyTile ? null : [newRow, newCol];
+        return !friendlyTile && validTile ? [newRow, newCol] : null;
     }
 
     // Right and Up
@@ -69,8 +73,9 @@ export class Knight extends Piece {
         const newCol = col + 2 * this.direction;
 
         const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
+        const validTile = this.pieceBoundCheck(newRow, newCol);
 
-        return friendlyTile ? null : [newRow, newCol];
+        return !friendlyTile && validTile ? [newRow, newCol] : null;
     }
 
     // Right and Down
@@ -82,8 +87,9 @@ export class Knight extends Piece {
         const newCol = col + 2 * this.direction;
 
         const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
+        const validTile = this.pieceBoundCheck(newRow, newCol);
 
-        return friendlyTile ? null : [newRow, newCol];
+        return !friendlyTile && validTile ? [newRow, newCol] : null;
     }
 
     // Left and Up
@@ -95,8 +101,9 @@ export class Knight extends Piece {
         const newCol = col - 2 * this.direction;
 
         const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
+        const validTile = this.pieceBoundCheck(newRow, newCol);
 
-        return friendlyTile ? null : [newRow, newCol];
+        return !friendlyTile && validTile ? [newRow, newCol] : null;
     }
 
     // Left and Down
@@ -108,8 +115,9 @@ export class Knight extends Piece {
         const newCol = col - 2 * this.direction;
 
         const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
+        const validTile = this.pieceBoundCheck(newRow, newCol);
 
-        return friendlyTile ? null : [newRow, newCol];
+        return !friendlyTile && validTile ? [newRow, newCol] : null;
     }
 
     // Generate all legal moves for the knight

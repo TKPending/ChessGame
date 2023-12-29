@@ -1,7 +1,5 @@
 // king.js
 import { Piece } from "../pieces.js";
-import { highlightTile } from "../../util/clickedPiece.js";
-import { indexToLocation } from "../../util/findLocation.js";
 import { kingCastle } from "../../util/castling.js";
 
 export class King extends Piece {

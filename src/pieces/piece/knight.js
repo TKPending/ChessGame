@@ -1,7 +1,5 @@
 // knight.js
 import { Piece } from "../pieces.js";
-import { highlightTile } from "../../util/clickedPiece.js";
-import { indexToLocation } from "../../util/findLocation.js";
 
 export class Knight extends Piece {
     constructor(team, startingPosition) {

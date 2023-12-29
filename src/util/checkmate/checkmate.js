@@ -14,7 +14,6 @@ const kingInCheck = (kingPiece, validEnemyMoves) => {
 
     for (const moves of validEnemyMoves) {
         if (moves[0] == kingPosition[0] && moves[1] == kingPosition[1]) {
-            console.log(`The ${kingPiece.pieceTeam} is in check`);
                     return true;
         }
     }
@@ -37,19 +36,20 @@ const kingFutureMoves = (kingPiece, validEnemyMoves) => {
         }
     }
 
-    if (checkmateCount == kingMoveCount) {
-        console.log(`The ${kingPiece.pieceTeam} king is in checkmate`);
-    }
+    console.log(checkmateCount)
+    console.log(kingMoveCount)
+
+    return checkmateCount >= kingMoveCount ? true : false;
 }
 
-const checkmate = (kingPiece, inCheckCheck, validEnemyMoves) => {
+const kingInCheckmate = (kingPiece, inCheckCheck, validEnemyMoves) => {
     if (inCheckCheck) {
-        kingFutureMoves(kingPiece, validEnemyMoves);
+        return kingFutureMoves(kingPiece, validEnemyMoves);
     }
 }
 
 // Original Team = The next players turn
-export const enemyThreats = (originalTeam, kingPiece, chessBoard) => {
+const enemyThreats = (originalTeam, kingPiece, chessBoard) => {
     let piecesFound = 0;
     const validEnemyMoves = [];
     const originalKing = kingPiece[originalTeam];
@@ -70,6 +70,23 @@ export const enemyThreats = (originalTeam, kingPiece, chessBoard) => {
     }
 
     const inCheckCheck = kingInCheck(originalKing, validEnemyMoves);
+    const checkmateCheck = kingInCheckmate(originalKing, inCheckCheck, validEnemyMoves);
 
-    checkmate(originalKing, inCheckCheck, validEnemyMoves);
+    return {
+        "check": inCheckCheck || null,
+        "checkmate": checkmateCheck || null
+    }
+}
+
+export const checkmate = (originalTeam, kingPiece, chessBoard) => {
+    const checkmateStatus = enemyThreats(originalTeam, kingPiece, chessBoard);
+    const originalKing = kingPiece[originalTeam];
+
+    console.log(checkmateStatus)
+
+    if (checkmateStatus["check"] && checkmateStatus["checkmate"]) {
+        console.log(`The ${originalKing.pieceTeam} king is in CHECKMATE`);
+    } else if (checkmateStatus["check"]) {
+        console.log(`The ${originalKing.pieceTeam} king is in CHECK`);
+    }
 }

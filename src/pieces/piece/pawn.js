@@ -85,6 +85,14 @@ export class Pawn extends Piece {
         return canCapture ? [newRow, newCol] : null;
     }
 
+    highlightTiles() {
+        // Highlight the valid moves on the UI
+        for (const move of this.validMoves) {
+            const chessMove = indexToLocationPawn(move, this.team);
+            highlightTile(chessMove);
+        }
+    }
+
     generateLegalMoves(chessBoard) {
         const legalMoves = [
             this.moveForwardOnce(chessBoard),
@@ -97,12 +105,6 @@ export class Pawn extends Piece {
         const filteredMoves = legalMoves.filter(move => move !== null);
 
         this.validFutureMoves = filteredMoves;
-
-        // Highlight the valid moves on the UI
-        for (const move of filteredMoves) {
-            const chessMove = indexToLocationPawn(move, this.team);
-            highlightTile(chessMove);
-        }
 
         return filteredMoves;
     }

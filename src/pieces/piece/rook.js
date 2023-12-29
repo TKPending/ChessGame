@@ -43,7 +43,7 @@ export class Rook extends Piece {
         this.maxMove(legalMoves, 0, 1, chessBoard); // Right
         this.maxMove(legalMoves, 0, -1, chessBoard); // Left
 
-        return this.filterAndHighlightTiles(legalMoves, this);
+        return this.filterTiles(legalMoves, this);
     }
 
     renderPiece() {

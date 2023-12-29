@@ -101,7 +101,7 @@ export class Piece {
 
     // Edge Detection - Board check
     isInBounds(row, col) {
-        return row >= 0 && row < 8 && col >= 0 && col < 8;
+        return row >= 0 && row <= 7 && col >= 0 && col <= 7;
     }
 
     // Prevent jumping over pieces - Friendly or Enemy
@@ -138,16 +138,19 @@ export class Piece {
         }
     }
 
+    // Highlight Tiles
+    highlightTiles() {
+        for (const move of this.validMoves) {
+            const chessAlgebraicMove = indexToLocation(move, this.team);
+            highlightTile(chessAlgebraicMove);
+        }
+    }
+
     // Legal Moves - Highlight Tiles
-    filterAndHighlightTiles(legalMoves, piece) {
+    filterTiles(legalMoves, piece) {
         const filteredMoves = legalMoves.filter(move => move != null);
 
         piece.validFutureMoves = filteredMoves;
-
-        for (const move of filteredMoves) {
-            const chessAlgebraicMove = indexToLocation(move, piece.team);
-            highlightTile(chessAlgebraicMove);
-        }
 
         return filteredMoves;
     }

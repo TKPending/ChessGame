@@ -37,8 +37,10 @@ export class King extends Piece {
         const newCol = col;
 
         const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
+        const validTile = this.pieceBoundCheck(newRow, newCol);
+        console.log(`Move Up: ${newRow},${newCol} is ${validTile}`);
 
-        return friendlyTile ? null : [newRow, newCol];
+        return !friendlyTile && validTile ? [newRow, newCol] : null;
     }
 
     moveDown(chessBoard) {
@@ -49,8 +51,9 @@ export class King extends Piece {
         const newCol = col;
 
         const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
+        const validTile = this.pieceBoundCheck(newRow, newCol);
 
-        return friendlyTile ? null : [newRow, newCol];
+        return !friendlyTile && validTile ? [newRow, newCol] : null;
     }
 
     moveRight(chessBoard) {
@@ -61,8 +64,9 @@ export class King extends Piece {
         const newCol = col + 1 * this.direction;
 
         const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
+        const validTile = this.pieceBoundCheck(newRow, newCol);
 
-        return friendlyTile ? null : [newRow, newCol];
+        return !friendlyTile && validTile ? [newRow, newCol] : null;
     }
 
     moveLeft(chessBoard) {
@@ -73,8 +77,9 @@ export class King extends Piece {
         const newCol = col - 1 * this.direction;
 
         const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
+        const validTile = this.pieceBoundCheck(newRow, newCol);
 
-        return friendlyTile ? null : [newRow, newCol];
+        return !friendlyTile && validTile ? [newRow, newCol] : null;
     }
 
     // Diagonal Moves
@@ -86,8 +91,9 @@ export class King extends Piece {
         const newCol = col + 1 * this.direction;
 
         const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
+        const validTile = this.pieceBoundCheck(newRow, newCol);
 
-        return friendlyTile ? null : [newRow, newCol];
+        return !friendlyTile && validTile ? [newRow, newCol] : null;
     }
 
     moveUpLeft(chessBoard) {
@@ -98,8 +104,9 @@ export class King extends Piece {
         const newCol = col - 1 * this.direction;
 
         const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
+        const validTile = this.pieceBoundCheck(newRow, newCol);
 
-        return friendlyTile ? null : [newRow, newCol];
+        return !friendlyTile && validTile ? [newRow, newCol] : null;
     }
 
     moveDownRight(chessBoard) {
@@ -110,8 +117,9 @@ export class King extends Piece {
         const newCol = col + 1 * this.direction;
 
         const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
+        const validTile = this.pieceBoundCheck(newRow, newCol);
 
-        return friendlyTile ? null : [newRow, newCol];
+        return !friendlyTile && validTile ? [newRow, newCol] : null;
     }
 
     moveDownLeft(chessBoard) {
@@ -122,8 +130,9 @@ export class King extends Piece {
         const newCol = col - 1 * this.direction;
 
         const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
+        const validTile = this.pieceBoundCheck(newRow, newCol);
 
-        return friendlyTile ? null : [newRow, newCol];
+        return !friendlyTile && validTile ? [newRow, newCol] : null;
     }
 
     // Castling
@@ -162,8 +171,7 @@ export class King extends Piece {
             this.castlingLeft(chessBoard)
         ];
 
-
-        return this.filterAndHighlightTiles(legalMoves, this);
+        return this.filterTiles(legalMoves, this);
     }
 
     renderPiece() {

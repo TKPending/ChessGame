@@ -101,7 +101,7 @@ export class Piece {
 
     // Edge Detection - Board check
     isInBounds(row, col) {
-        return row >= 0 && row < 8 && col >= 0 && col < 8;
+        return row >= 0 && row <= 7 && col >= 0 && col <= 7;
     }
 
     // Prevent jumping over pieces - Friendly or Enemy

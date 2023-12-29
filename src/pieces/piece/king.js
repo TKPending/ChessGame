@@ -162,7 +162,6 @@ export class King extends Piece {
             this.castlingLeft(chessBoard)
         ];
 
-
         return this.filterTiles(legalMoves, this);
     }
 

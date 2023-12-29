@@ -26,19 +26,6 @@ export const pieceOrTile = (selectedTile) => {
     return tile ? true : false;
 }
 
-const checkLocations = (selectedDestination, validMoves) => {
-    for (const validLocation of validMoves) {
-        const [validRow, validColumn] = validLocation;
-        const [selectedRow, selectedColumn] = selectedDestination;
-
-        if (selectedRow === validRow && selectedColumn === validColumn) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
 // ERROR: Can't read property of null;
 const pressedSameTile = (destinationTile, initialPiece) => {
     return destinationTile.getCurrentPosition == initialPiece.getCurrentPosition ? true : false;

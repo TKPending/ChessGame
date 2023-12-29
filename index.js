@@ -1,8 +1,8 @@
 import { createBoard, renderChessboard, reRenderChessboard } from "./src/board/board.js";
 import { initializeBoardWithPieces } from "./src/pieces/initialise-pieces.js";
-import { kingInCheck } from "./src/util/checkmate/kingInCheck.js";
 import { removeAllHighlightClasses, highlightTileOnly, pressedTile } from "./src/util/clickedPiece.js";
 import { movePiece, pieceOrTile, tileFullLocation } from "./src/util/movement/movePiece.js";
+import { enemyThreats } from "./src/util/checkmate/checkmate.js";
  
 const chessBoard = createBoard();
 
@@ -17,7 +17,7 @@ let initialSelectedPiece;
 let initialSelectedPieceLocation;
 
 // Keep track of kings for check / checkmate
-const king = {
+const KINGS = {
     "white": chessBoard[7][4].spaceOccupation,
     "black": chessBoard[0][4].spaceOccupation
 }
@@ -37,10 +37,11 @@ const tilePressed = async (tileCheck, event) => {
     } else if (!tileCheck && !initialSelectedPiece) {
         initialSelectedPieceLocation = tileFullLocation(event);
         initialSelectedPiece = await pressedTile(event, chessBoard);
+
+        // enemyThreats(initialSelectedPiece.pieceTeam, KINGS, chessBoard);
     } else {
         await movePiece(initialSelectedPiece, initialSelectedPieceLocation, event, chessBoard);
         reRenderChessboard(chessBoard);
-        kingInCheck(king, chessBoard); // TODO: Check and Checkmate
 
         initialSelectedPiece = null;
     }

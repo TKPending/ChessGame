@@ -138,16 +138,19 @@ export class Piece {
         }
     }
 
+    // Highlight Tiles
+    highlightTiles() {
+        for (const move of this.validMoves) {
+            const chessAlgebraicMove = indexToLocation(move, this.team);
+            highlightTile(chessAlgebraicMove);
+        }
+    }
+
     // Legal Moves - Highlight Tiles
-    filterAndHighlightTiles(legalMoves, piece) {
+    filterTiles(legalMoves, piece) {
         const filteredMoves = legalMoves.filter(move => move != null);
 
         piece.validFutureMoves = filteredMoves;
-
-        for (const move of filteredMoves) {
-            const chessAlgebraicMove = indexToLocation(move, piece.team);
-            highlightTile(chessAlgebraicMove);
-        }
 
         return filteredMoves;
     }

@@ -125,7 +125,7 @@ export class Knight extends Piece {
             this.jumpLeftDown(chessBoard),
         ];
 
-        return this.filterAndHighlightTiles(legalMoves, this);
+        return this.filterTiles(legalMoves, this);
     }
 
     renderPiece() {

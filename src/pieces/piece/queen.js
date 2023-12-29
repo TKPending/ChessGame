@@ -105,7 +105,7 @@ export class Queen extends Piece {
         this.maxMove(legalMoves, 1, 1, chessBoard); // Diagonal Down-Right
         this.maxMove(legalMoves, 1, -1, chessBoard); // Diagonal Down-Left
 
-        return this.filterAndHighlightTiles(legalMoves, this);
+        return this.filterTiles(legalMoves, this);
     }
 
     renderPiece() {

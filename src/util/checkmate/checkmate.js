@@ -1,49 +1,47 @@
-export const addEnemyMoves = (enemyPiece, currentTeam, enemyMoves) => {
-    if (currentTeam !== enemyPiece.pieceTeamm) {
-        for (const moves of enemyPiece.getValidMoves) {
-            enemyMoves.push(moves);
-        }
-    }
+const MAXPIECES = 16;
+const BOARDMAX = 8;
+
+const enemyOrFriendly = (piece, originalTeam) => {
+    return piece.pieceTeam != originalTeam ? piece : null;
 }
 
-// TODO: Could look to change MAXTEAMPIECES based on live changes
-export const enemyPotentialMoves = (currentTeam, chessBoard) => {
-    const MAXTEAMPIECES = 16;
-    let piecesFound = 0;
-    
-    const enemyMoves = [];
+const pieceOrTile = (chessBoardTile) => {
+    return chessBoardTile.spaceOccupation;
+}
 
-    for (let row = 0; row < 8; row++) {
-        if (piecesFound > MAXTEAMPIECES) {
-            break;
-        }
+const generateEnemyValidMoves = (enemyPiece, chessBoard) => {
+    return enemyPiece.generateLegalMoves(chessBoard);
+}
 
-        for (let col = 0; col < 8; col++) {
-            const enemyPiece = chessBoard[row][col].spaceOccupation;
-
-            if (enemyPiece) {
-                piecesFound++;
-                addEnemyMoves(enemyPiece, currentTeam, enemyMoves);
+const kingInCheck = (kingPiece, validEnemyMoves) => {
+    for (const eachPiece of validEnemyMoves) {
+        if (eachPiece.length !== 0) {
+            for (const moves of eachPiece) {
+                
             }
         }
     }
-
-    return enemyMoves;
 }
 
-export const getKingLocation = (kingPieces) => {
-    return {
-        "black": kingPieces["black"].getCurrentPosition,
-        "white": kingPieces["white"].getCurrentPosition
-    }
-}
+// Original Team = The next players turn
+export const enemyThreats = (originalTeam, kingPiece, chessBoard) => {
+    let piecesFound = 0;
+    const validEnemyMoves = [];
 
-export const inCheck = (kingLocation, enemyMoves) => {
-    for (const attackingMoves of enemyMoves) {
-        if (kingLocation[0] == attackingMoves[0] && kingLocation[1] == attackingMoves[1]) {
-            return true;  // In check
+    for (let row = 0; row < BOARDMAX && piecesFound < MAXPIECES; row++) {
+        for (let col = 0; col < BOARDMAX; col++) {
+            const piece = pieceOrTile(chessBoard[row][col]);
+
+            if (piece) {
+                const enemyPiece = enemyOrFriendly(piece, originalTeam);
+
+                if (enemyPiece) {
+                    piecesFound++;
+                    validEnemyMoves.push(generateEnemyValidMoves(enemyPiece, chessBoard));
+
+                    kingInCheck(kingPiece[originalTeam], validEnemyMoves);
+                }
+            }
         }
     }
-
-    return false;  // Not in check
 }

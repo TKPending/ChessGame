@@ -163,7 +163,7 @@ export class King extends Piece {
         ];
 
 
-        return this.filterAndHighlightTiles(legalMoves, this);
+        return this.filterTiles(legalMoves, this);
     }
 
     renderPiece() {

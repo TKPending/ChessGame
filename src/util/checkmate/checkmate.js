@@ -12,14 +12,10 @@ const pieceOrTile = (chessBoardTile) => {
 const kingInCheck = (kingPiece, validEnemyMoves) => {
     const kingPosition = kingPiece.getCurrentPosition;
 
-    for (const eachPiece of validEnemyMoves) {
-        if (eachPiece.length !== 0) {
-            for (const moves of eachPiece) {
-                if (moves[0] == kingPosition[0] && moves[1] == kingPosition[1]) {
-                    console.log(`The ${kingPiece.pieceTeam} is in check`);
+    for (const moves of validEnemyMoves) {
+        if (moves[0] == kingPosition[0] && moves[1] == kingPosition[1]) {
+            console.log(`The ${kingPiece.pieceTeam} is in check`);
                     return true;
-                }
-            }
         }
     }
 
@@ -34,13 +30,9 @@ const kingFutureMoves = (kingPiece, validEnemyMoves) => {
     // Kings Moves
     for (const kingMoves of kingPotentialMoves) {
         // Enemy Moves
-        for (const eachPiece of validEnemyMoves) {
-            if (eachPiece.length !== 0) {
-                for (const moves of eachPiece) {
-                    if (moves[0] == kingMoves[0] && moves[1] == kingMoves[1]) {
-                        checkmateCount++;
-                    }
-                }
+        for (const enemyMoves of validEnemyMoves) {
+            if (enemyMoves[0] == kingMoves[0] && enemyMoves[1] == kingMoves[1]) {
+                checkmateCount++;
             }
         }
     }

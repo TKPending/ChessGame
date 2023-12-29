@@ -38,7 +38,6 @@ export class King extends Piece {
 
         const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
         const validTile = this.pieceBoundCheck(newRow, newCol);
-        console.log(`Move Up: ${newRow},${newCol} is ${validTile}`);
 
         return !friendlyTile && validTile ? [newRow, newCol] : null;
     }

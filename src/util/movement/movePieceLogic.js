@@ -110,7 +110,7 @@ export const checkTile = async (initialSelectedPieceLocation, initialPiece, dest
 
 
     if (friendlyFireCheck != FRIENDLY && legalMove) {
-        if (initialPiece.getPieceName == "King") {
+        if (initialPiece.getPieceName == "King" && !initialPiece.hasMoved) {
             checkCastleMove(initialPiece, destinationTilePiece, chessBoard);
         }
         captureTile(initialPiece, initialTile, destinationTilePiece, friendlyFireCheck, chessBoard);

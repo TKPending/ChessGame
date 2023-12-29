@@ -1,7 +1,5 @@
 // king.js
 import { Piece } from "../pieces.js";
-import { highlightTile } from "../../util/clickedPiece.js";
-import { indexToLocation } from "../../util/findLocation.js";
 import { kingCastle } from "../../util/castling.js";
 
 export class King extends Piece {
@@ -38,7 +36,6 @@ export class King extends Piece {
 
         const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
         const validTile = this.pieceBoundCheck(newRow, newCol);
-        console.log(`Move Up: ${newRow},${newCol} is ${validTile}`);
 
         return !friendlyTile && validTile ? [newRow, newCol] : null;
     }

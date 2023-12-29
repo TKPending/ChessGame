@@ -1,6 +1,4 @@
 import { Piece } from "../pieces.js";
-import { highlightTile } from "../../util/clickedPiece.js";
-import { indexToLocation } from "../../util/findLocation.js";
 
 export class Bishop extends Piece {
     constructor(team, startingPosition) {

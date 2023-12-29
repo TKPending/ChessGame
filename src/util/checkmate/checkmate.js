@@ -12,14 +12,9 @@ const pieceOrTile = (chessBoardTile) => {
 const kingInCheck = (kingPiece, validEnemyMoves) => {
     const kingPosition = kingPiece.getCurrentPosition;
 
-    for (const eachPiece of validEnemyMoves) {
-        if (eachPiece.length !== 0) {
-            for (const moves of eachPiece) {
-                if (moves[0] == kingPosition[0] && moves[1] == kingPosition[1]) {
-                    console.log(`The ${kingPiece.pieceTeam} is in check`);
+    for (const moves of validEnemyMoves) {
+        if (moves[0] == kingPosition[0] && moves[1] == kingPosition[1]) {
                     return true;
-                }
-            }
         }
     }
 
@@ -34,30 +29,24 @@ const kingFutureMoves = (kingPiece, validEnemyMoves) => {
     // Kings Moves
     for (const kingMoves of kingPotentialMoves) {
         // Enemy Moves
-        for (const eachPiece of validEnemyMoves) {
-            if (eachPiece.length !== 0) {
-                for (const moves of eachPiece) {
-                    if (moves[0] == kingMoves[0] && moves[1] == kingMoves[1]) {
-                        checkmateCount++;
-                    }
-                }
+        for (const enemyMoves of validEnemyMoves) {
+            if (enemyMoves[0] == kingMoves[0] && enemyMoves[1] == kingMoves[1]) {
+                checkmateCount++;
             }
         }
     }
 
-    if (checkmateCount == kingMoveCount) {
-        console.log(`The ${kingPiece.pieceTeam} king is in checkmate`);
-    }
+    return checkmateCount >= kingMoveCount ? true : false;
 }
 
-const checkmate = (kingPiece, inCheckCheck, validEnemyMoves) => {
+const kingInCheckmate = (kingPiece, inCheckCheck, validEnemyMoves) => {
     if (inCheckCheck) {
-        kingFutureMoves(kingPiece, validEnemyMoves);
+        return kingFutureMoves(kingPiece, validEnemyMoves);
     }
 }
 
 // Original Team = The next players turn
-export const enemyThreats = (originalTeam, kingPiece, chessBoard) => {
+const enemyThreats = (originalTeam, kingPiece, chessBoard) => {
     let piecesFound = 0;
     const validEnemyMoves = [];
     const originalKing = kingPiece[originalTeam];
@@ -78,6 +67,23 @@ export const enemyThreats = (originalTeam, kingPiece, chessBoard) => {
     }
 
     const inCheckCheck = kingInCheck(originalKing, validEnemyMoves);
+    const checkmateCheck = kingInCheckmate(originalKing, inCheckCheck, validEnemyMoves);
 
-    checkmate(originalKing, inCheckCheck, validEnemyMoves);
+    return {
+        "check": inCheckCheck || null,
+        "checkmate": checkmateCheck || null
+    }
+}
+
+export const checkmate = (originalTeam, kingPiece, chessBoard) => {
+    const checkmateStatus = enemyThreats(originalTeam, kingPiece, chessBoard);
+    const originalKing = kingPiece[originalTeam];
+
+    console.log(checkmateStatus)
+
+    if (checkmateStatus["check"] && checkmateStatus["checkmate"]) {
+        console.log(`The ${originalKing.pieceTeam} king is in CHECKMATE`);
+    } else if (checkmateStatus["check"]) {
+        console.log(`The ${originalKing.pieceTeam} king is in CHECK`);
+    }
 }

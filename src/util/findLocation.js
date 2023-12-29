@@ -15,10 +15,6 @@ export const indexToLocationPawn = (index, team) => {
     return team.toLowerCase() === 'white' ? file + (9 - rank) : file + rank;
 };
 
-export const highlightTileLocations = (index, team) => {
-    
-}
-
 // Position to index
 export const positionToIndex = (position) => {
     const file = position.charAt(0).toLowerCase(); 

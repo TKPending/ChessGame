@@ -2,6 +2,8 @@ import { createBoard, renderChessboard, reRenderChessboard } from "./src/board/b
 import { initializeBoardWithPieces } from "./src/pieces/initialise-pieces.js";
 import { removeAllHighlightClasses, highlightTileOnly, pressedTile } from "./src/util/clickedPiece.js";
 import { movePiece, pieceOrTile, tileFullLocation } from "./src/util/movement/movePiece.js";
+import { PLAYERGAME, WHITEPLAYER, BLACKPLAYER } from "./player.js";
+import { clickedEnemyPiece} from "./src/util/management/gameManagement.js";
 import { checkmate } from "./src/util/checkmate/checkmate.js";
  
 const chessBoard = createBoard();
@@ -38,10 +40,12 @@ const tilePressed = async (tileCheck, event) => {
         initialSelectedPieceLocation = tileFullLocation(event);
         initialSelectedPiece = await pressedTile(event, chessBoard);
 
-        checkmate(initialSelectedPiece.pieceTeam, KINGS, chessBoard);
+        clickedEnemyPiece(initialSelectedPiece, event)
     } else {
         await movePiece(initialSelectedPiece, initialSelectedPieceLocation, event, chessBoard);
         reRenderChessboard(chessBoard);
+
+        checkmate(PLAYERGAME.currentTurn, KINGS, chessBoard);
 
         initialSelectedPiece = null;
     }

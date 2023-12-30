@@ -3,6 +3,8 @@ import { Queen } from '../pieces/piece/queen.js';
 import { Bishop } from '../pieces/piece/bishop.js';
 import { Rook } from '../pieces/piece/rook.js';
 import { reRenderChessboard } from "../board/board.js";
+import { pawnPromotionsTracker } from './management/gameManagement.js';
+import { PLAYERGAME } from '../../player.js';
 
 const endOfBoards = (team) => {
     return team == "white" ? 0 : 7;
@@ -19,6 +21,10 @@ const transferPieceInformation = (oldPiece, newPiece) => {
 }
 
 const generateNewPiece = (newPieceName, oldPiece, pawnLocationIndex) => {
+
+    console.log(`Piece Name: ${newPieceName}`)
+    console.log(`Pawn Location: ${pawnLocationIndex}`)
+
     switch (newPieceName) {
         case "Rook":
             return new Rook(oldPiece.pieceTeam, pawnLocationIndex);
@@ -55,6 +61,7 @@ const changePawn = (pawnLocationIndex, pawnPiece, newPieceName, chessBoard) => {
     updateTile(newPieceName, pawnPiece, pawnLocationIndex, tileLocation);
     reRenderChessboard(chessBoard);
     hidePromotionOptions();
+    PLAYERGAME.promotions.push(pawnPromotionsTracker(pawnLocationIndex, newPieceName));
 }
 
 const renderPieceOptions = (teamColour, currentPawnLocation, pawnPiece, chessBoard) => {

@@ -3,6 +3,8 @@ import { positionToIndex, indexToTile } from "../findLocation.js";
 import { legalMoveCheck } from "./validMovements.js";
 import { pawnConvert } from "../pawnSwitch.js";
 import { checkCastleMove } from "./castleMovement.js";
+import { PLAYERGAME, WHITEPLAYER, BLACKPLAYER } from "../../../player.js";
+import { currentTurn, updateGameMoves } from "../management/gameManagement.js";
 
 const FRIENDLY = 1;
 const ENEMY = 2;
@@ -113,11 +115,17 @@ export const checkTile = async (initialSelectedPieceLocation, initialPiece, dest
         if (initialPiece.getPieceName == "King" && !initialPiece.hasMoved) {
             checkCastleMove(initialPiece, destinationTilePiece, chessBoard);
         }
+
         captureTile(initialPiece, initialTile, destinationTilePiece, friendlyFireCheck, chessBoard);
         
         if (initialPiece.getPieceName == "Pawn") {
             pawnConvert(initialPiece, chessBoard);
         }
+
+        updateGameMoves(destinationTilePiece);
+
+        currentTurn();
+
         return;
     } else if (!legalMove) {
         console.log("Illegal Move");

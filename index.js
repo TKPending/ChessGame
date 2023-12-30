@@ -38,7 +38,7 @@ const tilePressed = async (tileCheck, event) => {
         initialSelectedPieceLocation = tileFullLocation(event);
         initialSelectedPiece = await pressedTile(event, chessBoard);
 
-        checkmate(initialSelectedPiece.pieceTeam, KINGS, chessBoard);
+        // checkmate(initialSelectedPiece.pieceTeam, KINGS, chessBoard);
     } else {
         await movePiece(initialSelectedPiece, initialSelectedPieceLocation, event, chessBoard);
         reRenderChessboard(chessBoard);

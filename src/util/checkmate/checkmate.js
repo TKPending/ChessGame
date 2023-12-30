@@ -1,11 +1,11 @@
-const MAXPIECES = 16;
-const BOARDMAX = 8;
+export const MAXPIECES = 16;
+export const BOARDMAX = 8;
 
-const enemyOrFriendly = (piece, originalTeam) => {
+export const enemyOrFriendly = (piece, originalTeam) => {
     return piece.pieceTeam != originalTeam ? piece : undefined;
 }
 
-const pieceOrTile = (chessBoardTile) => {
+export const pieceOrTile = (chessBoardTile) => {
     return chessBoardTile.spaceOccupation;
 }
 
@@ -14,7 +14,7 @@ const kingInCheck = (kingPiece, validEnemyMoves) => {
 
     for (const moves of validEnemyMoves) {
         if (moves[0] == kingPosition[0] && moves[1] == kingPosition[1]) {
-                    return true;
+                return true;
         }
     }
 
@@ -36,12 +36,17 @@ const kingFutureMoves = (kingPiece, validEnemyMoves) => {
         }
     }
 
+    // TODO Remove Duplicates
     return checkmateCount >= kingMoveCount ? true : false;
 }
 
-const kingInCheckmate = (kingPiece, inCheckCheck, validEnemyMoves) => {
+const kingInCheckmate = (kingPiece, inCheckCheck, validEnemyMoves, originalTeam, chessBoard) => {
     if (inCheckCheck) {
-        return kingFutureMoves(kingPiece, validEnemyMoves);
+        // const moveIntoCheck = checkTestRun(kingPiece, originalTeam, kingPiece.getValidMoves, chessBoard);
+        kingPiece.simulateFutureMoves(chessBoard);
+        const checkmateMoves = kingFutureMoves(kingPiece, validEnemyMoves);
+
+        return checkmateMoves ? true : false;
     }
 }
 
@@ -56,7 +61,7 @@ const enemyThreats = (originalTeam, kingPiece, chessBoard) => {
             const piece = pieceOrTile(chessBoard[row][col]);
 
             if (piece) {
-                const enemyPiece = enemyOrFriendly(piece, originalTeam);
+                const enemyPiece = enemyOrFriendly(piece, originalKing);
 
                 if (enemyPiece) {
                     piecesFound++;
@@ -66,8 +71,10 @@ const enemyThreats = (originalTeam, kingPiece, chessBoard) => {
         }
     }
 
+    originalKing.generateLegalMoves(chessBoard);
+
     const inCheckCheck = kingInCheck(originalKing, validEnemyMoves);
-    const checkmateCheck = kingInCheckmate(originalKing, inCheckCheck, validEnemyMoves);
+    const checkmateCheck = kingInCheckmate(originalKing, inCheckCheck, validEnemyMoves, originalTeam, chessBoard);
 
     return {
         "check": inCheckCheck || null,

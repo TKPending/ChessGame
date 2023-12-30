@@ -1,6 +1,7 @@
 // king.js
 import { Piece } from "../pieces.js";
 import { kingCastle } from "../../util/castling.js";
+import { checkTestRun } from "../../util/checkmate/movingIntoCheck.js";
 
 export class King extends Piece {
     constructor(team, startingPosition) {
@@ -8,7 +9,12 @@ export class King extends Piece {
         this._inCheck = false;
         this._castleRightPos = null;
         this._castleLeftPos = null;
+        this._inCheckmate = null;
     }  
+
+    get checkmate() {
+        return this._inCheckmate;
+    }
 
     get rightCastle() {
         return this._castleRightPos;
@@ -24,6 +30,10 @@ export class King extends Piece {
     
     set leftCastle(newPos) {
         this._castleLeftPos = newPos;
+    }
+
+    set kingInCheckmate(check) {F
+        this._inCheckmate = check;
     }
     
     // Standard Moves

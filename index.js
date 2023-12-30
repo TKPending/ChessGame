@@ -2,6 +2,7 @@ import { createBoard, renderChessboard, reRenderChessboard } from "./src/board/b
 import { initializeBoardWithPieces } from "./src/pieces/initialise-pieces.js";
 import { removeAllHighlightClasses, highlightTileOnly, pressedTile } from "./src/util/clickedPiece.js";
 import { movePiece, pieceOrTile, tileFullLocation } from "./src/util/movement/movePiece.js";
+import { PLAYERGAME, WHITEPLAYER, BLACKPLAYER } from "./player.js";
 import { checkmate } from "./src/util/checkmate/checkmate.js";
  
 const chessBoard = createBoard();
@@ -35,13 +36,15 @@ const tilePressed = async (tileCheck, event) => {
     if (tileCheck && !initialSelectedPiece) {
         highlightTileOnly(event, chessBoard);
     } else if (!tileCheck && !initialSelectedPiece) {
+        const playerTurn = PLAYERGAME.currentTurn;
+
         initialSelectedPieceLocation = tileFullLocation(event);
         initialSelectedPiece = await pressedTile(event, chessBoard);
-
-        checkmate(initialSelectedPiece.pieceTeam, KINGS, chessBoard);
     } else {
         await movePiece(initialSelectedPiece, initialSelectedPieceLocation, event, chessBoard);
         reRenderChessboard(chessBoard);
+
+        // checkmate(initialSelectedPiece.pieceTeam, KINGS, chessBoard);
 
         initialSelectedPiece = null;
     }

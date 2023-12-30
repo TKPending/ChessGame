@@ -1,3 +1,5 @@
+import { PLAYERGAME } from "../../player.js";
+
 // Function to find a tile by its position on the chessboard
 export function findTileByPosition(chessBoard, position) {
     for (const row of chessBoard) {
@@ -36,11 +38,12 @@ export const removeAllHighlightClasses = (chessBoard) => {
         row.forEach(tile => {
             const tileElement = document.getElementById(tile.position);
             if (tileElement) {
-                tileElement.classList.remove('highlighted');
+                tileElement.classList.remove('highlighted', 'highlighted-red');
             }
         });
     });
 };
+
 
 // Return piece or tile
 export const pressedTile = async (event, chessBoard) => {
@@ -52,15 +55,20 @@ export const pressedTile = async (event, chessBoard) => {
 
     // Check if the tile exists and has a piece
     if (clickedTile && clickedTile.spaceOccupation) {
-        highlightTile(tilePosition);
-        
         const pieceInClickedTile = clickedTile.spaceOccupation;
-        const generatedMoves = await pieceInClickedTile.generateLegalMoves(chessBoard);
-        // TODO - Create something here which will highlight illegal moves
-        pieceInClickedTile.highlightTiles()
-        pieceInClickedTile.validFutureMoves = generatedMoves
+        const playerTurn = PLAYERGAME.currentTurn;
 
-        return clickedTile.spaceOccupation;
+        if (pieceInClickedTile.pieceTeam == playerTurn) {
+            highlightTile(tilePosition);
+            const generatedMoves = await pieceInClickedTile.generateLegalMoves(chessBoard);
+            // TODO - Create something here which will highlight illegal moves
+            pieceInClickedTile.highlightTiles()
+            pieceInClickedTile.validFutureMoves = generatedMoves
+
+            return clickedTile.spaceOccupation;
+        } else {
+            highlightTileOnly(event, chessBoard);
+        }
     } else {
         highlightTile(tilePosition); 
         
@@ -71,6 +79,25 @@ export const pressedTile = async (event, chessBoard) => {
 export const highlightTileOnly = (event, chessBoard) => {
     removeAllHighlightClasses(chessBoard);
 
-    const selectedTile = pressedElement(event.target);
-    highlightTile(selectedTile);
-}
+    const clickedElement = event.target;
+    const tilePosition = pressedElement(clickedElement);
+    const clickedTile = findTileByPosition(chessBoard, pressedElement(event.target));
+
+    if (clickedTile && clickedTile.spaceOccupation) {
+        const pieceInClickedTile = clickedTile.spaceOccupation;
+        const playerTurn = PLAYERGAME.currentTurn;
+
+        if (pieceInClickedTile.pieceTeam !== playerTurn) {
+            const tileElement = document.getElementById(tilePosition);
+            if (tileElement) {
+                tileElement.classList.add('highlighted-red');
+            }
+        } else {
+            // If the tile has the player's piece, change the color to green
+            highlightTile(tilePosition);
+        }
+    } else {
+        highlightTile(clickedTile.position);
+    }
+};
+

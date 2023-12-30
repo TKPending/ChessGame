@@ -56,6 +56,7 @@ export const pressedTile = async (event, chessBoard) => {
         
         const pieceInClickedTile = clickedTile.spaceOccupation;
         const generatedMoves = await pieceInClickedTile.generateLegalMoves(chessBoard);
+        // TODO - Create something here which will highlight illegal moves
         pieceInClickedTile.highlightTiles()
         pieceInClickedTile.validFutureMoves = generatedMoves
 

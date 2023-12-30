@@ -1,5 +1,5 @@
 // Player Score
-const PLAYERS = {
+export const PLAYERS = {
     "white": {
         "piecesCaptured": [],
         "inCheck": false,

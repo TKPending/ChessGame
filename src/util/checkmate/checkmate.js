@@ -1,4 +1,6 @@
 import { allEnemyMoves } from "./movingIntoCheck.js";
+import { PLAYERGAME, WHITEPLAYER, BLACKPLAYER } from "../../../player.js";
+import { updateKingInCheck } from "../management/gameManagement.js";
 
 export const MAXPIECES = 16;
 export const BOARDMAX = 8;
@@ -69,7 +71,11 @@ export const checkmate = (originalTeam, kingPiece, chessBoard) => {
 
     if (checkmateStatus["check"] && checkmateStatus["checkmate"]) {
         console.log(`The ${originalKing.pieceTeam} king is in CHECKMATE`);
+        updateKingInCheck("inCheckmate");
+
     } else if (checkmateStatus["check"]) {
         console.log(`The ${originalKing.pieceTeam} king is in CHECK`);
+        updateKingInCheck("inCheck");
+
     }
 }

@@ -4,6 +4,7 @@ import { legalMoveCheck } from "./validMovements.js";
 import { pawnConvert } from "../pawnSwitch.js";
 import { checkCastleMove } from "./castleMovement.js";
 import { PLAYERGAME, WHITEPLAYER, BLACKPLAYER } from "../../../player.js";
+import { currentTurn, updateGameMoves } from "../management/gameManagement.js";
 
 const FRIENDLY = 1;
 const ENEMY = 2;
@@ -121,8 +122,9 @@ export const checkTile = async (initialSelectedPieceLocation, initialPiece, dest
             pawnConvert(initialPiece, chessBoard);
         }
 
-        const currentMove = PLAYERGAME.currentTurn == "white" ? "black" : "white";
-        PLAYERGAME.currentTurn = currentMove;
+        updateGameMoves(destinationTilePiece);
+
+        currentTurn();
 
         return;
     } else if (!legalMove) {

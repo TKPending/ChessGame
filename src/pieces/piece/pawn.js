@@ -11,6 +11,13 @@ export class Pawn extends Piece {
     moveForwardLimit(newRow, newCol, chessBoard) {
         if (this.pieceBoundCheck(newRow, newCol)) {
             const tileCheck = chessBoard[newRow][newCol].spaceOccupation;
+
+            // TODO: Global function
+            if (tileCheck && tileCheck.pieceTeam == this.team) {
+                if (!this._defendingPiece.some(piece => piece.id === tileCheck.id)) {
+                    this._defendingPiece.push(tileCheck);
+                }
+            }
        
             return tileCheck ? false : true;
         }
@@ -54,6 +61,13 @@ export class Pawn extends Piece {
     checkCapturePossible(newRow, newCol, chessBoard) {
         if (this.pieceBoundCheck(newRow, newCol)) {
             const tileCheck = chessBoard[newRow][newCol].spaceOccupation;
+
+            // TODO: Global this
+            if (tileCheck && tileCheck.pieceTeam == this.team) {
+                if (!this._defendingPiece.some(piece => piece.id === tileCheck.id)) {
+                    this._defendingPiece.push(tileCheck);
+                }
+            }
 
             if (tileCheck) {
                 return tileCheck.pieceTeam != this.team ? true : false;

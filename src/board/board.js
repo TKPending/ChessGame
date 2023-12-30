@@ -3,7 +3,7 @@ const COLS = 8;
 const BLACK = 'bg-black';
 const WHITE = 'bg-white';
 
-class Tile {
+export class Tile {
     constructor(position, colour) {
         this._object = "Tile";
         this._position = position;

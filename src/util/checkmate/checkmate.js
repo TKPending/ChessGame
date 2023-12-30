@@ -1,11 +1,13 @@
-const MAXPIECES = 16;
-const BOARDMAX = 8;
+import { movingIntoCheck } from "./movingIntoCheck.js";
 
-const enemyOrFriendly = (piece, originalTeam) => {
+export const MAXPIECES = 16;
+export const BOARDMAX = 8;
+
+export const enemyOrFriendly = (piece, originalTeam) => {
     return piece.pieceTeam != originalTeam ? piece : undefined;
 }
 
-const pieceOrTile = (chessBoardTile) => {
+export const pieceOrTile = (chessBoardTile) => {
     return chessBoardTile.spaceOccupation;
 }
 
@@ -14,60 +16,46 @@ const kingInCheck = (kingPiece, validEnemyMoves) => {
 
     for (const moves of validEnemyMoves) {
         if (moves[0] == kingPosition[0] && moves[1] == kingPosition[1]) {
-                    return true;
+                return true;
         }
     }
 
     return false;
 }
 
+const checkmateMoves = (kingMoves, enemyMoves) => {
+    // Convert moves to sets to remove duplicates
+    const uniqueKingMoves = new Set(kingMoves.map(move => move.toString()));
+    const uniqueEnemyMoves = new Set(enemyMoves.map(move => move.toString()));
+
+    // Check if all king moves are captured by enemy moves
+    return [...uniqueKingMoves].every(move => uniqueEnemyMoves.has(move));
+};
+
 const kingFutureMoves = (kingPiece, validEnemyMoves) => {
     const kingPotentialMoves = kingPiece.getValidMoves;
-    const kingMoveCount = kingPotentialMoves.length;
-    let checkmateCount = 0;
 
-    // Kings Moves
-    for (const kingMoves of kingPotentialMoves) {
-        // Enemy Moves
-        for (const enemyMoves of validEnemyMoves) {
-            if (enemyMoves[0] == kingMoves[0] && enemyMoves[1] == kingMoves[1]) {
-                checkmateCount++;
-            }
-        }
-    }
+    return checkmateMoves(kingPotentialMoves, validEnemyMoves);
+};
 
-    return checkmateCount >= kingMoveCount ? true : false;
-}
 
-const kingInCheckmate = (kingPiece, inCheckCheck, validEnemyMoves) => {
+const kingInCheckmate = (kingPiece, inCheckCheck, validEnemyMoves, originalTeam, chessBoard) => {
     if (inCheckCheck) {
-        return kingFutureMoves(kingPiece, validEnemyMoves);
+        kingPiece.generateLegalMoves(chessBoard);
+
+        const checkmateMoves = kingFutureMoves(kingPiece, validEnemyMoves);
+
+        return checkmateMoves ? true : false;
     }
 }
 
 // Original Team = The next players turn
 const enemyThreats = (originalTeam, kingPiece, chessBoard) => {
-    let piecesFound = 0;
-    const validEnemyMoves = [];
+    const validEnemyMoves = movingIntoCheck(originalTeam, undefined, chessBoard);
     const originalKing = kingPiece[originalTeam];
 
-    for (let row = 0; row < BOARDMAX && piecesFound < MAXPIECES; row++) {
-        for (let col = 0; col < BOARDMAX; col++) {
-            const piece = pieceOrTile(chessBoard[row][col]);
-
-            if (piece) {
-                const enemyPiece = enemyOrFriendly(piece, originalTeam);
-
-                if (enemyPiece) {
-                    piecesFound++;
-                    validEnemyMoves.push(...enemyPiece.generateLegalMoves(chessBoard));
-                }
-            }
-        }
-    }
-
     const inCheckCheck = kingInCheck(originalKing, validEnemyMoves);
-    const checkmateCheck = kingInCheckmate(originalKing, inCheckCheck, validEnemyMoves);
+    const checkmateCheck = kingInCheckmate(originalKing, inCheckCheck, validEnemyMoves, originalTeam, chessBoard);
 
     return {
         "check": inCheckCheck || null,
@@ -78,8 +66,6 @@ const enemyThreats = (originalTeam, kingPiece, chessBoard) => {
 export const checkmate = (originalTeam, kingPiece, chessBoard) => {
     const checkmateStatus = enemyThreats(originalTeam, kingPiece, chessBoard);
     const originalKing = kingPiece[originalTeam];
-
-    console.log(checkmateStatus)
 
     if (checkmateStatus["check"] && checkmateStatus["checkmate"]) {
         console.log(`The ${originalKing.pieceTeam} king is in CHECKMATE`);

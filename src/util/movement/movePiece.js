@@ -35,6 +35,7 @@ const pressedSameTile = (destinationTile, initialPiece) => {
 export const movePiece = async (initialSelectedPiece, initialSelectedPieceLocation, moveToTile, chessBoard) => {
     // Object - Tile or a Pawn
     const destinationTilePiece = await pressedTile(moveToTile, chessBoard);
+    initialSelectedPiece.resetProtected = [];
 
     if (pressedSameTile(destinationTilePiece, initialSelectedPiece)) {
         console.log("Pressed on the same tile");

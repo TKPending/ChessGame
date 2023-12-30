@@ -1,7 +1,6 @@
 import { BOARDMAX, MAXPIECES, pieceOrTile } from './checkmate.js';
 
 // TODO: More efficient to global every enemy piece. Avoids looping over the chessboard again and again
-
 const findEnemyPiece = (chessBoardTile, originalTeam) => {
     const piece = pieceOrTile(chessBoardTile);
 
@@ -27,12 +26,8 @@ const getEnemyMoves = (enemyPieces, chessBoard) => {
     const enemyMoves = [];
 
     for (const enemy of enemyPieces) {
-        // TODO: Might have invalid moves
-        // Check lengh of valid moves
         if (enemy.getValidMoves.length !== 0) {
             enemyMoves.push(...enemy.generateLegalMoves(chessBoard));
-
-            // Check length of defending moves
             if (enemy.defendingPieces.length !== 0) {
                 enemyMoves.push(...enemyDefendingMoves(enemy));
             }

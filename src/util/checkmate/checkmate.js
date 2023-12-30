@@ -1,4 +1,4 @@
-import { movingIntoCheck } from "./movingIntoCheck.js";
+import { allEnemyMoves } from "./movingIntoCheck.js";
 
 export const MAXPIECES = 16;
 export const BOARDMAX = 8;
@@ -32,14 +32,14 @@ const checkmateMoves = (kingMoves, enemyMoves) => {
     return [...uniqueKingMoves].every(move => uniqueEnemyMoves.has(move));
 };
 
-const kingFutureMoves = (kingPiece, validEnemyMoves) => {
+export const kingFutureMoves = (kingPiece, validEnemyMoves) => {
     const kingPotentialMoves = kingPiece.getValidMoves;
 
     return checkmateMoves(kingPotentialMoves, validEnemyMoves);
 };
 
 
-const kingInCheckmate = (kingPiece, inCheckCheck, validEnemyMoves, originalTeam, chessBoard) => {
+const kingInCheckmate = (kingPiece, inCheckCheck, validEnemyMoves, chessBoard) => {
     if (inCheckCheck) {
         kingPiece.generateLegalMoves(chessBoard);
 
@@ -51,11 +51,11 @@ const kingInCheckmate = (kingPiece, inCheckCheck, validEnemyMoves, originalTeam,
 
 // Original Team = The next players turn
 const enemyThreats = (originalTeam, kingPiece, chessBoard) => {
-    const validEnemyMoves = movingIntoCheck(originalTeam, undefined, chessBoard);
+    const validEnemyMoves = allEnemyMoves(originalTeam, chessBoard);
     const originalKing = kingPiece[originalTeam];
 
     const inCheckCheck = kingInCheck(originalKing, validEnemyMoves);
-    const checkmateCheck = kingInCheckmate(originalKing, inCheckCheck, validEnemyMoves, originalTeam, chessBoard);
+    const checkmateCheck = kingInCheckmate(originalKing, inCheckCheck, validEnemyMoves, chessBoard);
 
     return {
         "check": inCheckCheck || null,

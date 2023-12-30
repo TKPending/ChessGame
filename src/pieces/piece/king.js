@@ -1,6 +1,6 @@
-// king.js
 import { Piece } from "../pieces.js";
 import { kingCastle } from "../../util/castling.js";
+import { allEnemyMoves } from "../../util/checkmate/movingIntoCheck.js";
 
 export class King extends Piece {
     constructor(team, startingPosition) {
@@ -35,6 +35,18 @@ export class King extends Piece {
         this._inCheckmate = check;
     }
     
+    movingIntoCheck(potentialMove, chessBoard) {
+        const validEnemyMoves = allEnemyMoves(this.team, chessBoard);
+
+        for (const enemyMove of validEnemyMoves) {
+            if (enemyMove[0] === potentialMove[0] && enemyMove[1] === potentialMove[1]) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
     // Standard Moves
     moveUp(chessBoard) {
         const [row, col] = this._currentPosition;
@@ -45,8 +57,9 @@ export class King extends Piece {
 
         const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
         const validTile = this.pieceBoundCheck(newRow, newCol);
+        const moveIntoCheck = this.movingIntoCheck([newRow, newCol], chessBoard);
 
-        return !friendlyTile && validTile ? [newRow, newCol] : null;
+        return !friendlyTile && validTile && !moveIntoCheck ? [newRow, newCol] : null;
     }
 
     moveDown(chessBoard) {
@@ -58,8 +71,9 @@ export class King extends Piece {
 
         const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
         const validTile = this.pieceBoundCheck(newRow, newCol);
+        const moveIntoCheck = this.movingIntoCheck([newRow, newCol], chessBoard);
 
-        return !friendlyTile && validTile ? [newRow, newCol] : null;
+        return !friendlyTile && validTile && !moveIntoCheck ? [newRow, newCol] : null;
     }
 
     moveRight(chessBoard) {
@@ -71,8 +85,9 @@ export class King extends Piece {
 
         const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
         const validTile = this.pieceBoundCheck(newRow, newCol);
+        const moveIntoCheck = this.movingIntoCheck([newRow, newCol], chessBoard);
 
-        return !friendlyTile && validTile ? [newRow, newCol] : null;
+        return !friendlyTile && validTile && !moveIntoCheck ? [newRow, newCol] : null;
     }
 
     moveLeft(chessBoard) {
@@ -84,8 +99,9 @@ export class King extends Piece {
 
         const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
         const validTile = this.pieceBoundCheck(newRow, newCol);
+        const moveIntoCheck = this.movingIntoCheck([newRow, newCol], chessBoard);
 
-        return !friendlyTile && validTile ? [newRow, newCol] : null;
+        return !friendlyTile && validTile && !moveIntoCheck ? [newRow, newCol] : null;
     }
 
     // Diagonal Moves
@@ -98,8 +114,9 @@ export class King extends Piece {
 
         const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
         const validTile = this.pieceBoundCheck(newRow, newCol);
+        const moveIntoCheck = this.movingIntoCheck([newRow, newCol], chessBoard);
 
-        return !friendlyTile && validTile ? [newRow, newCol] : null;
+        return !friendlyTile && validTile && !moveIntoCheck ? [newRow, newCol] : null;
     }
 
     moveUpLeft(chessBoard) {
@@ -111,8 +128,9 @@ export class King extends Piece {
 
         const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
         const validTile = this.pieceBoundCheck(newRow, newCol);
+        const moveIntoCheck = this.movingIntoCheck([newRow, newCol], chessBoard);
 
-        return !friendlyTile && validTile ? [newRow, newCol] : null;
+        return !friendlyTile && validTile && !moveIntoCheck ? [newRow, newCol] : null;
     }
 
     moveDownRight(chessBoard) {
@@ -124,8 +142,9 @@ export class King extends Piece {
 
         const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
         const validTile = this.pieceBoundCheck(newRow, newCol);
+        const moveIntoCheck = this.movingIntoCheck([newRow, newCol], chessBoard);
 
-        return !friendlyTile && validTile ? [newRow, newCol] : null;
+        return !friendlyTile && validTile && !moveIntoCheck ? [newRow, newCol] : null;
     }
 
     moveDownLeft(chessBoard) {
@@ -137,8 +156,9 @@ export class King extends Piece {
 
         const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
         const validTile = this.pieceBoundCheck(newRow, newCol);
+        const moveIntoCheck = this.movingIntoCheck([newRow, newCol], chessBoard);
 
-        return !friendlyTile && validTile ? [newRow, newCol] : null;
+        return !friendlyTile && validTile && !moveIntoCheck ? [newRow, newCol] : null;
     }
 
     // Castling

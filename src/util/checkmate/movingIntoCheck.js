@@ -58,7 +58,7 @@ const enemyPotentialPositions = (originalTeam, chessBoard) => {
     return getEnemyMoves(enemyPieces, chessBoard);
 }
 
-export const movingIntoCheck = (originalTeam, potentialMove, chessBoard) => {
+export const allEnemyMoves = (originalTeam, chessBoard) => {
     const enemyPotentialMoves = enemyPotentialPositions(originalTeam, chessBoard);
 
     return enemyPotentialMoves;

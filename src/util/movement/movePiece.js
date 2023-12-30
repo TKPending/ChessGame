@@ -1,6 +1,7 @@
 import { pressedTile } from "../clickedPiece.js";
 import { positionToIndex } from "../findLocation.js";
 import { checkTile } from "./movePieceLogic.js";
+import { PLAYERGAME } from "../../../player.js";
 
 const tileAlgebraicLocation = (selectedTile) => {
     const selectedElement = selectedTile.target;
@@ -35,13 +36,15 @@ const pressedSameTile = (destinationTile, initialPiece) => {
 export const movePiece = async (initialSelectedPiece, initialSelectedPieceLocation, moveToTile, chessBoard) => {
     // Object - Tile or a Pawn
     const destinationTilePiece = await pressedTile(moveToTile, chessBoard);
-    initialSelectedPiece.resetProtected = [];
 
-    if (pressedSameTile(destinationTilePiece, initialSelectedPiece)) {
-        console.log("Pressed on the same tile");
-        return;
-    }
+    if (initialSelectedPiece.pieceTeam == PLAYERGAME.currentTurn) {
+        initialSelectedPiece.resetProtected = [];
 
-   await checkTile(initialSelectedPieceLocation, initialSelectedPiece, destinationTilePiece, chessBoard);
+        if (pressedSameTile(destinationTilePiece, initialSelectedPiece)) {
+            console.log("Pressed on the same tile");
+            return;
+        }
 
+        await checkTile(initialSelectedPieceLocation, initialSelectedPiece, destinationTilePiece, chessBoard);
+    } 
 };

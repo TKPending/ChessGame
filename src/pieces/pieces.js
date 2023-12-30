@@ -1,8 +1,14 @@
 import { highlightTile } from "../util/clickedPiece.js";
 import { indexToLocation } from "../util/findLocation.js";
 
+const generateUniqueId = (() => {
+    let counter = 0;
+    return () => ++counter;
+})();
+
 export class Piece {
     constructor(name, team, startingPosition) {
+        this.id = generateUniqueId()
         this.name = name;
         this.team = team;
         this.startingPosition = startingPosition;
@@ -12,6 +18,7 @@ export class Piece {
         this._lastPosition = [];
         this.direction = team.toLowerCase() === "white" ? -1 : 1;
         this._hasMoved = false;
+        this._defendingPiece = [];
     }
 
     // Return piece name
@@ -47,6 +54,11 @@ export class Piece {
     // Still in initial starting position
     get hasMoved() {
         return this._hasMoved;
+    }
+
+    // Pieces being defended
+    get defendingPieces() {
+        return this._defendingPiece;
     }
 
     // Set move status
@@ -85,12 +97,20 @@ export class Piece {
      */
     set updateCurrentPosition(newPosition) {
         this._currentPosition = newPosition;
+        this._defendingPiece = [];
     }
 
     // Check for friendlies
     friendlyTileCheck(newRow, newCol, chessBoard) {
         if (this.pieceBoundCheck(newRow, newCol)) {
             const tileOccupation = chessBoard[newRow][newCol].spaceOccupation;
+
+            // TODO: Make this fuction global
+            if (tileOccupation && tileOccupation.pieceTeam == this.team) {
+                if (!this._defendingPiece.some(piece => piece.id === tileOccupation.id)) {
+                    this._defendingPiece.push(tileOccupation);
+                }
+            }
 
             return tileOccupation && tileOccupation.pieceTeam === this.team;
         }
@@ -124,14 +144,28 @@ export class Piece {
     
         while (this.pieceBoundCheck(newRow, newCol)) {
             const tileCheck = this.isTileOccupied(newRow, newCol, chessBoard);
-
+    
+            // Empty tile
             if (tileCheck) {
                 legalMoves.push([newRow, newCol]);
                 newRow += rowDelta * this.direction;
                 newCol += colDelta * this.direction;
             } else {
-                if (chessBoard[newRow][newCol].ownsTile !== chessBoard[this._currentPosition[0]][this._currentPosition[1]].ownsTile) {
-                    legalMoves.push([newRow, newCol])
+                // Has piece in tile
+                const currentTile = chessBoard[this._currentPosition[0]][this._currentPosition[1]];
+                const targetTile = chessBoard[newRow][newCol];
+    
+                // Enemy Piece
+                if (targetTile.ownsTile !== currentTile.ownsTile) {
+                    legalMoves.push([newRow, newCol]);
+                // Friendly Piece
+                } else if (targetTile.ownsTile === currentTile.ownsTile) {
+                    const pieceInTile = targetTile.spaceOccupation;
+    
+                    // Check if the piece is not already in _protectPiece based on position
+                    if (!this._defendingPiece.some(piece => piece.id === pieceInTile.id)) {
+                        this._defendingPiece.push(pieceInTile);
+                    }
                 }
                 break;
             }

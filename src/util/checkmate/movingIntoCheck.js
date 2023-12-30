@@ -1,81 +1,65 @@
-import { pieceOrTile, MAXPIECES, BOARDMAX, enemyOrFriendly } from './checkmate.js';
-import { Tile } from '../../board/board.js';
+import { BOARDMAX, MAXPIECES, pieceOrTile } from './checkmate.js';
 
-// Copy original chessboard
-const updateTempChessboard = (kingPiece, originalRow, originalCol, targetRow, targetCol, tempChessboard) => {
-    tempChessboard[targetRow][targetCol] = new Tile;
-    tempChessboard[originalRow][originalCol] = new Tile;
+// TODO: More efficient to global every enemy piece. Avoids looping over the chessboard again and again
 
-    tempChessboard[targetRow][targetCol].pieceInSpace = kingPiece;
-}
+const findEnemyPiece = (chessBoardTile, originalTeam) => {
+    const piece = pieceOrTile(chessBoardTile);
 
-const emptyTempboard = (tempBoard) => {
-    for (let row = 0; row < BOARDMAX; row++) {
-        for (let col = 0; col < BOARDMAX; col++) {
-            tempBoard[row][col] = null
-        }
-    }
-}
-
-const moveIntoCheckStatus = (potentialMove, tempEnemyMoves) => {
-    for (const enemyMoves of tempEnemyMoves) {
-        console.log(enemyMoves);
-        if (potentialMove[0] == enemyMoves[0] && potentialMove[1] == enemyMoves[1]) {
-            return true;
-        }
+    if (piece) {
+        return piece.pieceTeam != originalTeam ? piece : undefined;
     }
 
-    return false;
+    return undefined;
 }
 
-// Potential Captures
-const enemyPotentialMoves = (originalTeam, kingPotentialMove, tempBoard) => {
+const enemyDefendingMoves = (enemyPiece) => {
+    const piecesDefended = enemyPiece.defendingPieces;
+    const defendedPositions = [];
+
+    for (const defendedPosition of piecesDefended) {
+        defendedPositions.push(defendedPosition.getCurrentPosition);
+    }
+
+    return defendedPositions;
+}
+
+const getEnemyMoves = (enemyPieces, chessBoard) => {
+    const enemyMoves = [];
+
+    for (const enemy of enemyPieces) {
+        // TODO: Might have invalid moves
+        // Check lengh of valid moves
+        if (enemy.getValidMoves.length !== 0) {
+            enemyMoves.push(...enemy.generateLegalMoves(chessBoard));
+
+            // Check length of defending moves
+            if (enemy.defendingPieces.length !== 0) {
+                enemyMoves.push(...enemyDefendingMoves(enemy));
+            }
+        }   
+    }
+
+    return enemyMoves;
+}
+
+const enemyPotentialPositions = (originalTeam, chessBoard) => {
     let piecesFound = 0;
-    const tempEnemyMoves = [];
+    const enemyPieces = [];
 
-
-    for (let row = 0; row < BOARDMAX && piecesFound < MAXPIECES; row++) {
+    for (let row = 0; row < BOARDMAX && piecesFound <= MAXPIECES; row++) {
         for (let col = 0; col < BOARDMAX; col++) {
-            const piece = pieceOrTile(tempBoard[row][col]);
-
-            if (piece) {
-                const enemyPiece = enemyOrFriendly(piece, originalTeam);
-
-                if (enemyPiece) {
-                    piecesFound++;
-                    tempEnemyMoves.push(...enemyPiece.generateLegalMoves(tempBoard));
-                }   
+            const enemyPiece = findEnemyPiece(chessBoard[row][col], originalTeam);
+            if (enemyPiece) {
+                enemyPieces.push(enemyPiece);
             }
         }
     }
 
-    return moveIntoCheckStatus(kingPotentialMove, tempEnemyMoves);
-}   
-
-
-// Play test
-const testRunPotentialMoves = (kingPiece, originalTeam, potentialMove, chessBoard) => {
-    const tempBoard = chessBoard.map(row => row.slice());
-    const [originalRow, originalCol] = kingPiece.getCurrentPosition;
-    const [targetRow, targetCol] = potentialMove;
-
-    updateTempChessboard(kingPiece, originalRow, originalCol, targetRow, targetCol, tempBoard);
-
-    const movingIntoCheckStatus = enemyPotentialMoves(originalTeam, potentialMove, tempBoard);
-
-    emptyTempboard(tempBoard);
-
-    return movingIntoCheckStatus ? true : false;
+    return getEnemyMoves(enemyPieces, chessBoard);
 }
 
-// Initiate Test Place
-export const checkTestRun = (kingPiece, originalTeam, kingPotentialMove, chessBoard) => {
-    const movingIntoCheck = testRunPotentialMoves(kingPiece, originalTeam, kingPotentialMove, chessBoard);
+export const movingIntoCheck = (originalTeam, potentialMove, chessBoard) => {
+    const enemyPotentialMoves = enemyPotentialPositions(originalTeam, chessBoard);
 
-    if (movingIntoCheck) {
-        console.log("Will be moving into check");
-        return true;
-    }
-
-    return false;
+    return enemyPotentialMoves;
 }

@@ -1,7 +1,6 @@
 // king.js
 import { Piece } from "../pieces.js";
 import { kingCastle } from "../../util/castling.js";
-import { checkTestRun } from "../../util/checkmate/movingIntoCheck.js";
 
 export class King extends Piece {
     constructor(team, startingPosition) {

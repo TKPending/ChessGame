@@ -22,7 +22,17 @@ const highlightEnemyPiece = (event) => {
 
 export const currentTurn = () => {
     const currentMove = PLAYERGAME.currentTurn == "white" ? "black" : "white";
-        PLAYERGAME.currentTurn = currentMove;
+    PLAYERGAME.currentTurn = currentMove;
+}
+
+const endGame = (checkLevel) => {
+    if (checkLevel == "inCheckmate") {
+        PLAYERGAME.status = "finished";
+        
+        PLAYERGAME.winner = PLAYERGAME.currentTurn == "white" ? "Black" : "White";
+
+        console.log(PLAYERGAME);
+    }
 }
 
 export const updateKingInCheck = (checkLevel) => {
@@ -34,9 +44,8 @@ export const updateKingInCheck = (checkLevel) => {
         BLACKPLAYER[checkLevel] = true;
     }
 
+    endGame(checkLevel);
     PLAYERGAME["checkWinning"] = checkStatus;
-
-    console.log(PLAYERS)
 }
 
 const updatePiecesCaptured = (enemyPiece) => {

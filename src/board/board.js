@@ -1,7 +1,7 @@
 const ROWS = 8;
 const COLS = 8;
-const BLACK = 'bg-black';
-const WHITE = 'bg-white';
+const BLACK = 'bg-black-own';
+const WHITE = 'bg-white-own';
 
 export class Tile {
     constructor(position, colour) {
@@ -162,6 +162,18 @@ export const reRenderChessboard = (chessBoard) => {
         });
     });
 }
+
+// Empty Board
+export const clearBoard = (chessBoard) => {
+    chessBoard.forEach(row => {
+        row.forEach(tile => {
+            tile.pieceInSpace = null;
+            tile.tileAvailability = true;
+            tile.tileOwnership = null;
+            tile.pieceOnTile = null;
+        });
+    });
+};
 
 
 export const renderChessboard = (chessBoard) => {

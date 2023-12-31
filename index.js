@@ -5,8 +5,9 @@ import { movePiece, pieceOrTile, tileFullLocation } from "./src/util/movement/mo
 import { PLAYERGAME, WHITEPLAYER, BLACKPLAYER } from "./player.js";
 import { clickedEnemyPiece} from "./src/util/management/gameManagement.js";
 import { checkmate } from "./src/util/checkmate/checkmate.js";
+import { gameHasEnded } from "./src/util/management/managementDesign.js";
  
-const chessBoard = createBoard();
+export const chessBoard = createBoard();
 
 initializeBoardWithPieces(chessBoard)
 
@@ -43,7 +44,7 @@ const tilePressed = async (tileCheck, event) => {
         clickedEnemyPiece(initialSelectedPiece, event)
     } else {
         await movePiece(initialSelectedPiece, initialSelectedPieceLocation, event, chessBoard);
-        reRenderChessboard(chessBoard);
+        reRenderChessboard(chessBoard)
 
         checkmate(PLAYERGAME.currentTurn, KINGS, chessBoard);
 
@@ -52,7 +53,14 @@ const tilePressed = async (tileCheck, event) => {
 }
 
 chessBoardElement.addEventListener('click', async (event) => {
-    const tileCheck = pieceOrTile(event);
+    if (PLAYERGAME.status !== "finished") {
+        const tileCheck = pieceOrTile(event);
 
-    await tilePressed(tileCheck, event);
+        await tilePressed(tileCheck, event);
+
+        if (PLAYERGAME.status == "finished") {
+            gameHasEnded();
+        }
+    } 
+        
 });

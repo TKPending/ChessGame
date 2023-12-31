@@ -17,6 +17,7 @@ export const PLAYERS = {
         "moveHistory": [],
         "promotions": [],
         "checkWinning": null,
+        "winner": null
     }
 }
 

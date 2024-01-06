@@ -1,7 +1,7 @@
 import { chessBoard } from "../../../index.js";
 import { PLAYERGAME, WHITEPLAYER, BLACKPLAYER } from "../../../player.js";
 import { clearBoard, reRenderChessboard } from "../../board/chessboard.js";
-import { initializeBoardWithPieces } from "../../pieces/initialise-pieces.js";
+import { initialiseEachPiece } from "../../pieces/initialise-pieces.js";
 
 const endGameModal = document.getElementById('game-finished');
 
@@ -36,7 +36,7 @@ const resetPlayer = () => {
 resetOptionElement.addEventListener("click", () => {
     // Clear and reset the board
     clearBoard(chessBoard);
-    initializeBoardWithPieces(chessBoard);
+    initialiseEachPiece(chessBoard);
     reRenderChessboard(chessBoard);
     resetPlayer();
 

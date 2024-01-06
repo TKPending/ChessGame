@@ -1,4 +1,4 @@
-// indexToLocation for all other pieces
+// Convert index to algebraic version
 export const indexToLocation = (index, team) => {
     const file = String.fromCharCode(97 + index[1]);
     const rank = team.toLowerCase() === 'black' ? 8 - index[0] : index[0] + 1;
@@ -15,7 +15,7 @@ export const indexToLocationPawn = (index, team) => {
     return team.toLowerCase() === 'white' ? file + (9 - rank) : file + rank;
 };
 
-// Position to index
+// Convert algebraic version to index
 export const positionToIndex = (position) => {
     const file = position.charAt(0).toLowerCase(); 
     const rank = parseInt(position.charAt(1), 10); 

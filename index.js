@@ -1,5 +1,5 @@
 import { createChessboard, initialChessboardRender, reRenderChessboard } from "./src/board/chessboard.js";
-import { initializeBoardWithPieces } from "./src/pieces/initialise-pieces.js";
+import { initialiseEachPiece } from "./src/pieces/initialise-pieces.js";
 import { removeAllHighlightClasses, highlightTileOnly, pressedTile } from "./src/util/clickedPiece.js";
 import { movePiece, pieceOrTile, tileFullLocation } from "./src/util/movement/movePiece.js";
 import { PLAYERGAME, WHITEPLAYER, BLACKPLAYER } from "./player.js";
@@ -9,7 +9,8 @@ import { gameHasEnded } from "./src/util/management/managementDesign.js";
  
 // Create and render the chessboard
 export const chessBoard = createChessboard();
-initializeBoardWithPieces(chessBoard)
+// initialiseBoardWithPieces(chessBoard)
+initialiseEachPiece(chessBoard);
 initialChessboardRender(chessBoard);
 
 // Background and Chessboard element

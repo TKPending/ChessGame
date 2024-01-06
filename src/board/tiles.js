@@ -81,7 +81,7 @@ class Tile {
     }
 
     /**
-     * @param {any}piece
+     * @param {any} piece
      */
     // Update piece on tile's name
     set pieceOnTile(piece) {

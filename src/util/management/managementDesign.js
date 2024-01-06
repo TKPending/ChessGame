@@ -1,6 +1,6 @@
 import { chessBoard } from "../../../index.js";
 import { PLAYERGAME, WHITEPLAYER, BLACKPLAYER } from "../../../player.js";
-import { clearBoard, reRenderChessboard } from "../../board/board.js";
+import { clearBoard, reRenderChessboard } from "../../board/chessboard.js";
 import { initializeBoardWithPieces } from "../../pieces/initialise-pieces.js";
 
 const endGameModal = document.getElementById('game-finished');

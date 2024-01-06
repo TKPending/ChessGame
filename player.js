@@ -1,15 +1,18 @@
-// Player Score
+// Track game state
 export const PLAYERS = {
+    // White Player
     "white": {
         "piecesCaptured": [],
         "inCheck": false,
         "inCheckmate": false,
     },
+    // Black Player
     "black": {
         "piecesCaptured": [],
         "inCheck": false,
         "inCheckmate": false,
     },
+    // Game State
     "game": {
         "currentTurn": "white",
         "previousMove": null,

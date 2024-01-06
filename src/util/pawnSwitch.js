@@ -2,7 +2,7 @@ import { Knight } from '../pieces/piece/knight.js';
 import { Queen } from '../pieces/piece/queen.js';
 import { Bishop } from '../pieces/piece/bishop.js';
 import { Rook } from '../pieces/piece/rook.js';
-import { reRenderChessboard } from "../board/board.js";
+import { reRenderChessboard } from "../board/chessboard.js";
 import { pawnPromotionsTracker } from './management/gameManagement.js';
 import { PLAYERGAME } from '../../player.js';
 

@@ -35,10 +35,10 @@ const initialiseBoardWithPawns = (chessBoard) => {
 
 // Add every other piece to board obj
 export const initialiseEachPiece = (chessBoard) => {
-    const pieceObj = [King, Rook] // [King, Knight, Queen, Bishop, Rook];
-    const startingPositions = [initialPositions.kings, initialPositions.rooks] // [ initialPositions.kings, initialPositions.knights, initialPositions.queens, initialPositions.bishops, initialPositions.rooks];
+    const pieceObj = [King, Knight, Queen, Bishop, Rook];
+    const startingPositions = [initialPositions.kings, initialPositions.knights, initialPositions.queens, initialPositions.bishops, initialPositions.rooks];
 
-    // initialiseBoardWithPawns(chessBoard);
+    initialiseBoardWithPawns(chessBoard);
 
     // Initialise the rest of the pieces
     for (let i = 0; i < pieceObj.length; i++) {

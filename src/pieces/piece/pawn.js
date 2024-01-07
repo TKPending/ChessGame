@@ -1,19 +1,21 @@
 import { Piece } from "../pieces.js";
 import { highlightTile } from "../../util/clickedPiece.js";
-import { indexToLocation } from "../../util/findLocation.js";
+import { indexToLocation } from "../../util/pieceTileLocation.js";
 
 export class Pawn extends Piece {
     constructor(team, startingPosition) {
         super("Pawn", team, startingPosition);
     }
 
-    moveOnce() {
-
-    }
-
     // Standard pawn move
     moveForwardOnce(chessBoard) {
-        return this.moveUp(chessBoard);
+        const oneMove = this.moveUp(chessBoard);
+
+        if (!chessBoard[oneMove[0]][oneMove[1]].spaceOccupation) {
+            return oneMove;
+        }
+
+        return null;
     }
 
     moveForwardTwice(chessBoard) {

@@ -1,4 +1,4 @@
-import { BOARDMAX, MAXPIECES, pieceOrTile } from './checkmate.js';
+import { BOARDMAX, MAXPIECES, pieceOrTile } from '../functions/checkmate/checkmate.js';
 
 // TODO: More efficient to global every enemy piece. Avoids looping over the chessboard again and again
 const findEnemyPiece = (chessBoardTile, originalTeam) => {

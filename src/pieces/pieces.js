@@ -1,6 +1,5 @@
-import { chessBoard } from "../../index.js";
 import { highlightTile } from "../util/clickedPiece.js";
-import { indexToLocation } from "../util/findLocation.js";
+import { indexToLocation } from "../util/pieceTileLocation.js";
 
 const generateUniqueId = (() => {
     let counter = 0;

@@ -1,15 +1,11 @@
-import { PLAYERGAME } from "../../player.js";
+import { PLAYERGAME } from "../functions/game_management/player.js";
+import { findTileByPosition } from "./pieceTileLocation.js";
 
-// Function to find a tile by its position on the chessboard
-export function findTileByPosition(chessBoard, position) {
-    for (const row of chessBoard) {
-        for (const tile of row) {
-            if (tile.position === position) {
-                return tile;
-            }
-        }
-    }
-    return null;
+// Event Listener - Press on tile or piece
+export const pieceOrTile = (selectedTile) => {
+    const tile = selectedTile.target.classList.contains('chess-tile');
+
+    return tile ? true : false;
 }
 
 // Presss on the whole div
@@ -38,15 +34,29 @@ export const removeAllHighlightClasses = (chessBoard) => {
         row.forEach(tile => {
             const tileElement = document.getElementById(tile.position);
             if (tileElement) {
-                tileElement.classList.remove('highlighted', 'highlighted-red');
+                tileElement.classList.remove('highlighted', 'highlighted-red', 'enemy');
             }
         });
     });
 };
 
+// Change colour of enemy tiles
+const highlightEnemy = (currentTeam, moves, chessBoard) => {
+    for (const move of moves) {
+        const potentialMove = chessBoard[move[0]][move[1]];
+
+        if (potentialMove.ownsTile && potentialMove.ownsTile != currentTeam) {
+            const tileElement = document.getElementById(potentialMove.position);
+
+            if (tileElement) {
+                tileElement.classList.add('enemy');
+            }
+        }
+    }
+}
 
 // Return piece or tile
-export const pressedTile = async (event, chessBoard) => {
+export const pressedTile = (event, chessBoard) => {
     const clickedElement = event.target;
     const tilePosition = pressedElement(clickedElement);
     const clickedTile = findTileByPosition(chessBoard, tilePosition);
@@ -60,7 +70,10 @@ export const pressedTile = async (event, chessBoard) => {
 
         if (pieceInClickedTile.pieceTeam == playerTurn) {
             highlightTile(tilePosition);
-            const generatedMoves = await pieceInClickedTile.generateLegalMoves(chessBoard);
+            const generatedMoves = pieceInClickedTile.generateLegalMoves(chessBoard);
+
+            highlightEnemy(pieceInClickedTile.pieceTeam, generatedMoves, chessBoard,);
+
             // TODO - Create something here which will highlight illegal moves
             pieceInClickedTile.highlightTiles()
             pieceInClickedTile.validFutureMoves = generatedMoves

@@ -1,5 +1,5 @@
-import { allEnemyMoves } from "./checkmate/movingIntoCheck.js";
-import { positionToIndex } from "./findLocation.js";
+import { allEnemyMoves } from "../checkmate/movingIntoCheck.js";
+import { positionToIndex } from "../../util/pieceTileLocation.js";
 
 const getRookPiece = (chessBoard, side, team) => {
     const row = team === "white" ? 7 : 0;

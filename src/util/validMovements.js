@@ -1,4 +1,4 @@
-import { positionToIndex } from "../findLocation.js";
+import { positionToIndex } from "./pieceTileLocation.js";
 
 const validMovesArr = (selectedPiece, chessBoard) => {
     return selectedPiece.generateLegalMoves(chessBoard);

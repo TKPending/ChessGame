@@ -1,6 +1,5 @@
 import { allEnemyMoves } from "./movingIntoCheck.js";
-import { PLAYERGAME, WHITEPLAYER, BLACKPLAYER } from "../../../player.js";
-import { updateKingInCheck } from "../management/gameManagement.js";
+import { updateKingInCheck } from "../game_management/gameManagement.js";
 
 export const MAXPIECES = 16;
 export const BOARDMAX = 8;

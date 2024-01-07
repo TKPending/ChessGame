@@ -1,10 +1,8 @@
-import { findTileByPosition } from "../clickedPiece.js";
-import { positionToIndex, indexToTile } from "../findLocation.js";
-import { legalMoveCheck } from "./validMovements.js";
-import { pawnConvert } from "../pawnSwitch.js";
-import { checkCastleMove } from "./castleMovement.js";
-import { PLAYERGAME, WHITEPLAYER, BLACKPLAYER } from "../../../player.js";
-import { currentTurn, updateGameMoves } from "../management/gameManagement.js";
+import { positionToIndex, indexToTile, findTileByPosition } from "../util/pieceTileLocation.js";
+import { legalMoveCheck } from "../util/validMovements.js";
+import { pawnPromotion } from "./pawnPromotion.js";
+import { checkCastleMove } from "./castling/castleMovement.js";
+import { currentTurn, updateGameMoves } from "./game_management/gameManagement.js";
 
 const FRIENDLY = 1;
 const ENEMY = 2;
@@ -105,7 +103,7 @@ const locateInitialTile = (initialTileLocation, chessBoard) => {
     return findTileByPosition(chessBoard, algebraicValue);
 }
 
-export const checkTile = async (initialSelectedPieceLocation, initialPiece, destinationTilePiece, chessBoard) => {
+export const checkTile = (initialSelectedPieceLocation, initialPiece, destinationTilePiece, chessBoard) => {
     const initialTile = locateInitialTile(initialSelectedPieceLocation, chessBoard);
     const friendlyFireCheck = friendlyFire(destinationTilePiece, initialTile);
     let legalMove = legalMoveCheck(initialPiece, destinationTilePiece, chessBoard);
@@ -119,7 +117,7 @@ export const checkTile = async (initialSelectedPieceLocation, initialPiece, dest
         captureTile(initialPiece, initialTile, destinationTilePiece, friendlyFireCheck, chessBoard);
         
         if (initialPiece.getPieceName == "Pawn") {
-            pawnConvert(initialPiece, chessBoard);
+            pawnPromotion(initialPiece, chessBoard);
         }
 
         updateGameMoves(destinationTilePiece);

@@ -1,7 +1,6 @@
-import { PLAYERS, PLAYERGAME, BLACKPLAYER, WHITEPLAYER } from "../../../player.js";
-import { findTileByPosition, pressedElement } from "../clickedPiece.js";
-import { pieceOrTile } from "../checkmate/checkmate.js";
-import { indexToLocation } from "../findLocation.js";
+import { PLAYERGAME, BLACKPLAYER, WHITEPLAYER } from "./player.js";
+import { pressedElement } from "../../util/clickedPiece.js";
+import { indexToLocation } from "../../util/pieceTileLocation.js";
 
 export const clickedEnemyPiece = (initialPiece, event) => {
     if (initialPiece.pieceTeam !== PLAYERGAME.currentTurn) {

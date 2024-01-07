@@ -1,6 +1,6 @@
 import { Piece } from "../pieces.js";
-import { kingCastle } from "../../util/castling.js";
-import { allEnemyMoves } from "../../util/checkmate/movingIntoCheck.js";
+import { kingCastle } from "../../functions/castling/castling.js";
+import { allEnemyMoves } from "../../functions/checkmate/movingIntoCheck.js";
 
 export class King extends Piece {
     constructor(team, startingPosition) {

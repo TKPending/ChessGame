@@ -1,5 +1,5 @@
 import { chessBoard } from "../../../index.js";
-import { PLAYERGAME, WHITEPLAYER, BLACKPLAYER } from "../../../player.js";
+import { PLAYERGAME, WHITEPLAYER, BLACKPLAYER } from "./player.js";
 import { clearBoard, reRenderChessboard } from "../../board/chessboard.js";
 import { initialiseEachPiece } from "../../pieces/initialise-pieces.js";
 

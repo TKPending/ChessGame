@@ -1,8 +1,5 @@
-import { allEnemyMoves } from "./movingIntoCheck.js";
-import { updateKingInCheck } from "../game_management/gameManagement.js";
-
-export const MAXPIECES = 16;
-export const BOARDMAX = 8;
+import { allEnemyMoves } from "../../util/allEnemyAttackIndexes.js";
+import { updateKingInCheckGameManager } from "../game_management/gameManagement.js";
 
 export const enemyOrFriendly = (piece, originalTeam) => {
     return piece.pieceTeam != originalTeam ? piece : undefined;
@@ -65,16 +62,17 @@ const enemyThreats = (originalTeam, kingPiece, chessBoard) => {
 }
 
 export const checkmate = (originalTeam, kingPiece, chessBoard) => {
+    console.log(`Checkmate: Checking whether king is in check`)
     const checkmateStatus = enemyThreats(originalTeam, kingPiece, chessBoard);
     const originalKing = kingPiece[originalTeam];
 
     if (checkmateStatus["check"] && checkmateStatus["checkmate"]) {
         console.log(`The ${originalKing.pieceTeam} king is in CHECKMATE`);
-        updateKingInCheck("inCheckmate");
+        updateKingInCheckGameManager("inCheckmate");
 
     } else if (checkmateStatus["check"]) {
         console.log(`The ${originalKing.pieceTeam} king is in CHECK`);
-        updateKingInCheck("inCheck");
+        updateKingInCheckGameManager("inCheck");
 
     }
 }

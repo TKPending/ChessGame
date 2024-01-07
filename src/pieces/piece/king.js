@@ -1,6 +1,6 @@
 import { Piece } from "../pieces.js";
 import { kingCastle } from "../../functions/castling/castling.js";
-import { allEnemyMoves } from "../../functions/checkmate/movingIntoCheck.js";
+import { movingIntoAttackedPosition } from "../../util/moveIntoAttack.js";
 
 export class King extends Piece {
     constructor(team, startingPosition) {
@@ -39,25 +39,8 @@ export class King extends Piece {
     /**
      * @param {boolean} check
      */
-    set kingInCheckmate(check) {F
+    set kingInCheckmate(check) {
         this._inCheckmate = check;
-    }
-    
-    // Check if king move, will move king into check
-    movingIntoCheck(potentialMove, chessBoard) {
-        // Get all the enemy moves
-        const validEnemyMoves = allEnemyMoves(this.team, chessBoard);
-
-        // Check if king potential move matches an enemy legal move
-        for (const enemyMove of validEnemyMoves) {
-            if (enemyMove[0] === potentialMove[0] && enemyMove[1] === potentialMove[1]) {
-                // Will move into check
-                return true;
-            }
-        }
-
-        // Won't move into check
-        return false;
     }
 
     // Legal moves for the king
@@ -65,7 +48,7 @@ export class King extends Piece {
         return (
             !this.friendlyTileCheck(newRow, newCol, chessBoard) &&
             this.pieceBoundCheck(newRow, newCol) &&
-            !this.movingIntoCheck([newRow, newCol], chessBoard)
+            !movingIntoAttackedPosition(this.pieceTeam, [newRow, newCol], chessBoard)
         );
     }
     

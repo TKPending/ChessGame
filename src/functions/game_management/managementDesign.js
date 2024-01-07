@@ -16,10 +16,12 @@ const resetOptionElement = document.getElementById('reset');
 const stayOptionElement = document.getElementById('stay');
 
 const resetPlayer = () => {
+    WHITEPLAYER.availablePieces = [];
     WHITEPLAYER.piecesCaptured = [];
     WHITEPLAYER.inCheck = null;
     WHITEPLAYER.inCheckmate = null;
 
+    BLACKPLAYER.availablePieces = [];
     BLACKPLAYER.piecesCaptured = [];
     BLACKPLAYER.inCheck = null;
     BLACKPLAYER.inCheckmate = null;

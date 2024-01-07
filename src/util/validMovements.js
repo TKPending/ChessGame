@@ -1,21 +1,24 @@
 import { positionToIndex } from "./pieceTileLocation.js";
 
-const validMovesArr = (selectedPiece, chessBoard) => {
-    return selectedPiece.generateLegalMoves(chessBoard);
-}
-
+// Check whether the move a user wants to make is legal
 export const legalMoveCheck = (selectedPiece, destinationLocation, chessBoard) => {
+    // Retunrs string either Tile or Undefined
     const tile = destinationLocation.getTileName;
-    const tileLocation = tile == "Tile" ? positionToIndex(destinationLocation.position) : destinationLocation.getCurrentPosition;
+    // Returns an index of the tile or piece location
+    const destinationIndex = tile == "Tile" ? positionToIndex(destinationLocation.position) : destinationLocation.getCurrentPosition;
 
-    let destinationIndex = tileLocation;
-    let validMoveLocations = validMovesArr(selectedPiece, chessBoard);
+    // Returns an array of valid moves
+    let validMoveIndexLocations = selectedPiece.generateLegalMoves(chessBoard);
 
-    for (const moves of validMoveLocations) {
+    // Check valid move
+    for (const moves of validMoveIndexLocations) {
+        // Check if destination is part of legal move
         if (moves[0] == destinationIndex[0] && moves[1] == destinationIndex[1]) {
+            // Legal Move
             return true;
         }
     }
 
+    // Illegal Move
     return false;
 }

@@ -3,8 +3,7 @@ import { initialiseEachPiece } from "./src/pieces/initialise-pieces.js";
 import { removeAllHighlightClasses, highlightTileOnly, pressedTile, pieceOrTile } from "./src/util/clickedPiece.js";
 import { movePiece } from "./src/app.js";
 import { PLAYERGAME} from "./src/functions/game_management/player.js";
-import { clickedEnemyPiece} from "./src/functions/game_management/gameManagement.js";
-import { checkmate } from "./src/functions/checkmate/checkmate.js";
+import { clickedEnemyPieceGameManager} from "./src/functions/game_management/gameManagement.js";
 import { gameHasEnded } from "./src/functions/game_management/managementDesign.js";
 import { tileFullLocation } from "./src/util/pieceTileLocation.js";
  
@@ -48,13 +47,13 @@ const tilePressed = async (tileCheck, event) => {
         initialSelectedPieceLocation = tileFullLocation(event);
         initialSelectedPiece = pressedTile(event, chessBoard);
 
-        clickedEnemyPiece(initialSelectedPiece, event);
+        clickedEnemyPieceGameManager(initialSelectedPiece, event);
     // User pressed on a piece and decides to move it
     } else {
         movePiece(initialSelectedPiece, initialSelectedPieceLocation, event, chessBoard);
         reRenderChessboard(chessBoard)
 
-        checkmate(PLAYERGAME.currentTurn, KINGS, chessBoard);
+        // checkmate(PLAYERGAME.currentTurn, KINGS, chessBoard);
 
         initialSelectedPiece = null;
     }

@@ -2,14 +2,32 @@ import { PLAYERGAME, BLACKPLAYER, WHITEPLAYER } from "./player.js";
 import { pressedElement } from "../../util/clickedPiece.js";
 import { indexToLocation } from "../../util/pieceTileLocation.js";
 
-export const clickedEnemyPiece = (initialPiece, event) => {
+export const clickedEnemyPieceGameManager = (initialPiece, event) => {
     if (initialPiece.pieceTeam !== PLAYERGAME.currentTurn) {
-        highlightEnemyPiece(event);
+        gmHighlightEnemyPiece(event);
         initialPiece = undefined;
     }
 }
 
-const highlightEnemyPiece = (event) => {
+export const enemyTeamPiecesGameManager = (currentTeam) => {
+    if (currentTeam === "white") {
+        return BLACKPLAYER.availablePieces;
+    }
+
+    return WHITEPLAYER.availablePieces;
+}
+
+// Remove enemy from available pieces
+export const removeEnemyGameManager = (enemyPiece) => {
+    if (enemyPiece.pieceTeam == "black") {
+        BLACKPLAYER.availablePieces = BLACKPLAYER.availablePieces.filter(piece => piece.id !== enemyPiece.id);
+        return;
+    } 
+
+    WHITEPLAYER.availablePieces = WHITEPLAYER.availablePieces.filter(piece => piece.id !== enemyPiece.id); 
+}
+
+const gmHighlightEnemyPiece = (event) => {
     const clickedElement = event.target;
     const tilePosition = pressedElement(clickedElement);
     const tileElementDOM = document.getElementById(tilePosition);
@@ -19,12 +37,12 @@ const highlightEnemyPiece = (event) => {
     }
 }
 
-export const currentTurn = () => {
+export const currentTurnGameManager = () => {
     const currentMove = PLAYERGAME.currentTurn == "white" ? "black" : "white";
     PLAYERGAME.currentTurn = currentMove;
 }
 
-const endGame = (checkLevel) => {
+const gmEndGame = (checkLevel) => {
     if (checkLevel == "inCheckmate") {
         PLAYERGAME.status = "finished";
         
@@ -34,7 +52,7 @@ const endGame = (checkLevel) => {
     }
 }
 
-export const updateKingInCheck = (checkLevel) => {
+export const updateKingInCheckGameManager = (checkLevel) => {
     const checkStatus = PLAYERGAME.currentTurn == "white" ? "white" : "black";
 
     if (checkStatus == "white") {
@@ -43,11 +61,11 @@ export const updateKingInCheck = (checkLevel) => {
         BLACKPLAYER[checkLevel] = true;
     }
 
-    endGame(checkLevel);
+    gmEndGame(checkLevel);
     PLAYERGAME["checkWinning"] = checkStatus;
 }
 
-const updatePiecesCaptured = (enemyPiece) => {
+const gmUpdatePiecesCaptured = (enemyPiece) => {
     const currentTeam = PLAYERGAME.currentTurn == "white" ? "white" : "black";
 
     if (currentTeam == "white") {
@@ -61,12 +79,12 @@ const capturedEnemyPiece = (enemyPiece) => {
     const enemyLocation = enemyPiece.getLastPosition;
     const algebraicValue = indexToLocation(enemyLocation, PLAYERGAME.currentTurn);
 
-    updatePiecesCaptured(enemyPiece);
+    gmUpdatePiecesCaptured(enemyPiece);
     
     PLAYERGAME.moveHistory.push(algebraicValue);
 }   
 
-export const updateGameMoves = (destination) => {
+export const updateGameMovesGameManager = (destination) => {
     if (destination.getTileName) {
         PLAYERGAME.moveHistory.push(destination.position);
     } else {

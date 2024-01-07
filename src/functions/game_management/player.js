@@ -2,12 +2,14 @@
 export const PLAYERS = {
     // White Player
     "white": {
+        "availablePieces": [],
         "piecesCaptured": [],
         "inCheck": false,
         "inCheckmate": false,
     },
     // Black Player
     "black": {
+        "availablePieces": [],
         "piecesCaptured": [],
         "inCheck": false,
         "inCheckmate": false,

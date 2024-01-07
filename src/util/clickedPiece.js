@@ -74,7 +74,6 @@ export const pressedTile = (event, chessBoard) => {
 
             highlightEnemy(pieceInClickedTile.pieceTeam, generatedMoves, chessBoard,);
 
-            // TODO - Create something here which will highlight illegal moves
             pieceInClickedTile.highlightTiles()
             pieceInClickedTile.validFutureMoves = generatedMoves
         } 

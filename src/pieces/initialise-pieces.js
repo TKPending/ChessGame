@@ -5,6 +5,7 @@ import { Queen } from "./piece/queen.js";
 import { Bishop } from "./piece/bishop.js";
 import { Rook } from "./piece/rook.js"; 
 import initialPositions from "./piecePositions.js";
+import { BLACKPLAYER, WHITEPLAYER } from "../functions/game_management/player.js";
 
 const initialisePieceOnBoard = (chessBoard, PieceType, team, row, col) => {
     const tileLocation = chessBoard[row][col];
@@ -15,6 +16,13 @@ const initialisePieceOnBoard = (chessBoard, PieceType, team, row, col) => {
     tileLocation.pieceInSpace = piece;
     tileLocation.tileOwnership = piece;
     tileLocation.pieceOnTile = piece.getPieceName;
+
+    if (team === "white") {
+        WHITEPLAYER.availablePieces.push(piece);
+        return;
+    }
+
+    BLACKPLAYER.availablePieces.push(piece);
 };
 
 // Add pawns to board obj
@@ -27,10 +35,10 @@ const initialiseBoardWithPawns = (chessBoard) => {
 
 // Add every other piece to board obj
 export const initialiseEachPiece = (chessBoard) => {
-    const pieceObj = [King, Knight, Queen, Bishop, Rook];
-    const startingPositions = [initialPositions.kings, initialPositions.knights, initialPositions.queens, initialPositions.bishops, initialPositions.rooks];
+    const pieceObj = [King, Rook] // [King, Knight, Queen, Bishop, Rook];
+    const startingPositions = [initialPositions.kings, initialPositions.rooks] // [ initialPositions.kings, initialPositions.knights, initialPositions.queens, initialPositions.bishops, initialPositions.rooks];
 
-    initialiseBoardWithPawns(chessBoard);
+    // initialiseBoardWithPawns(chessBoard);
 
     // Initialise the rest of the pieces
     for (let i = 0; i < pieceObj.length; i++) {

@@ -76,8 +76,6 @@ export const updateGameMoves = (destination) => {
 
     const previousMoveLength = PLAYERGAME.moveHistory.length;
     PLAYERGAME.previousMove = PLAYERGAME.moveHistory[previousMoveLength - 1];
-
-    console.log(PLAYERGAME);
 }
 
 export const pawnPromotionsTracker = (pawnLocation, newPieceName) => {

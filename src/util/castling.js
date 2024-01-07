@@ -54,12 +54,17 @@ const kingLegalMove = (kingPiecePosition, direction) => {
 };
  
 export const kingCastle = (kingPiece, direction, chessBoard) => {
+    // Check if king piece has moved
     if (!kingPiece.hasMoved) {
+        // Locate Rook
         const rookPiece = getRookPiece(chessBoard, direction, kingPiece.team);
 
+        // Check if rook has moved
         if (rookPiece && !rookPiece.hasMoved) {
+            // Check inbetween for: Empty Tiles and Attacked Tiles
             const emptyPath = (checkRoute(kingPiece, kingPiece.getCurrentPosition, rookPiece.getCurrentPosition, chessBoard));
 
+            // If empty return 
             if (emptyPath) {
                 return kingLegalMove(kingPiece.getCurrentPosition, direction);
             } 

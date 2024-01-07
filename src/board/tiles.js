@@ -33,6 +33,7 @@ class Tile {
     get spaceOccupation() {
         if (this._space.length === 0) {
             this._availability = true;
+            return false;
         } else {
             this._availability = false;
             return this._space;
@@ -93,7 +94,7 @@ class Tile {
     }
 
     // Check if tile has piece
-    tileHasPiece = (tileElement) => {
+    tileHasPiece(tileElement) {
         // Check if the tile has a piece
         if (this.spaceOccupation) {
             // Render piece onto board

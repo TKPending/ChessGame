@@ -1,17 +1,11 @@
 // Convert index to algebraic version
 export const indexToLocation = (index, team) => {
+    if (!index) {
+        return null;
+    }
     const file = String.fromCharCode(97 + index[1]);
     const rank = team.toLowerCase() === 'black' ? 8 - index[0] : index[0] + 1;
 
-    return team.toLowerCase() === 'white' ? file + (9 - rank) : file + rank;
-};
-
-// indexToLocation for Pawn
-export const indexToLocationPawn = (index, team) => {
-    const file = String.fromCharCode(97 + index[1]);
-    const rank = team.toLowerCase() === 'black' ? 8 - index[0] : index[0] + 1;
-
-    // Invert the rank for the white team
     return team.toLowerCase() === 'white' ? file + (9 - rank) : file + rank;
 };
 

@@ -1,3 +1,4 @@
+import { chessBoard } from "../../index.js";
 import { highlightTile } from "../util/clickedPiece.js";
 import { indexToLocation } from "../util/findLocation.js";
 
@@ -147,8 +148,70 @@ export class Piece {
             }
         }
 
-        // Return false if the position is out of bounds
+        // Return false if the position is out of bounds or enemy
         return false;
+    }
+
+    // Logic for calculating movements
+    moveDirection(rowChange, colChange, chessBoard) {
+        const [row, col] = this._currentPosition;
+        this._lastPosition = [row, col];
+    
+        const newRow = row + rowChange * this.direction;
+        const newCol = col + colChange * this.direction;
+    
+        const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
+        const validTile = this.pieceBoundCheck(newRow, newCol);
+    
+        return !friendlyTile && validTile ? [newRow, newCol] : undefined;
+    }
+
+    // Piece Fundamental Movements
+    moveUp(chessBoard) {
+        return this.moveDirection(1, 0, chessBoard ? chessBoard : null);
+    }
+
+    moveDown(chessBoard) {
+        return this.moveDirection(-1, 0, chessBoard ? chessBoard : null);
+    }
+    
+    moveRight(chessBoard) {
+        return this.moveDirection(0, 1, chessBoard ? chessBoard : null);
+    }
+    
+    moveLeft(chessBoard) {
+        return this.moveDirection(0, -1, chessBoard ? chessBoard : null);
+    }
+
+    moveUpRight(chessBoard) {
+        return this.moveDirection(-1, 1, chessBoard ? chessBoard : null);
+    }
+    
+    moveUpLeft(chessBoard) {
+        return this.moveDirection( -1, -1, chessBoard ? chessBoard : null);
+    }
+    
+    moveDownRight(chessBoard) {
+        return this.moveDirection(1, 1, chessBoard ? chessBoard : null);
+    }
+    
+    moveDownLeft(chessBoard) {
+        return this.moveDirection(1, -1, chessBoard ? chessBoard : null);
+    }
+
+    // Up, Down, Left and Right Max Move
+    maxTransversalMoves(chessBoard, legalMoves) {
+        this.maxMove(legalMoves, -1, 0, chessBoard); // Up
+        this.maxMove(legalMoves, 1, 0, chessBoard); // Down
+        this.maxMove(legalMoves, 0, 1, chessBoard); // Right
+        this.maxMove(legalMoves, 0, -1, chessBoard); // Left
+    }
+
+    maxDiagonalMoves(chessBoard, legalMoves) {
+        this.maxMove(legalMoves, -1, 1, chessBoard); // Diagonal Up-Right
+        this.maxMove(legalMoves, -1, -1, chessBoard); // Diagonal Up-Left
+        this.maxMove(legalMoves, 1, 1, chessBoard); // Diagonal Down-Right
+        this.maxMove(legalMoves, 1, -1, chessBoard); // Diagonal Down-Left
     }
 
     // Generate the maximum legal moves for Queen, Bishop and Rook

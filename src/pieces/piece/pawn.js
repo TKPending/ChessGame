@@ -1,108 +1,86 @@
 import { Piece } from "../pieces.js";
 import { highlightTile } from "../../util/clickedPiece.js";
-import { indexToLocationPawn } from "../../util/findLocation.js";
+import { indexToLocation } from "../../util/findLocation.js";
 
 export class Pawn extends Piece {
     constructor(team, startingPosition) {
         super("Pawn", team, startingPosition);
     }
 
-    // Check if piece is infront of pawn
-    moveForwardLimit(newRow, newCol, chessBoard) {
-        if (this.pieceBoundCheck(newRow, newCol)) {
-            const tileCheck = chessBoard[newRow][newCol].spaceOccupation;
+    moveOnce() {
 
-            // TODO: Global function
-            if (tileCheck && tileCheck.pieceTeam == this.team) {
-                if (!this._defendingPiece.some(piece => piece.id === tileCheck.id)) {
-                    this._defendingPiece.push(tileCheck);
-                }
-            }
-       
-            return tileCheck ? false : true;
-        }
     }
 
     // Standard pawn move
     moveForwardOnce(chessBoard) {
-        const [row, col] = this._currentPosition;
-        this._lastPosition = [row, col];
-
-        const newRow = row + 1 * this.direction;
-        const newCol = col;
-
-        const invalidCheck = this.moveForwardLimit(newRow, newCol, chessBoard);
-
-        return invalidCheck ? [newRow, newCol] : null;
+        return this.moveUp(chessBoard);
     }
 
-    // Beginning move
     moveForwardTwice(chessBoard) {
-        const [row, col] = this._currentPosition;
-        this._lastPosition = [row, col];
-
-        const newRow = row + 2 * this.direction;
-        const newCol = col;
-
-        if (this.startingPosition[0] != this._currentPosition[0] || this.startingPosition[1] != this._currentPosition[1]) {
-            return null;
+        // Check if piece has moved
+        if (!this.hasMoved) {
+            // Create first move and second move
+            const doubleMove = this.moveDirection(2, 0, chessBoard);
+            const oneMove = this.moveDirection(1, 0, chessBoard);
+    
+            // Check validitiy
+            if (oneMove && doubleMove) {
+                const oneMoveCheck = chessBoard[oneMove[0]][oneMove[1]].spaceOccupation;
+    
+                // Check if any piece is blocking way
+                if (oneMoveCheck && oneMoveCheck.pieceTeam && oneMoveCheck.pieceTeam !== this.pieceTeam) {
+                    // Blocked by enemy
+                    return oneMove;
+                } else {
+                    // Blocked by nothing
+                    return doubleMove;
+                }
+            }
         }
-
-        if (!this.moveForwardLimit(row + 1 * this.direction, newCol, chessBoard)) {
-            return null;
-        }
-
-        const invalidCheck = this.moveForwardLimit(newRow, newCol, chessBoard);
-
-        return invalidCheck ? [newRow, newCol] : null;
+    
+        // Piece has moved or friendly in way
+        return null;
     }
+    
 
     // Check whether tile is friendly or enemy
     checkCapturePossible(newRow, newCol, chessBoard) {
         if (this.pieceBoundCheck(newRow, newCol)) {
             const tileCheck = chessBoard[newRow][newCol].spaceOccupation;
 
-            // TODO: Global this
-            if (tileCheck && tileCheck.pieceTeam == this.team) {
-                if (!this._defendingPiece.some(piece => piece.id === tileCheck.id)) {
-                    this._defendingPiece.push(tileCheck);
-                }
-            }
-
             if (tileCheck) {
+                this.isDefendingPieces(tileCheck);
                 return tileCheck.pieceTeam != this.team ? true : false;
             }
         }
     }
 
-    // Capture to diagonal right
-    captureRight(chessBoard) {
+    // Helper method for capturing to a diagonal direction
+    captureDiagonal(chessBoard, colDelta) {
         const [row, col] = this._currentPosition;
         this._lastPosition = [row, col];
 
         const newRow = row + this.direction;
-        const newCol = col + 1;
+        const newCol = col + colDelta;
 
         const canCapture = this.checkCapturePossible(newRow, newCol, chessBoard);
         return canCapture ? [newRow, newCol] : null;
     }
 
+    // Capture to diagonal right
+    captureRight(chessBoard) {
+        return this.captureDiagonal(chessBoard, 1);
+    }
+
     // Capture to diagonal left
     captureLeft(chessBoard) {
-        const [row, col] = this._currentPosition;
-        this._lastPosition = [row, col];
-
-        const newRow = row + this.direction;
-        const newCol = col - 1;
-
-        const canCapture = this.checkCapturePossible(newRow, newCol, chessBoard);
-        return canCapture ? [newRow, newCol] : null;
+        return this.captureDiagonal(chessBoard, -1);
     }
 
     highlightTiles() {
         // Highlight the valid moves on the UI
         for (const move of this.validMoves) {
-            const chessMove = indexToLocationPawn(move, this.team);
+            const chessMove = indexToLocation(move, this.team);
             highlightTile(chessMove);
         }
     }
@@ -115,16 +93,11 @@ export class Pawn extends Piece {
             this.captureLeft(chessBoard),
         ];
 
-        // Filter out null moves (moves outside the chessboard)
-        const filteredMoves = legalMoves.filter(move => move !== null);
-
-        this.validFutureMoves = filteredMoves;
-
-        return filteredMoves;
+        return this.filterTiles(legalMoves, this);
     }
 
     renderPiece() {
-        const pawnTeamIcon = this.team.toLowerCase() === "white" ? "../assets/white-pawn.png" : "../assets/black-pawn.png";
-        return pawnTeamIcon;
+        return this.team.toLowerCase() === "white" ? "../assets/white-pawn.png" : "../assets/black-pawn.png";
+        
     }
 }

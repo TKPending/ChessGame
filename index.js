@@ -9,7 +9,6 @@ import { tileFullLocation } from "./src/util/pieceTileLocation.js";
  
 // Create and render the chessboard
 export const chessBoard = createChessboard();
-// initialiseBoardWithPieces(chessBoard)
 initialiseEachPiece(chessBoard);
 initialChessboardRender(chessBoard);
 

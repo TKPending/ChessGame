@@ -17,6 +17,6 @@ export class Queen extends Piece {
     }
 
     renderPiece() {
-        return this.team.toLowerCase() === "white" ? "../assets/white-queen.png" : "../assets/black-queen.png";
+        return this.team.toLowerCase() === "white" ? "assets/white-queen.png" : "assets/black-queen.png";
     }
 }

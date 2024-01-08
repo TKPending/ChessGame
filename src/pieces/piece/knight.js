@@ -56,6 +56,6 @@ export class Knight extends Piece {
     }
 
     renderPiece() {
-        return this.team.toLowerCase() === "white" ? "../assets/white-knight.png" : "../assets/black-knight.png";
+        return this.team.toLowerCase() === "white" ? "assets/white-knight.png" : "assets/black-knight.png";
     }
 }

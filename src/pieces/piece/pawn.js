@@ -99,7 +99,7 @@ export class Pawn extends Piece {
     }
 
     renderPiece() {
-        return this.team.toLowerCase() === "white" ? "../assets/white-pawn.png" : "../assets/black-pawn.png";
+        return this.team.toLowerCase() === "white" ? "assets/white-pawn.png" : "assets/black-pawn.png";
         
     }
 }

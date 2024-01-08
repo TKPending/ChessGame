@@ -4,7 +4,9 @@ import { PLAYERGAME } from "./functions/game_management/player.js";
 
 // User has pressed on the same tile
 const pressedSameTile = (destinationTile, initialPiece) => {
-    return destinationTile.getCurrentPosition == initialPiece.getCurrentPosition ? true : false;
+    if (destinationTile && initialPiece) {
+        return destinationTile.getCurrentPosition == initialPiece.getCurrentPosition ? true : false;
+    }
 }
 
 export const movePiece = (initialSelectedPiece, initialSelectedPieceLocation, moveToTile, chessBoard) => {

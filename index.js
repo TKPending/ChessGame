@@ -6,6 +6,7 @@ import { PLAYERGAME} from "./src/functions/game_management/player.js";
 import { clickedEnemyPieceGameManager} from "./src/functions/game_management/gameManagement.js";
 import { gameHasEnded } from "./src/functions/game_management/managementDesign.js";
 import { tileFullLocation } from "./src/util/pieceTileLocation.js";
+import { checkmate } from "./src/functions/checkmate/checkmate.js";
  
 // Create and render the chessboard
 export const chessBoard = createChessboard();
@@ -52,7 +53,7 @@ const tilePressed = async (tileCheck, event) => {
         movePiece(initialSelectedPiece, initialSelectedPieceLocation, event, chessBoard);
         reRenderChessboard(chessBoard)
 
-        // checkmate(PLAYERGAME.currentTurn, KINGS, chessBoard);
+        checkmate(PLAYERGAME.currentTurn, KINGS, chessBoard);
 
         initialSelectedPiece = null;
     }

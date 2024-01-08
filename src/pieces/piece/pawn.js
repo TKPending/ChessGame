@@ -11,11 +11,11 @@ export class Pawn extends Piece {
     moveForwardOnce(chessBoard) {
         const oneMove = this.moveUp(chessBoard);
 
-        if (!chessBoard[oneMove[0]][oneMove[1]].spaceOccupation) {
+        if (oneMove && !chessBoard[oneMove[0]][oneMove[1]].spaceOccupation) {
             return oneMove;
         }
 
-        return null;
+        return undefined;
     }
 
     moveForwardTwice(chessBoard) {

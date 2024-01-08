@@ -2,9 +2,9 @@ import { Knight } from '../pieces/piece/knight.js';
 import { Queen } from '../pieces/piece/queen.js';
 import { Bishop } from '../pieces/piece/bishop.js';
 import { Rook } from '../pieces/piece/rook.js';
-import { reRenderChessboard } from "../board/board.js";
-import { pawnPromotionsTracker } from './management/gameManagement.js';
-import { PLAYERGAME } from '../../player.js';
+import { reRenderChessboard } from "../board/chessboard.js";
+import { pawnPromotionsTracker } from '../functions/game_management/gameManagement.js';
+import { PLAYERGAME } from '../functions/game_management/player.js';
 
 const endOfBoards = (team) => {
     return team == "white" ? 0 : 7;
@@ -90,7 +90,7 @@ const pieceOptions = (teamColour) => {
     return pieces;
 }
 
-export const pawnConvert = (pawnPiece, chessBoard) => {
+export const pawnPromotion = (pawnPiece, chessBoard) => {
     const currentPawnLocation = pawnPiece.getCurrentPosition;
     const endRows = endOfBoards(pawnPiece.pieceTeam);
     const inEndRow = checkPawnLocation(currentPawnLocation, endRows);

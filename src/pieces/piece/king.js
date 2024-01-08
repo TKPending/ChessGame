@@ -1,6 +1,6 @@
 import { Piece } from "../pieces.js";
-import { kingCastle } from "../../util/castling.js";
-import { allEnemyMoves } from "../../util/checkmate/movingIntoCheck.js";
+import { kingCastle } from "../../functions/castling/castling.js";
+import { movingIntoAttackedPosition } from "../../util/moveIntoAttack.js";
 
 export class King extends Piece {
     constructor(team, startingPosition) {
@@ -11,175 +11,87 @@ export class King extends Piece {
         this._inCheckmate = null;
     }  
 
+    // Return whether king is in checkmate or not
     get checkmate() {
         return this._inCheckmate;
     }
 
+    // Return location of castle on right hand side
     get rightCastle() {
         return this._castleRightPos;
     }
 
+    // Return location of castle on left hand side
     get leftCastle() {
         return this._castleLeftPos;
     }
 
+    // Update the position of the castle on right hand side
     set rightCastle(newPos) {
         this._castleRightPos = newPos;
     }
     
+    // Update the position of the castle on left hand side
     set leftCastle(newPos) {
         this._castleLeftPos = newPos;
     }
 
-    set kingInCheckmate(check) {F
+    /**
+     * @param {boolean} check
+     */
+    set kingInCheckmate(check) {
         this._inCheckmate = check;
     }
-    
-    movingIntoCheck(potentialMove, chessBoard) {
-        const validEnemyMoves = allEnemyMoves(this.team, chessBoard);
 
-        for (const enemyMove of validEnemyMoves) {
-            if (enemyMove[0] === potentialMove[0] && enemyMove[1] === potentialMove[1]) {
-                return true;
-            }
+    // Legal moves for the king
+    kingValidMoves(newRow, newCol, chessBoard) {
+        return (
+            !this.friendlyTileCheck(newRow, newCol, chessBoard) &&
+            this.pieceBoundCheck(newRow, newCol) &&
+            !movingIntoAttackedPosition(this.pieceTeam, [newRow, newCol], chessBoard)
+        );
+    }
+    
+    // Move piece logic
+    moveDirection(rowChange, colChange, chessBoard) {
+        const [row, col] = this._currentPosition;
+        this._lastPosition = [row, col];
+
+        const newRow = row + rowChange * this.direction;
+        const newCol = col + colChange * this.direction;
+
+        // Check the move validity using kingValidMoves
+        if (this.kingValidMoves(newRow, newCol, chessBoard)) {
+            return [newRow, newCol];
+        } else {
+            return null;
         }
-
-        return false;
-    }
-    
-    // Standard Moves
-    moveUp(chessBoard) {
-        const [row, col] = this._currentPosition;
-        this._lastPosition = [row, col];
-
-        const newRow = row + 1 * this.direction;
-        const newCol = col;
-
-        const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
-        const validTile = this.pieceBoundCheck(newRow, newCol);
-        const moveIntoCheck = this.movingIntoCheck([newRow, newCol], chessBoard);
-
-        return !friendlyTile && validTile && !moveIntoCheck ? [newRow, newCol] : null;
     }
 
-    moveDown(chessBoard) {
-        const [row, col] = this._currentPosition;
-        this._lastPosition = [row, col];
+    // King Castling Logic
+    castling(direction, chessBoard) {
+        // Check castling is legal
+        const castleLocation = kingCastle(this, direction, chessBoard);
 
-        const newRow = row - 1 * this.direction;
-        const newCol = col;
+        if (castleLocation) {
+            if (direction === "right") {
+                this.rightCastle = castleLocation;
+            } else {
+                this.leftCastle = castleLocation;
+            }
 
-        const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
-        const validTile = this.pieceBoundCheck(newRow, newCol);
-        const moveIntoCheck = this.movingIntoCheck([newRow, newCol], chessBoard);
-
-        return !friendlyTile && validTile && !moveIntoCheck ? [newRow, newCol] : null;
-    }
-
-    moveRight(chessBoard) {
-        const [row, col] = this._currentPosition;
-        this._lastPosition = [row, col];
-
-        const newRow = row;
-        const newCol = col + 1 * this.direction;
-
-        const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
-        const validTile = this.pieceBoundCheck(newRow, newCol);
-        const moveIntoCheck = this.movingIntoCheck([newRow, newCol], chessBoard);
-
-        return !friendlyTile && validTile && !moveIntoCheck ? [newRow, newCol] : null;
-    }
-
-    moveLeft(chessBoard) {
-        const [row, col] = this._currentPosition;
-        this._lastPosition = [row, col];
-
-        const newRow = row;
-        const newCol = col - 1 * this.direction;
-
-        const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
-        const validTile = this.pieceBoundCheck(newRow, newCol);
-        const moveIntoCheck = this.movingIntoCheck([newRow, newCol], chessBoard);
-
-        return !friendlyTile && validTile && !moveIntoCheck ? [newRow, newCol] : null;
-    }
-
-    // Diagonal Moves
-    moveUpRight(chessBoard) {
-        const [row, col] = this._currentPosition;
-        this._lastPosition = [row, col];
-
-        const newRow = row - 1 * this.direction;
-        const newCol = col + 1 * this.direction;
-
-        const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
-        const validTile = this.pieceBoundCheck(newRow, newCol);
-        const moveIntoCheck = this.movingIntoCheck([newRow, newCol], chessBoard);
-
-        return !friendlyTile && validTile && !moveIntoCheck ? [newRow, newCol] : null;
-    }
-
-    moveUpLeft(chessBoard) {
-        const [row, col] = this._currentPosition;
-        this._lastPosition = [row, col];
-
-        const newRow = row - 1 * this.direction;
-        const newCol = col - 1 * this.direction;
-
-        const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
-        const validTile = this.pieceBoundCheck(newRow, newCol);
-        const moveIntoCheck = this.movingIntoCheck([newRow, newCol], chessBoard);
-
-        return !friendlyTile && validTile && !moveIntoCheck ? [newRow, newCol] : null;
-    }
-
-    moveDownRight(chessBoard) {
-        const [row, col] = this._currentPosition;
-        this._lastPosition = [row, col];
-
-        const newRow = row + 1 * this.direction;
-        const newCol = col + 1 * this.direction;
-
-        const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
-        const validTile = this.pieceBoundCheck(newRow, newCol);
-        const moveIntoCheck = this.movingIntoCheck([newRow, newCol], chessBoard);
-
-        return !friendlyTile && validTile && !moveIntoCheck ? [newRow, newCol] : null;
-    }
-
-    moveDownLeft(chessBoard) {
-        const [row, col] = this._currentPosition;
-        this._lastPosition = [row, col];
-
-        const newRow = row + 1 * this.direction;
-        const newCol = col - 1 * this.direction;
-
-        const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
-        const validTile = this.pieceBoundCheck(newRow, newCol);
-        const moveIntoCheck = this.movingIntoCheck([newRow, newCol], chessBoard);
-
-        return !friendlyTile && validTile && !moveIntoCheck ? [newRow, newCol] : null;
+            return castleLocation;
+        }
+        return null;
     }
 
     // Castling
     castlingRight(chessBoard) {
-        const castleRightLocation = kingCastle(this, "right", chessBoard);
-        if (castleRightLocation) {
-            this.rightCastle = castleRightLocation;
-            return castleRightLocation;
-        }
-
-        return null;
+        return this.castling("right", chessBoard)
     }
 
     castlingLeft(chessBoard) {
-        const castleLeftLocation = kingCastle(this, "left", chessBoard);
-        if (castleLeftLocation) {
-            this.leftCastle = castleLeftLocation;
-            return castleLeftLocation;
-        }
-
-        return null;
+        return this.castling("left", chessBoard);
     }
 
     // Generate all legal moves for the king
@@ -201,7 +113,6 @@ export class King extends Piece {
     }
 
     renderPiece() {
-        const kingTeamIcon = this.team.toLowerCase() === "white" ? "../assets/white-king.png" : "../assets/black_king.svg.png";
-        return kingTeamIcon;
+        return this.team.toLowerCase() === "white" ? "assets/white-king.png" : "assets/black_king.png";
     }
 }

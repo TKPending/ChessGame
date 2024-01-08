@@ -4,90 +4,45 @@ import { King } from "./piece/king.js";
 import { Queen } from "./piece/queen.js";
 import { Bishop } from "./piece/bishop.js";
 import { Rook } from "./piece/rook.js"; 
+import initialPositions from "./piecePositions.js";
+import { BLACKPLAYER, WHITEPLAYER } from "../functions/game_management/player.js";
 
-const initialPositions = {
-    "knights": {
-        "row": {
-            "w": [[7, 1], [7, 6]],
-            "b": [[0, 1], [0, 6]]
-        }
-    },
-    "kings": {
-        "row": {
-            "w": [[7, 4]],
-            "b": [[0, 4]]
-        }
-    },
-    "queens": {
-        "row": {
-            "w": [[7, 3]],
-            "b": [[0, 3]]
-        }
-    },
-    "bishops": {
-        "row": {
-            "w": [[7, 2], [7, 5]],
-            "b": [[0, 2], [0, 5]]
-        }
-    },
-    "rooks": {
-        "row": {
-            "w": [[7, 0], [7, 7]],
-            "b": [[0, 0], [0, 7]]
-        }
-    }
-};
-
-const initializePieceOnBoard = (chessBoard, PieceType, team, row, col) => {
+const initialisePieceOnBoard = (chessBoard, PieceType, team, row, col) => {
     const tileLocation = chessBoard[row][col];
     const piece = new PieceType(team, [row, col]);
 
+    // Fill tile with piece information
     tileLocation.tileAvailability = piece;
     tileLocation.pieceInSpace = piece;
     tileLocation.tileOwnership = piece;
     tileLocation.pieceOnTile = piece.getPieceName;
-};
 
-const initializeBoardWithPawns = (chessBoard) => {
-    for (let col = 0; col < 8; col++) {
-        initializePieceOnBoard(chessBoard, Pawn, "black", 1, col);
+    if (team === "white") {
+        WHITEPLAYER.availablePieces.push(piece);
+        return;
     }
 
+    BLACKPLAYER.availablePieces.push(piece);
+};
+
+// Add pawns to board obj
+const initialiseBoardWithPawns = (chessBoard) => {
     for (let col = 0; col < 8; col++) {
-        initializePieceOnBoard(chessBoard, Pawn, "white", 6, col);
+        initialisePieceOnBoard(chessBoard, Pawn, "black", 1, col);
+        initialisePieceOnBoard(chessBoard, Pawn, "white", 6, col);
     }
 };
 
-const initializeBoardWithKnights = (chessBoard) => {
-    initialPositions.knights.row.w.forEach(pos => initializePieceOnBoard(chessBoard, Knight, "white", ...pos));
-    initialPositions.knights.row.b.forEach(pos => initializePieceOnBoard(chessBoard, Knight, "black", ...pos));
-};
+// Add every other piece to board obj
+export const initialiseEachPiece = (chessBoard) => {
+    const pieceObj = [King, Knight, Queen, Bishop, Rook];
+    const startingPositions = [initialPositions.kings, initialPositions.knights, initialPositions.queens, initialPositions.bishops, initialPositions.rooks];
 
-const initializeBoardWithKings = (chessBoard) => {
-    initialPositions.kings.row.w.forEach(pos => initializePieceOnBoard(chessBoard, King, "white", ...pos));
-    initialPositions.kings.row.b.forEach(pos => initializePieceOnBoard(chessBoard, King, "black", ...pos));
-};
+    initialiseBoardWithPawns(chessBoard);
 
-const initializeBoardWithQueens = (chessBoard) => {
-    initialPositions.queens.row.w.forEach(pos => initializePieceOnBoard(chessBoard, Queen, "white", ...pos));
-    initialPositions.queens.row.b.forEach(pos => initializePieceOnBoard(chessBoard, Queen, "black", ...pos));
-};
-
-const initializeBoardWithBishops = (chessBoard) => {
-    initialPositions.bishops.row.w.forEach(pos => initializePieceOnBoard(chessBoard, Bishop, "white", ...pos));
-    initialPositions.bishops.row.b.forEach(pos => initializePieceOnBoard(chessBoard, Bishop, "black", ...pos));
-};
-
-const initializeBoardWithRooks = (chessBoard) => {
-    initialPositions.rooks.row.w.forEach(pos => initializePieceOnBoard(chessBoard, Rook, "white", ...pos));
-    initialPositions.rooks.row.b.forEach(pos => initializePieceOnBoard(chessBoard, Rook, "black", ...pos));
-};
-
-export const initializeBoardWithPieces = (chessBoard) => {
-    initializeBoardWithPawns(chessBoard);
-    initializeBoardWithKnights(chessBoard);
-    initializeBoardWithKings(chessBoard);
-    initializeBoardWithQueens(chessBoard);
-    initializeBoardWithBishops(chessBoard);
-    initializeBoardWithRooks(chessBoard)
+    // Initialise the rest of the pieces
+    for (let i = 0; i < pieceObj.length; i++) {
+        startingPositions[i].row.w.forEach(pos => initialisePieceOnBoard(chessBoard, pieceObj[i], "white", ...pos));
+        startingPositions[i].row.b.forEach(pos => initialisePieceOnBoard(chessBoard, pieceObj[i], "black", ...pos));
+    }
 }

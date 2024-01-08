@@ -5,117 +5,38 @@ export class Knight extends Piece {
     constructor(team, startingPosition) {
         super("Knight", team, startingPosition);
     }
-
-    // Up and Right
+    
+    // Specific jump methods
     jumpUpRight(chessBoard) {
-        const [row, col] = this._currentPosition;
-        this._lastPosition = [row, col];
-
-        const newRow = row - 2 * this.direction;
-        const newCol = col + 1 * this.direction;
-
-        const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
-        const validTile = this.pieceBoundCheck(newRow, newCol);
-
-        return !friendlyTile && validTile ? [newRow, newCol] : null;
+        return this.moveDirection(-2, -1, chessBoard);
     }
-
-    // Up and Left
+    
     jumpUpLeft(chessBoard) {
-        const [row, col] = this._currentPosition;
-        this._lastPosition = [row, col];
-        
-        const newRow = row - 2 * this.direction;
-        const newCol = col - 1 * this.direction;
-
-        const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
-        const validTile = this.pieceBoundCheck(newRow, newCol);
-
-        return !friendlyTile && validTile ? [newRow, newCol] : null;
+        return this.moveDirection(-2, 1, chessBoard);
     }
-
-    // Down and right
+    
     jumpDownRight(chessBoard) {
-        const [row, col] = this._currentPosition;
-        this._lastPosition = [row, col];
-        
-        const newRow = row + 2 * this.direction;
-        const newCol = col + 1 * this.direction;
-
-        const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
-        const validTile = this.pieceBoundCheck(newRow, newCol);
-
-        return !friendlyTile && validTile ? [newRow, newCol] : null;
+        return this.moveDirection(2, 1, chessBoard);
     }
-
-    // Down and Left
+    
     jumpDownLeft(chessBoard) {
-        const [row, col] = this._currentPosition;
-        this._lastPosition = [row, col];
-
-        const newRow = row + 2 * this.direction;
-        const newCol = col - 1 * this.direction;
-
-        const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
-        const validTile = this.pieceBoundCheck(newRow, newCol);
-
-        return !friendlyTile && validTile ? [newRow, newCol] : null;
+        return this.moveDirection(2, -1, chessBoard);
     }
-
-    // Right and Up
+    
     jumpRightUp(chessBoard) {
-        const [row, col] = this._currentPosition;
-        this._lastPosition = [row, col];
-
-        const newRow = row - 1 * this.direction;
-        const newCol = col + 2 * this.direction;
-
-        const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
-        const validTile = this.pieceBoundCheck(newRow, newCol);
-
-        return !friendlyTile && validTile ? [newRow, newCol] : null;
+        return this.moveDirection(-1, 2, chessBoard);
     }
-
-    // Right and Down
+    
     jumpRightDown(chessBoard) {
-        const [row, col] = this._currentPosition;
-        this._lastPosition = [row, col];
-
-        const newRow = row + 1 * this.direction;
-        const newCol = col + 2 * this.direction;
-
-        const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
-        const validTile = this.pieceBoundCheck(newRow, newCol);
-
-        return !friendlyTile && validTile ? [newRow, newCol] : null;
+        return this.moveDirection(1, 2, chessBoard);
     }
-
-    // Left and Up
+    
     jumpLeftUp(chessBoard) {
-        const [row, col] = this._currentPosition;
-        this._lastPosition = [row, col];
-
-        const newRow = row - 1 * this.direction;
-        const newCol = col - 2 * this.direction;
-
-        const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
-        const validTile = this.pieceBoundCheck(newRow, newCol);
-
-        return !friendlyTile && validTile ? [newRow, newCol] : null;
+        return this.moveDirection(-1, -2, chessBoard);
     }
-
-    // Left and Down
+    
     jumpLeftDown(chessBoard) {
-        const [row, col] = this._currentPosition;
-        this._lastPosition = [row, col];
-
-        const newRow = row + 1 * this.direction;
-        const newCol = col - 2 * this.direction;
-
-        const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
-        const validTile = this.pieceBoundCheck(newRow, newCol);
-
-        return !friendlyTile && validTile ? [newRow, newCol] : null;
+        return this.moveDirection(1, -2, chessBoard);
     }
 
     // Generate all legal moves for the knight
@@ -135,7 +56,6 @@ export class Knight extends Piece {
     }
 
     renderPiece() {
-        const knightTeamIcon = this.team.toLowerCase() === "white" ? "../assets/white-knight.png" : "../assets/black-knight.png";
-        return knightTeamIcon;
+        return this.team.toLowerCase() === "white" ? "assets/white-knight.png" : "assets/black-knight.png";
     }
 }

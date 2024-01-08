@@ -113,6 +113,6 @@ export class King extends Piece {
     }
 
     renderPiece() {
-        return this.team.toLowerCase() === "white" ? "../assets/white-king.png" : "../assets/black_king.svg.png";
+        return this.team.toLowerCase() === "white" ? "../assets/white-king.png" : "../assets/black_king.png";
     }
 }

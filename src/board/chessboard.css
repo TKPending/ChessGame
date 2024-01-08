@@ -36,9 +36,13 @@ body {
     background-color: #b58863;
 }
 
-/* Add this to your CSS stylesheet */
 .chess-tile.highlighted {
     background-color: rgba(10, 70, 18, 0.371);
+    transition: background-color 0.3s ease;
+}
+
+.chess-tile.enemy {
+    background-color: rgba(130, 24, 8, 0.371);
     transition: background-color 0.3s ease;
 }
 

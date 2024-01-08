@@ -1,10 +1,9 @@
-import { findTileByPosition } from "../clickedPiece.js";
-import { positionToIndex, indexToTile } from "../findLocation.js";
-import { legalMoveCheck } from "./validMovements.js";
-import { pawnConvert } from "../pawnSwitch.js";
-import { checkCastleMove } from "./castleMovement.js";
-import { PLAYERGAME, WHITEPLAYER, BLACKPLAYER } from "../../../player.js";
-import { currentTurn, updateGameMoves } from "../management/gameManagement.js";
+import { positionToIndex, indexToTile, findTileByPosition } from "../util/pieceTileLocation.js";
+import { legalMoveCheck } from "../util/validMovements.js";
+import { pawnPromotion } from "./pawnPromotion.js";
+import { checkCastleMove } from "./castling/castleMovement.js";
+import { currentTurnGameManager, updateGameMovesGameManager } from "./game_management/gameManagement.js";
+import { removeEnemyGameManager } from "./game_management/gameManagement.js";
 
 const FRIENDLY = 1;
 const ENEMY = 2;
@@ -68,14 +67,13 @@ const findEnemyTile = (destinationPiece, chessBoard) => {
 // Piece has moved in, update destination tile to have a piece
 const updateEnemyTile = (destinationTile, initialPiece, chessBoard) => {
     const enemyTile = findEnemyTile(destinationTile, chessBoard);
+    removeEnemyGameManager(destinationTile, initialPiece);
     removeEnemy(destinationTile);
     updateEmptyTile(enemyTile, initialPiece);
 }
 
 // Remove piece from tile if captured
-const removeEnemy = (destinationTile) => {
-    const enemyPiece = destinationTile;
-
+const removeEnemy = (enemyPiece) => {
     if (enemyPiece) {
         enemyPiece.pieceCaptured();
         enemyPiece.updateLastPosition = enemyPiece.getCurrentPosition;
@@ -85,7 +83,7 @@ const removeEnemy = (destinationTile) => {
 
 
 // Enemy piece is in tile. Take over tile
-export const captureTile = async (initialPiece, initialTile, destinationTile, space, chessBoard) => {
+export const movePieceOntoTile = async (initialPiece, initialTile, destinationTile, space, chessBoard) => {
     updateInitialPiece(destinationTile, initialTile, initialPiece, space);
     updateInitialTile(initialTile);
 
@@ -105,26 +103,30 @@ const locateInitialTile = (initialTileLocation, chessBoard) => {
     return findTileByPosition(chessBoard, algebraicValue);
 }
 
-export const checkTile = async (initialSelectedPieceLocation, initialPiece, destinationTilePiece, chessBoard) => {
+export const movePieceCheck = (initialSelectedPieceLocation, initialPiece, destinationTilePiece, chessBoard) => {
+    // Initial Selected Tile
     const initialTile = locateInitialTile(initialSelectedPieceLocation, chessBoard);
+    // Check whether destination is: Friendly 1, Enemy 2 or Empty 3
     const friendlyFireCheck = friendlyFire(destinationTilePiece, initialTile);
-    let legalMove = legalMoveCheck(initialPiece, destinationTilePiece, chessBoard);
+    // Check move is legal
+    const legalMove = legalMoveCheck(initialPiece, destinationTilePiece, chessBoard);
 
-
+    // Move is legal
     if (friendlyFireCheck != FRIENDLY && legalMove) {
+        // King Castle
         if (initialPiece.getPieceName == "King" && !initialPiece.hasMoved) {
             checkCastleMove(initialPiece, destinationTilePiece, chessBoard);
         }
 
-        captureTile(initialPiece, initialTile, destinationTilePiece, friendlyFireCheck, chessBoard);
+        movePieceOntoTile(initialPiece, initialTile, destinationTilePiece, friendlyFireCheck, chessBoard);
         
         if (initialPiece.getPieceName == "Pawn") {
-            pawnConvert(initialPiece, chessBoard);
+            pawnPromotion(initialPiece, chessBoard);
         }
 
-        updateGameMoves(destinationTilePiece);
+        updateGameMovesGameManager(destinationTilePiece);
 
-        currentTurn();
+        currentTurnGameManager();
 
         return;
     } else if (!legalMove) {

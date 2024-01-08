@@ -1,5 +1,5 @@
 import { highlightTile } from "../util/clickedPiece.js";
-import { indexToLocation } from "../util/findLocation.js";
+import { indexToLocation } from "../util/pieceTileLocation.js";
 
 const generateUniqueId = (() => {
     let counter = 0;
@@ -26,54 +26,58 @@ export class Piece {
         return this.name;
     }
 
-    // Return current position
+    // Return piece current position
     get getCurrentPosition() {
         return this._currentPosition;
     }
 
-    // Return starting position
+    // Return piece starting position
     get getStartingPosition() {
         return this.startingPosition;
     }
 
-    // Return last position
+    // Return piece last position
     get getLastPosition() {
         return this._lastPosition
     }
 
-    // Return Team
+    // Return Piece Team
     get pieceTeam() {
         return this.team;
     }
 
-    // Get Valid Moves
+    // Return Piece Valid Moves
     get getValidMoves() {
         return this.validMoves;
     }
 
-    // Still in initial starting position
+    // Return whether piece has moved from initial position
     get hasMoved() {
         return this._hasMoved;
     }
 
-    // Pieces being defended
+    // Return the pieces that this. piece is defending 
     get defendingPieces() {
         return this._defendingPiece;
     }
 
-    // Set move status
+    // Update piece if it has moved
     set hasMoved(moved) {
         this._hasMoved = moved;
     }
 
-    // Set starting position (Pawn Switch)
+    /** 
+     * @param {number[]} originalStartingPosition
+     */
+    // Update starting position when a pawn is promoted
     set transferStartingPosition(originalStartingPosition) {
         this.startingPosition = originalStartingPosition;
     }
 
     /**
-     * @param {any[]} legalMoves
+     * @param {[]} legalMoves
      */
+    // Update piece legal moves
     set validFutureMoves(legalMoves) {
         if (legalMoves) {
             this.validMoves = legalMoves;
@@ -81,8 +85,9 @@ export class Piece {
     }
 
     /**
-     * @param {any[]} tileLocation
+     * @param {number[]} tileLocation
      */
+    // Update piece last location whenever a piece moves
     set updateLastPosition(tileLocation) {
         if (tileLocation) {
             this._lastPosition = tileLocation;
@@ -95,36 +100,26 @@ export class Piece {
     /**
      * @param {number[]} newPosition
      */
+    // Update piece current position, after being moved
     set updateCurrentPosition(newPosition) {
         this._currentPosition = newPosition;
         this._defendingPiece = [];
     }
 
-    // Check for friendlies
-    friendlyTileCheck(newRow, newCol, chessBoard) {
-        if (this.pieceBoundCheck(newRow, newCol)) {
-            const tileOccupation = chessBoard[newRow][newCol].spaceOccupation;
-
-            // TODO: Make this fuction global
-            if (tileOccupation && tileOccupation.pieceTeam == this.team) {
-                if (!this._defendingPiece.some(piece => piece.id === tileOccupation.id)) {
-                    this._defendingPiece.push(tileOccupation);
-                }
-            }
-
-            return tileOccupation && tileOccupation.pieceTeam === this.team;
+    // Check if (other) piece is already being defended
+    isDefendingPieces(tileOccupation) {
+        if (!this._defendingPiece.some(piece => piece.id === tileOccupation.id)) {
+            // Push piece being defended into defending pieces
+            this._defendingPiece.push(tileOccupation);
         }
-
-        // Return false if the position is out of bounds
-        return false;
     }
 
-    // Edge Detection - Board check
+    // Check that move is within the board
     isInBounds(row, col) {
         return row >= 0 && row <= 7 && col >= 0 && col <= 7;
     }
 
-    // Prevent jumping over pieces - Friendly or Enemy
+    // Return whether there is a piece blocking movement
     isTileOccupied(row, col, chessBoard) {
         const tile = chessBoard[row][col];
 
@@ -132,12 +127,93 @@ export class Piece {
         return tile.pieceInWayCheck == true ? true : false;
     }
 
-    // Edge Detection - Initiate Check
+    // Return board location or null if location invalid
     pieceBoundCheck(newRow, newCol) {
         return this.isInBounds(newRow, newCol) ? [newRow, newCol] : null;
     }
 
-    // Edge Detection Logic
+    // Check if a tile is a owned by friendly or not - Adds defended pieces to defending pieces
+    friendlyTileCheck(newRow, newCol, chessBoard) {
+        if (this.pieceBoundCheck(newRow, newCol)) {
+            // Gets piece or empty tile
+            const tileOccupation = chessBoard[newRow][newCol].spaceOccupation;
+
+            // If piece on tile, check if it's a friendly
+            if (tileOccupation && tileOccupation.pieceTeam == this.team) {
+                this.isDefendingPieces(tileOccupation)
+
+                // Friendly Tile
+                return true;
+            }
+        }
+
+        // Return false if the position is out of bounds or enemy
+        return false;
+    }
+
+    // Logic for calculating movements
+    moveDirection(rowChange, colChange, chessBoard) {
+        const [row, col] = this._currentPosition;
+        this._lastPosition = [row, col];
+    
+        const newRow = row + rowChange * this.direction;
+        const newCol = col + colChange * this.direction;
+    
+        const friendlyTile = this.friendlyTileCheck(newRow, newCol, chessBoard);
+        const validTile = this.pieceBoundCheck(newRow, newCol);
+    
+        return !friendlyTile && validTile ? [newRow, newCol] : undefined;
+    }
+
+    // Piece Fundamental Movements
+    moveUp(chessBoard) {
+        return this.moveDirection(1, 0, chessBoard ? chessBoard : null);
+    }
+
+    moveDown(chessBoard) {
+        return this.moveDirection(-1, 0, chessBoard ? chessBoard : null);
+    }
+    
+    moveRight(chessBoard) {
+        return this.moveDirection(0, 1, chessBoard ? chessBoard : null);
+    }
+    
+    moveLeft(chessBoard) {
+        return this.moveDirection(0, -1, chessBoard ? chessBoard : null);
+    }
+
+    moveUpRight(chessBoard) {
+        return this.moveDirection(-1, 1, chessBoard ? chessBoard : null);
+    }
+    
+    moveUpLeft(chessBoard) {
+        return this.moveDirection( -1, -1, chessBoard ? chessBoard : null);
+    }
+    
+    moveDownRight(chessBoard) {
+        return this.moveDirection(1, 1, chessBoard ? chessBoard : null);
+    }
+    
+    moveDownLeft(chessBoard) {
+        return this.moveDirection(1, -1, chessBoard ? chessBoard : null);
+    }
+
+    // Up, Down, Left and Right Max Move
+    maxTransversalMoves(chessBoard, legalMoves) {
+        this.maxMove(legalMoves, -1, 0, chessBoard); // Up
+        this.maxMove(legalMoves, 1, 0, chessBoard); // Down
+        this.maxMove(legalMoves, 0, 1, chessBoard); // Right
+        this.maxMove(legalMoves, 0, -1, chessBoard); // Left
+    }
+
+    maxDiagonalMoves(chessBoard, legalMoves) {
+        this.maxMove(legalMoves, -1, 1, chessBoard); // Diagonal Up-Right
+        this.maxMove(legalMoves, -1, -1, chessBoard); // Diagonal Up-Left
+        this.maxMove(legalMoves, 1, 1, chessBoard); // Diagonal Down-Right
+        this.maxMove(legalMoves, 1, -1, chessBoard); // Diagonal Down-Left
+    }
+
+    // Generate the maximum legal moves for Queen, Bishop and Rook
     maxMove(legalMoves, rowDelta, colDelta, chessBoard) {
         let newRow = this._currentPosition[0] + rowDelta * this.direction;
         let newCol = this._currentPosition[1] + colDelta * this.direction;
@@ -161,18 +237,14 @@ export class Piece {
                 // Friendly Piece
                 } else if (targetTile.ownsTile === currentTile.ownsTile) {
                     const pieceInTile = targetTile.spaceOccupation;
-    
-                    // Check if the piece is not already in _protectPiece based on position
-                    if (!this._defendingPiece.some(piece => piece.id === pieceInTile.id)) {
-                        this._defendingPiece.push(pieceInTile);
-                    }
+                    this.isDefendingPieces(pieceInTile);
                 }
                 break;
             }
         }
     }
 
-    // Highlight Tiles
+    // Highlight Valid Move Tiles
     highlightTiles() {
         for (const move of this.validMoves) {
             const chessAlgebraicMove = indexToLocation(move, this.team);
@@ -180,7 +252,7 @@ export class Piece {
         }
     }
 
-    // Legal Moves - Highlight Tiles
+    // Filter moves for legal moves
     filterTiles(legalMoves, piece) {
         const filteredMoves = legalMoves.filter(move => move != null);
 

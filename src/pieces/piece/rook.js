@@ -16,6 +16,6 @@ export class Rook extends Piece {
     }
 
     renderPiece() {
-        return this.team.toLowerCase() === "white" ? "../assets/white-rook.png" : "../assets/black-rook.png";
+        return this.team.toLowerCase() === "white" ? "assets/white-rook.png" : "assets/black-rook.png";
     }
 }

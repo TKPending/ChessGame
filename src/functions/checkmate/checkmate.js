@@ -62,7 +62,6 @@ const enemyThreats = (originalTeam, kingPiece, chessBoard) => {
 }
 
 export const checkmate = (originalTeam, kingPiece, chessBoard) => {
-    console.log(`Checkmate: Checking whether king is in check`)
     const checkmateStatus = enemyThreats(originalTeam, kingPiece, chessBoard);
     const originalKing = kingPiece[originalTeam];
 

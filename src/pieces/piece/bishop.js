@@ -14,6 +14,6 @@ export class Bishop extends Piece {
     }
 
     renderPiece() {
-        return this.team.toLowerCase() === "white" ? "assets/white-bishop.png" : "assets/black-bishop.png";
+        return this.team.toLowerCase() === "white" ? 'assets/white-bishop.png' : 'assets/black-bishop.png';
     }
 }

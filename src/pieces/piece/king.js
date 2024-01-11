@@ -9,6 +9,7 @@ export class King extends Piece {
         this._castleRightPos = null;
         this._castleLeftPos = null;
         this._inCheckmate = null;
+        this._savedPotentialMoves = [];
     }  
 
     // Return whether king is in checkmate or not
@@ -21,9 +22,17 @@ export class King extends Piece {
         return this._castleRightPos;
     }
 
+    get kingPotentialMoves() {
+        return this._savedPotentialMoves;
+    }
+
     // Return location of castle on left hand side
     get leftCastle() {
         return this._castleLeftPos;
+    }
+
+    set kingPotentialMoves(filteredMoves) {
+        this._savedPotentialMoves = filteredMoves;
     }
 
     // Update the position of the castle on right hand side
@@ -108,6 +117,10 @@ export class King extends Piece {
             this.castlingRight(chessBoard),
             this.castlingLeft(chessBoard)
         ];
+
+        // TODO: Only one king will generate the legal move of the other
+
+        // this.kingPotentialMoves = legalMoves;
 
         return this.filterTiles(legalMoves, this);
     }

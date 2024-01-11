@@ -21,23 +21,16 @@ export const allEnemyMoves = (currentTeamTurn, chessBoard) => {
     const enemyMoves = [];
 
     for (const enemy of enemyPieces) {
-        if (enemy.getValidMoves.length !== 0) {  // TODO: Need to adjust this. Becareful of recursion
-            if (enemy.getPieceName === "King") {
-                enemyMoves.push(...enemy.kingPotentialMoves);
-            } else {
-                enemyMoves.push(...enemy.generateLegalMoves(chessBoard));
-
-                if (enemy.getPieceName == "Pawn") {
-                    const captureMoves = [enemy.captureRight(chessBoard), enemy.captureLeft(chessBoard)];
-                    console.log(captureMoves)
-                    enemyMoves.push(...captureMoves);
-                }
-            }
+        if (enemy.getPieceName === "Pawn") {
+            enemyMoves.push(...enemy.pawnCaptureTiles)
+        }
+        if (enemy.getValidMoves.length !== 0 && enemy.getPieceName != "King") {  // TODO: Need to adjust this. Becareful of recursion
+            enemyMoves.push(...enemy.generateLegalMoves(chessBoard));
 
             if (enemy.defendingPieces.length !== 0) {
                 enemyMoves.push(...enemyDefendingMoves(enemy));
             }
-        }
+        }   
     }
 
     return enemyMoves;

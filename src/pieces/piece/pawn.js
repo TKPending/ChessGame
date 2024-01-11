@@ -5,6 +5,12 @@ import { indexToLocation } from "../../util/pieceTileLocation.js";
 export class Pawn extends Piece {
     constructor(team, startingPosition) {
         super("Pawn", team, startingPosition);
+        this._storeCaptureMoves = [];
+    }
+
+    // Get capture moves to prevent King movemnets
+    get pawnCaptureTiles() {
+        return this._storeCaptureMoves;
     }
 
     // Standard pawn move
@@ -48,6 +54,7 @@ export class Pawn extends Piece {
     // Check whether tile is friendly or enemy
     checkCapturePossible(newRow, newCol, chessBoard) {
         if (this.pieceBoundCheck(newRow, newCol)) {
+            this._storeCaptureMoves.push([newRow, newCol]);
             const tileCheck = chessBoard[newRow][newCol].spaceOccupation;
 
             if (tileCheck) {

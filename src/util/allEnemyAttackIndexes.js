@@ -17,6 +17,9 @@ export const allEnemyMoves = (currentTeamTurn, chessBoard) => {
     const enemyMoves = [];
 
     for (const enemy of enemyPieces) {
+        if (enemy.getPieceName === "Pawn") {
+            enemyMoves.push(...enemy.pawnCaptureTiles)
+        }
         if (enemy.getValidMoves.length !== 0 && enemy.getPieceName != "King") {  // TODO: Need to adjust this. Becareful of recursion
             enemyMoves.push(...enemy.generateLegalMoves(chessBoard));
 

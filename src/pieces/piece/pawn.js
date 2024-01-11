@@ -72,6 +72,8 @@ export class Pawn extends Piece {
         const newRow = row + this.direction;
         const newCol = col + colDelta;
 
+        console.log(newRow, newCol)
+
         const canCapture = this.checkCapturePossible(newRow, newCol, chessBoard);
         return canCapture ? [newRow, newCol] : null;
     }

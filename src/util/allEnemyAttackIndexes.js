@@ -11,6 +11,10 @@ const enemyDefendingMoves = (enemyPiece) => {
     return defendedPositions;
 }
 
+// TODO:
+// - Add pawn potential captures as places king can't move into
+// - Figure out why the enemy moves aren't rendering at the right time
+
 export const allEnemyMoves = (currentTeamTurn, chessBoard) => {
     // Get enemy pieces
     const enemyPieces = enemyTeamPiecesGameManager(currentTeamTurn);

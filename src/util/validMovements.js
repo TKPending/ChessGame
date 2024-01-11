@@ -1,4 +1,5 @@
 import { positionToIndex } from "./pieceTileLocation.js";
+import { allEnemyMoves } from "./allEnemyAttackIndexes.js";
 
 // Check whether the move a user wants to make is legal
 export const legalMoveCheck = (selectedPiece, destinationLocation, chessBoard) => {
@@ -8,7 +9,7 @@ export const legalMoveCheck = (selectedPiece, destinationLocation, chessBoard) =
     const destinationIndex = tile == "Tile" ? positionToIndex(destinationLocation.position) : destinationLocation.getCurrentPosition;
 
     // Returns an array of valid moves
-    let validMoveIndexLocations = selectedPiece.generateLegalMoves(chessBoard);
+    const validMoveIndexLocations = selectedPiece.generateLegalMoves(chessBoard);
 
     // Check valid move
     for (const moves of validMoveIndexLocations) {

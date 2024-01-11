@@ -4,6 +4,7 @@ import { pawnPromotion } from "./pawnPromotion.js";
 import { checkCastleMove } from "./castling/castleMovement.js";
 import { currentTurnGameManager, updateGameMovesGameManager } from "./game_management/gameManagement.js";
 import { removeEnemyGameManager } from "./game_management/gameManagement.js";
+import { allEnemyMoves } from "../util/allEnemyAttackIndexes.js";
 
 const FRIENDLY = 1;
 const ENEMY = 2;
@@ -80,7 +81,6 @@ const removeEnemy = (enemyPiece) => {
         enemyPiece.updateCurrentPosition = "Captured";
     }
 }
-
 
 // Enemy piece is in tile. Take over tile
 export const movePieceOntoTile = async (initialPiece, initialTile, destinationTile, space, chessBoard) => {

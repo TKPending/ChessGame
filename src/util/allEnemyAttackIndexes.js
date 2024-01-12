@@ -29,7 +29,7 @@ export const allEnemyMoves = (currentTeamTurn, chessBoard) => {
         }
 
         // General piece moves
-        if (enemy.getValidMoves.length !== 0 && enemy.getPieceName != "King") {  // TODO: Need to adjust this. Becareful of recursion
+        if (enemy.getValidMoves.length !== 0 && enemy.getPieceName != "King" && enemy.getPieceName !== "Pawn") {  // TODO: Need to adjust this. Becareful of recursion
             enemyMoves.push(...enemy.generateLegalMoves(chessBoard));
 
         }

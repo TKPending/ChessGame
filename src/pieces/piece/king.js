@@ -9,7 +9,7 @@ export class King extends Piece {
         this._castleRightPos = null;
         this._castleLeftPos = null;
         this._inCheckmate = null;
-        this._savedPotentialMoves = [];
+        this._surroundingTiles = [];
     }  
 
     // Return whether king is in checkmate or not
@@ -17,18 +17,24 @@ export class King extends Piece {
         return this._inCheckmate;
     }
 
+    // Return surrounding tiles
+    get surroundingTiles() {
+        return this._surroundingTiles;
+    }
+
     // Return location of castle on right hand side
     get rightCastle() {
         return this._castleRightPos;
     }
 
-    get kingPotentialMoves() {
-        return this._savedPotentialMoves;
-    }
-
     // Return location of castle on left hand side
     get leftCastle() {
         return this._castleLeftPos;
+    }
+
+    // Reset the surrounding tiles
+    set surroundingTiles(empty) {
+        this._surroundingTiles = empty;
     }
 
     set kingPotentialMoves(filteredMoves) {
@@ -54,6 +60,10 @@ export class King extends Piece {
 
     // Legal moves for the king
     kingValidMoves(newRow, newCol, chessBoard) {
+
+        const surroundingTile = this.pieceBoundCheck(newRow, newCol);
+        this._surroundingTiles.push(surroundingTile);
+
         return (
             !this.friendlyTileCheck(newRow, newCol, chessBoard) &&
             this.pieceBoundCheck(newRow, newCol) &&
@@ -105,6 +115,8 @@ export class King extends Piece {
 
     // Generate all legal moves for the king
     generateLegalMoves(chessBoard) {
+        this.surroundingTiles = [];
+
         const legalMoves = [
             this.moveUp(chessBoard),
             this.moveDown(chessBoard),
@@ -117,10 +129,6 @@ export class King extends Piece {
             this.castlingRight(chessBoard),
             this.castlingLeft(chessBoard)
         ];
-
-        // TODO: Only one king will generate the legal move of the other
-
-        // this.kingPotentialMoves = legalMoves;
 
         return this.filterTiles(legalMoves, this);
     }

@@ -9,8 +9,13 @@ export class Pawn extends Piece {
     }
 
     // Get capture moves to prevent King movemnets
-    get pawnCaptureTiles() {
+    get storeCaptureMoves() {
         return this._storeCaptureMoves;
+    }
+
+    // Reset capture move
+    set storeCaptureMoves(empty) {
+        this._storeCaptureMoves = empty;
     }
 
     // Standard pawn move
@@ -72,8 +77,6 @@ export class Pawn extends Piece {
         const newRow = row + this.direction;
         const newCol = col + colDelta;
 
-        console.log(newRow, newCol)
-
         const canCapture = this.checkCapturePossible(newRow, newCol, chessBoard);
         return canCapture ? [newRow, newCol] : null;
     }
@@ -97,6 +100,8 @@ export class Pawn extends Piece {
     }
 
     generateLegalMoves(chessBoard) {
+        this._storeCaptureMoves = [];
+
         const legalMoves = [
             this.moveForwardOnce(chessBoard),
             this.moveForwardTwice(chessBoard),

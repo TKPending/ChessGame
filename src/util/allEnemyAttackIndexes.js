@@ -21,15 +21,19 @@ export const allEnemyMoves = (currentTeamTurn, chessBoard) => {
     const enemyMoves = [];
 
     for (const enemy of enemyPieces) {
+        const pieceName = enemy.getPieceName;
+
         // Specific piece invalid moves
-        if (enemy.getPieceName === "Pawn") {
-            enemyMoves.push(...enemy.storeCaptureMoves)
-        } else if (enemy.getPieceName === "King") {
-            enemyMoves.push(...enemy.surroundingTiles)
+        if (pieceName === "Pawn") {
+            enemyMoves.push(...enemy.storeCaptureMoves);
+        } else if (pieceName === "King") {
+            enemyMoves.push(...enemy.surroundingTiles);
+        } else if (pieceName === "Queen") {
+            enemyMoves.push(...enemy.allQueenMoves);
         }
 
         // General piece moves
-        if (enemy.getValidMoves.length !== 0 && enemy.getPieceName != "King" && enemy.getPieceName !== "Pawn") {  // TODO: Need to adjust this. Becareful of recursion
+        if (enemy.getValidMoves.length !== 0 && pieceName != "King" && enemy.getPieceName !== "Pawn") {  // TODO: Need to adjust this. Becareful of recursion
             enemyMoves.push(...enemy.generateLegalMoves(chessBoard));
 
         }

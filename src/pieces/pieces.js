@@ -213,12 +213,20 @@ export class Piece {
         this.maxMove(legalMoves, 1, -1, chessBoard); // Diagonal Down-Left
     }
 
+    // Get all Queen on-board moves
+    updateAllQueenMoves(newRow, newCol) {
+        if (this.getPieceName === "Queen") {
+            this._allQueenMoves.push([newRow, newCol]);
+        }
+    }  
+
     // Generate the maximum legal moves for Queen, Bishop and Rook
     maxMove(legalMoves, rowDelta, colDelta, chessBoard) {
         let newRow = this._currentPosition[0] + rowDelta * this.direction;
         let newCol = this._currentPosition[1] + colDelta * this.direction;
     
         while (this.pieceBoundCheck(newRow, newCol)) {
+            this.updateAllQueenMoves(newRow, newCol);
             const tileCheck = this.isTileOccupied(newRow, newCol, chessBoard);
     
             // Empty tile
